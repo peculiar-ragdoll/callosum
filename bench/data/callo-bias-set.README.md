@@ -13,9 +13,6 @@ size_categories:
 viewer: false
 ---
 
-> **Not released yet.** callo (Callosum) has not been released; the release is coming shortly. Until then the
-> links to the callosum GitHub repository below do not resolve; they go live with the release.
-
 # callo-bias-set: `builtin-v1`
 
 `bias_set.jsonl` is the built-in position-bias calibration set of
@@ -35,13 +32,12 @@ ships code only; this dataset is where the set lives.
 
 ## How it was built
 
-[`bench/build_bias_set.py`](https://github.com/peculiar-ragdoll/callosum/blob/91fb146/bench/build_bias_set.py) at
-callosum commit `91fb146` built these exact bytes, deterministically, from the two pinned sources below (rerunning it
-gives byte-identical output); at that commit the script wrote them to `src/callo/data/bias_set.jsonl`, inside the
-package. The script at that commit has sha256 `99fa496cf48c22fa7371cddb93f76db6c6c2ec62e36388001976a964b30f37b7`, so
-the provenance does not rest on the link alone. The repository now keeps the same file at `bench/data/bias_set.jsonl`,
-with its held-out remainder (`bench/data/bias_heldout_v1.jsonl`) and a manifest of the sources' and outputs' sha256s
-(`bench/data/bias_set_manifest.json`).
+[`bench/build_bias_set.py`](https://github.com/peculiar-ragdoll/callosum/blob/v0.3.1/bench/build_bias_set.py) in
+callosum `v0.3.1` builds these exact bytes, deterministically, from the two pinned sources below (rerunning it gives
+byte-identical output), and writes them to `bench/data/bias_set.jsonl` with the held-out remainder
+(`bench/data/bias_heldout_v1.jsonl`) and a manifest of the sources' and outputs' sha256s
+(`bench/data/bias_set_manifest.json`). The script in that release has sha256
+`80672372519abb0601c56383917335ee50a4ee22d06a5d07ccd9f83b8e850f16`, so the provenance does not rest on the link alone.
 
 Each record has a `state`, one `questions` entry (`type: "choice"`, `instructions`, `criteria`, `label`) and a `_meta`
 naming its source, upstream repository, revision, split and row.

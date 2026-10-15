@@ -250,9 +250,11 @@ def test_the_dataset_card_pins_the_set_and_copies_both_licence_sections_from_not
     assert "viewer: false" in front and "configs:" not in front
     assert re.search(r"^license_link: https://\S+$", front, re.M)
     assert BUILTIN_SET_SHA256 in card and "<REPO-COMMIT" not in card
-    # the build script at the pushed commit that produced these exact bytes (it then wrote src/callo/data/...)
-    assert "https://github.com/peculiar-ragdoll/callosum/blob/91fb146/bench/build_bias_set.py" in card
-    assert "src/callo/data/bias_set.jsonl" in card
+    # the build script in the public release, by link and by its sha256 (the file as committed here)
+    assert "https://github.com/peculiar-ragdoll/callosum/blob/v0.3.1/bench/build_bias_set.py" in card
+    script = (ROOT / "bench" / "build_bias_set.py").read_bytes()
+    assert hashlib.sha256(script).hexdigest() in card
+    assert "Not released yet" not in card and "src/callo/data" not in card
     sections = (ROOT / "NOTICE").read_text().split("=" * 117)
     assert sections[1].startswith("\nMMLU") and sections[2].startswith("\nBANKING77")
     for section in sections[1:3]:
