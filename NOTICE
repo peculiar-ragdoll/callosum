@@ -1,0 +1,76 @@
+Callosum (callo)
+Copyright 2026 Peculiar Ragdoll. Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The package (the wheel and the sdist) is Apache-2.0 and contains no third-party data. Its licence expression is
+"Apache-2.0".
+
+Data derived from third-party datasets lives in the source repository only, and in the Hugging Face dataset
+peculiar-ragdoll/callo-bias-set (https://huggingface.co/datasets/peculiar-ragdoll/callo-bias-set), which callo
+fetches on first use:
+
+- bench/data/bias_set.jsonl: the built-in position-bias calibration set, builtin-v1 (MMLU and BANKING77; also the
+  file published in the Hugging Face dataset);
+- bench/data/bias_heldout_v1.jsonl: its held-out remainder (MMLU and BANKING77);
+- bench/data/wide_items.jsonl: the wide-choice validation items (BANKING77 and CLINC150).
+
+These files carry the MIT, CC-BY-4.0 and CC-BY-3.0 licences in the sections below.
+
+=====================================================================================================================
+MMLU (Measuring Massive Multitask Language Understanding), validation split
+Source: https://huggingface.co/datasets/cais/mmlu at revision c30699e8356da336a370243923dbaf21066bb9fe
+        (all/validation-00000-of-00001.parquet); originally https://github.com/hendrycks/test
+Use: questions and answer options; the 2- and 3-option questions keep the gold answer and the first distractors.
+
+MIT License
+
+Copyright (c) 2020 Dan Hendrycks
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+=====================================================================================================================
+BANKING77, training split
+Iñigo Casanueva, Tadas Temčinas, Daniela Gerz, Matthew Henderson and Ivan Vulić (PolyAI), "Efficient Intent
+Detection with Dual Sentence Encoders", 2020.
+Source: https://github.com/PolyAI-LDN/task-specific-datasets at commit 57ec275d8078af65b7731c2a98be812d844a6d6b
+        (banking_data/train.csv, banking_data/categories.json)
+Licence: Creative Commons Attribution 4.0 International (CC-BY-4.0), https://creativecommons.org/licenses/by/4.0/
+modified: distractors sampled, intent names reformatted, packaged as System One requests.
+
+=====================================================================================================================
+bench/data/wide_items.jsonl (source repository only)
+The wide-choice validation items: 20 BANKING77 and 20 CLINC150 utterances from the train splits. This file is not in
+the wheel or the sdist: the package ships no CLINC150 data. The file's first row (_meta) records the sources,
+revisions, sha256s, licences and attribution; bench/wide_items.py builds it.
+
+BANKING77, training split: the attribution and the CC-BY-4.0 licence are in the BANKING77 section above, but this file
+reads a different source: https://huggingface.co/datasets/legacy-datasets/banking77 (the Hub's parquet copy of
+PolyAI/banking77) at revision f54121560de48f2852f90be299010d1d6dc612ec (data/train-00000-of-00001.parquet).
+Used: train utterances and intent names, unmodified; sampled.
+
+CLINC150, training split (config plus: 150 intents and oos)
+Stefan Larson, Anish Mahendran, Joseph J. Peper, Christopher Clarke, Andrew Lee, Parker Hill, Jonathan K. Kummerfeld,
+Kevin Leach, Michael A. Laurenzano, Lingjia Tang and Jason Mars, "An Evaluation Dataset for Intent Classification and
+Out-of-Scope Prediction", EMNLP-IJCNLP 2019, https://github.com/clinc/oos-eval.
+Source: https://huggingface.co/datasets/clinc/clinc_oos at revision 155b9c710419136e17307b80d0a13e68cd46b4ec
+        (plus/train-00000-of-00001.parquet)
+Licence: Creative Commons Attribution 3.0 Unported (CC-BY-3.0), https://creativecommons.org/licenses/by/3.0/
+Used: train utterances and intent names (150 intents and oos), unmodified; sampled.
+
+modified (both sources): 20 intents sampled (seed 0) and one utterance of each; each item packaged with the
+dataset's full intent list and a 10-option control (the gold plus 9 sampled distractors, shuffled).

@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        # Linux only, by choice: the macOS half runs locally before a push (`make check-pythons` on a Mac).
+        os: [ubuntu-latest]
+        python: ["3.10", "3.13", "3.14"]
+    runs-on: ${{ matrix.os }}
+    env:
+      # The fake-llama-server subprocess tests spawn a cold Python interpreter and wait for it to bind a port. The
+      # GitHub runners are contended, so give those startup/readiness waits a
+      # generous ceiling; a healthy run binds in well under a second, so this only ever affects the failure path.
+      CALLO_TEST_STARTUP_TIMEOUT: "180"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --group dev
+      - run: uv run ruff check src tests bench
+      - run: uv run pytest -q

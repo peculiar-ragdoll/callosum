@@ -1,0 +1,17 @@
+{
+ "about": "The callo builds the figures were measured on, in the order they were made. A plate and FIGURES.md name a build by its role, never by its commit: the commits are of callo's development history, which is not published, so they do not resolve in the public repository. FIGURES.md lists them once, under Development builds.",
+ "builds": [
+  {"commit": "b463e5f", "version": "0.3.0", "name": "the first build",
+   "what": "the first build at version 0.3.0"},
+  {"commit": "9d52aaf", "version": "0.3.0", "name": "the refit build",
+   "what": "the temperature fit's grid widened from 0.25–4 to 0.25–16; calibrations measured on the first build were refit with it, offline"},
+  {"commit": "a3a88c3", "version": "0.3.0", "name": "the readout-fix build",
+   "what": "the readout fix: an answer slot whose top token ends the turn is read there, the token never appended; every readout pass pins a neutral sampler"},
+  {"commit": "6fc42a8", "version": "0.3.0", "name": "the early-exit build",
+   "what": "early exit (--think-converge) and calibrate's convergence probe"},
+  {"commit": "0d33846", "version": "0.3.0", "name": "the gate build",
+   "what": "early exit's gate (--think-converge-gate) and calibrate's gated early-exit points"},
+  {"commit": "ea52406", "version": "0.3.0", "name": "the gate-reads build",
+   "what": "calibrate --resume adds the gate's reads to a calibration measured before the gate"}
+ ]
+}

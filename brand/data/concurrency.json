@@ -1,0 +1,544 @@
+{
+ "plate_concurrency": 1,
+ "series": [
+  {
+   "name": "qwen9b-v0.1",
+   "label": "Qwen3.5-9B, callo v0.1, 2026-10-02",
+   "model": "Qwen3.5-9B-Q8_0.gguf",
+   "build": "b50-4ebdf2c",
+   "date": "2026-10-02",
+   "src": "harness/results/callo_v0.1/summary.json",
+   "harness": "callo v0.1 bench/acceptance.py",
+   "launch": "parallel 6 (1 reserved + 5 agent slots) for decode, 4 (1 reserved) for prefill; max_tokens 128",
+   "rows": [
+    {
+     "id": "solo",
+     "label": "Solo decision (reference)",
+     "note": "a think calibration's budget 0, the same model file, 2026-10-08",
+     "n": {
+      "value": 376,
+      "src": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+      "ptr": "/budgets/0/n"
+     },
+     "mean": {
+      "value": 233.7085252672315,
+      "src": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+      "ptr": "/budgets/0",
+      "via": "callo.think.point_stats(profile, budgets['0'], 'b', '0')['lat_mean_ms'][0]"
+     },
+     "p50": {
+      "value": 226.4837077818811,
+      "src": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+      "ptr": "/budgets/0/lat_p50_ms/0"
+     },
+     "p95": {
+      "value": 320.08299976587296,
+      "src": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+      "ptr": "/budgets/0/lat_p95_ms/0"
+     },
+     "max": {
+      "value": 493.5960001312196,
+      "src": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+      "ptr": "/budgets/0",
+      "via": "callo.think.point_stats(profile, budgets['0'], 'b', '0')['lat_max_ms']"
+     },
+     "date": "2026-10-08",
+     "build": "b50-4ebdf2c"
+    },
+    {
+     "id": "solo-shim",
+     "label": "Solo (raw llama-server, no callo; same model file)",
+     "note": "raw llama-server, without callo",
+     "n": {
+      "value": 656,
+      "src": "harness/results/system1/concurrency/concurrency.json",
+      "ptr": "/conditions/solo-s1/s1/n"
+     },
+     "p50": {
+      "value": 222.26362535730004,
+      "src": "harness/results/system1/concurrency/concurrency.json",
+      "ptr": "/conditions/solo-s1/s1/p50_ms"
+     },
+     "p95": {
+      "value": 336.42658265307546,
+      "src": "harness/results/system1/concurrency/concurrency.json",
+      "ptr": "/conditions/solo-s1/s1/p95_ms"
+     },
+     "max": {
+      "value": 514.2805841751397,
+      "src": "harness/results/system1/concurrency/concurrency.json",
+      "ptr": "/conditions/solo-s1/s1/max_ms"
+     },
+     "repeat": {
+      "p50": {
+       "value": 219.41995806992054,
+       "src": "harness/results/system1/concurrency/concurrency.json",
+       "ptr": "/conditions/solo-s1-repeat/s1/p50_ms"
+      },
+      "p95": {
+       "value": 332.2226251475513,
+       "src": "harness/results/system1/concurrency/concurrency.json",
+       "ptr": "/conditions/solo-s1-repeat/s1/p95_ms"
+      }
+     }
+    },
+    {
+     "id": "decode",
+     "label": "+ 5 agent decode streams",
+     "n": {
+      "value": 356,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_decode/s1/n"
+     },
+     "p50": {
+      "value": 316.16133311763406,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_decode/s1/p50_ms"
+     },
+     "p95": {
+      "value": 439.27316600456834,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_decode/s1/p95_ms"
+     },
+     "max": {
+      "value": 862.4157910235226,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_decode/s1/max_ms"
+     },
+     "agent": {
+      "kind": "decode",
+      "unit": "tok/s",
+      "solo": {
+       "value": 30.744083078339923,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/solo_decode_tok_s"
+      },
+      "with": {
+       "value": 9.055883765745271,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/background/decode_tok_s_mean_inside_s1"
+      },
+      "mean_all": {
+       "value": 12.09091567753058,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/background/decode_tok_s_mean"
+      },
+      "streams": {
+       "value": 5,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/concurrent_requests"
+      },
+      "parallel": {
+       "value": 6,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/parallel"
+      },
+      "max_tokens": {
+       "value": 128,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_decode/max_tokens"
+      }
+     }
+    },
+    {
+     "id": "prefill-32k",
+     "label": "+ agent 32k prefill, continuously re-issued",
+     "n": {
+      "value": 100,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_32k/s1/n"
+     },
+     "p50": {
+      "value": 2152.7376249432564,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_32k/s1/p50_ms"
+     },
+     "p95": {
+      "value": 2852.4106671102345,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_32k/s1/p95_ms"
+     },
+     "max": {
+      "value": 3043.157832697034,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_32k/s1/max_ms"
+     },
+     "agent": {
+      "kind": "prefill",
+      "unit": "tok/s",
+      "with": {
+       "value": 681.0653958710403,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_32k/background/prefill_tok_s_mean"
+      },
+      "prompt_tokens": {
+       "value": 33122,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_32k/prompt_tokens_measured"
+      },
+      "background_n": {
+       "value": 5,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_32k/background/n"
+      },
+      "n_inside_s1": {
+       "value": 3,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_32k/background/n_inside_s1"
+      },
+      "overlap_frac": {
+       "value": 1.0,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_32k/validity/overlap_frac"
+      },
+      "slots": [
+       "1",
+       "2",
+       "3"
+      ]
+     }
+    },
+    {
+     "id": "prefill-128k",
+     "label": "+ agent 128k prefill",
+     "n": {
+      "value": 100,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_128k/s1/n"
+     },
+     "p50": {
+      "value": 3285.076000262052,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_128k/s1/p50_ms"
+     },
+     "p95": {
+      "value": 4638.325958047062,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_128k/s1/p95_ms"
+     },
+     "max": {
+      "value": 4865.54666608572,
+      "src": "harness/results/callo_v0.1/summary.json",
+      "ptr": "/rows/s1_prefill_128k/s1/max_ms"
+     },
+     "agent": {
+      "kind": "prefill",
+      "unit": "tok/s",
+      "with": {
+       "value": 443.67423050678434,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_128k/background/prefill_tok_s_mean"
+      },
+      "prompt_tokens": {
+       "value": 132861,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_128k/prompt_tokens_measured"
+      },
+      "background_n": {
+       "value": 2,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_128k/background/n"
+      },
+      "n_inside_s1": {
+       "value": 0,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_128k/background/n_inside_s1"
+      },
+      "overlap_frac": {
+       "value": 1.0,
+       "src": "harness/results/callo_v0.1/summary.json",
+       "ptr": "/rows/s1_prefill_128k/validity/overlap_frac"
+      },
+      "slots": []
+     }
+    }
+   ],
+   "fallback": {
+    "on_p50": {
+     "value": 39197.767458856106,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/on/p50_ms"
+    },
+    "off_p50": {
+     "value": 41028.619333170354,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/off/p50_ms"
+    },
+    "prefill_on_s": {
+     "value": 40.7704963684082,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/on/foreign_prefill_s_median"
+    },
+    "prefill_off_s": {
+     "value": 42.13364803791046,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/off/foreign_prefill_s_median"
+    },
+    "prompt_tokens": {
+     "value": 33122,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/on/prompt_tokens_measured"
+    },
+    "n_on": {
+     "value": 9,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/on/n_samples"
+    },
+    "n_off": {
+     "value": 8,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/off/n_samples"
+    },
+    "moved_on": {
+     "value": 9,
+     "src": "harness/results/callo_v0.1/summary.json",
+     "ptr": "/rows/s1_fallback/on/s1_fallback_count"
+    }
+   }
+  }
+ ],
+ "context": [
+  {
+   "id": "tiel-2hz",
+   "label": "Context: Tiel vision ticks at 2 Hz",
+   "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+   "date": "2026-10-03",
+   "launch_flags": [
+    "--mmproj",
+    "mmproj-BF16.gguf",
+    "--s1-slots",
+    "2"
+   ],
+   "n": {
+    "value": 120,
+    "src": "harness/results/callo_v0.2/summary.json",
+    "ptr": "/rows/hz2_prefill/s1/n"
+   },
+   "p50": {
+    "value": 352.3064374458045,
+    "src": "harness/results/callo_v0.2/summary.json",
+    "ptr": "/rows/hz2_prefill/s1/median_ms"
+   },
+   "overlap_p50": {
+    "value": 782.6155410148203,
+    "src": "harness/results/callo_v0.2/summary.json",
+    "ptr": "/rows/hz2_prefill/median_ms_overlapping_s2_prompt"
+   },
+   "overlap_n": {
+    "value": 5,
+    "src": "harness/results/callo_v0.2/summary.json",
+    "ptr": "/rows/hz2_prefill/ticks_overlapping_s2_prompt"
+   },
+   "stream_p50": {
+    "value": 357.4282710906118,
+    "src": "harness/results/callo_v0.2/summary.json",
+    "ptr": "/rows/hz2_stream/s1/median_ms"
+   }
+  }
+ ],
+ "floor": {
+  "label": "an earlier raw llama-server measurement without callo, on the same model file",
+  "solo_p50": {
+   "value": 222.26362535730004,
+   "src": "harness/results/system1/concurrency/concurrency.json",
+   "ptr": "/conditions/solo-s1/s1/p50_ms"
+  },
+  "repeat_p50": {
+   "value": 219.41995806992054,
+   "src": "harness/results/system1/concurrency/concurrency.json",
+   "ptr": "/conditions/solo-s1-repeat/s1/p50_ms"
+  },
+  "repeat_dp_max": {
+   "value": 0.0,
+   "src": "harness/results/system1/concurrency/concurrency.json",
+   "ptr": "/conditions/solo-s1-repeat/delta_p_vs_solo/max"
+  },
+  "decode_dp_max": {
+   "value": 0.0009043938859316647,
+   "src": "harness/results/system1/concurrency/concurrency.json",
+   "ptr": "/conditions/s1+decode/delta_p_vs_solo/max"
+  },
+  "prefill32k_dp_max": {
+   "value": 0.0010350792629268968,
+   "src": "harness/results/system1/concurrency/concurrency.json",
+   "ptr": "/conditions/s1+prefill-32k/delta_p_vs_solo/max"
+  }
+ },
+ "fallback_only": [
+  {
+   "name": "tiel",
+   "label": "Tiel-Coder 35B-A3B",
+   "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+   "build": "b50-4ebdf2c",
+   "callo_version": "0.3.0",
+   "callo_commit": "9d52aaf",
+   "cache": "on",
+   "harness": "callo bench/acceptance.py",
+   "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+   "started": {
+    "value": 1791726929.330364,
+    "src": "harness/results/callo_v0.3/concurrency_tiel/s1_fallback_on/cycles.json",
+    "ptr": "/0/foreign/t_start"
+   },
+   "date": "2026-10-11",
+   "fallback": {
+    "on_p50": {
+     "value": 30643.59545893967,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/on/p50_ms"
+    },
+    "off_p50": {
+     "value": 31682.518790941685,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/off/p50_ms"
+    },
+    "prefill_on_s": {
+     "value": 31.944280862808228,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/on/foreign_prefill_s_median"
+    },
+    "prefill_off_s": {
+     "value": 32.35327696800232,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/off/foreign_prefill_s_median"
+    },
+    "prompt_tokens": {
+     "value": 33205,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/on/prompt_tokens_measured"
+    },
+    "n_on": {
+     "value": 8,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/on/n_samples"
+    },
+    "n_off": {
+     "value": 8,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/off/n_samples"
+    },
+    "moved_on": {
+     "value": 8,
+     "src": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+     "ptr": "/rows/s1_fallback/on/s1_fallback_count"
+    }
+   }
+  }
+ ],
+ "gaps": [
+  "No same-session solo baseline in the callo v0.1 run: the solo numbers come from other sessions (a think calibration's budget 0, 2026-10-08; an earlier raw llama-server measurement without callo, on the same model file).",
+  "No |Δp| vs solo through callo: the callo v0.1 run saved per-row probabilities, but that session has no solo pass.",
+  "No run-to-run floor through callo.",
+  "No budget-256 (reasoning) decisions under load.",
+  "The plotted rows are Qwen3.5-9B on callo v0.1, not Tiel-Coder or the release; Tiel-Coder appears in the fallback case only.",
+  "No agent decode-throughput figure for the prefill rows (only prefill tok/s), and no solo-prefill throughput baseline in the callo v0.1 run.",
+  "The decode row used 5 agent slots (parallel 6), not the agent launch shape (--parallel 4 --s1-slots 1).",
+  "The 128k prefill row: only 2 background requests, neither inside a decision (n_inside_s1 = 0); overlap is by window (overlap_frac 1.0), not containment."
+ ],
+ "sources": [
+  "harness/results/callo_v0.1/summary.json",
+  "harness/results/callo_v0.2/summary.json",
+  "harness/results/callo_v0.3/concurrency_tiel/s1_fallback_on/cycles.json",
+  "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+  "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+  "harness/results/system1/concurrency/concurrency.json"
+ ],
+ "source_roles": {
+  "harness/results/callo_v0.1/summary.json": "Qwen3.5-9B acceptance run, callo v0.1",
+  "harness/results/callo_v0.2/summary.json": "the context row's run, callo v0.2",
+  "harness/results/system1/concurrency/concurrency.json": "an earlier raw llama-server measurement without callo, on the same model file",
+  "harness/results/callo_v0.3/think/run1/qwen9b.think.json": "Qwen3.5-9B think calibration (the solo reference)",
+  "harness/results/callo_v0.3/concurrency_tiel/summary.json": "Tiel-Coder 35B-A3B acceptance run, callo 0.3.0",
+  "harness/results/callo_v0.3/concurrency_tiel/s1_fallback_on/cycles.json": "Tiel-Coder 35B-A3B's fallback cycles (the start time)"
+ },
+ "source_files": [
+  {
+   "path": "harness/results/callo_v0.1/summary.json",
+   "role": "Qwen3.5-9B acceptance run, callo v0.1",
+   "name": "summary.json",
+   "sha256": "608fccc875c1015d6fba9fd6a41ed303cce60eacd933b10ae5c006dc1cc18cdb"
+  },
+  {
+   "path": "harness/results/callo_v0.2/summary.json",
+   "role": "the context row's run, callo v0.2",
+   "name": "summary.json",
+   "sha256": "29ceebb34591177b5ac4494b3018fbb30468eb4ed327ecaa3aa8d85805ce549d"
+  },
+  {
+   "path": "harness/results/callo_v0.3/concurrency_tiel/s1_fallback_on/cycles.json",
+   "role": "Tiel-Coder 35B-A3B's fallback cycles (the start time)",
+   "name": "cycles.json",
+   "sha256": "218e3bfb646088c462220e404979573fd4e92e86ef1bf422e6ab66d9f5f1f321"
+  },
+  {
+   "path": "harness/results/callo_v0.3/concurrency_tiel/summary.json",
+   "role": "Tiel-Coder 35B-A3B acceptance run, callo 0.3.0",
+   "name": "summary.json",
+   "sha256": "1d9543b9ccf7d64c2668310ea29fcea52163ee664db090f76e586fd8d2ab4203"
+  },
+  {
+   "path": "harness/results/callo_v0.3/think/run1/qwen9b.think.json",
+   "role": "Qwen3.5-9B think calibration (the solo reference)",
+   "name": "qwen9b.think.json",
+   "sha256": "54b1f01a18e8e58cc979dc3755fb86ef82fc0278f308de28f42d8a5c0c54c30b"
+  },
+  {
+   "path": "harness/results/system1/concurrency/concurrency.json",
+   "role": "an earlier raw llama-server measurement without callo, on the same model file",
+   "name": "concurrency.json",
+   "sha256": "28f537def72359ce917f3eac75f1c7b4640ff161b29ee3a477c7110302d2b8d9"
+  }
+ ],
+ "concurrency_figure": 1,
+ "draft": true,
+ "verified_numbers": 64,
+ "source_file": "harness/results/callo_v0.3/plate/concurrency.json",
+ "readme_limit": "When a reserved slot is busy with a request Callo did not send, Callo moves the classification to the lowest-id idle slot (the fallback). That helps against a foreign decode, not a foreign prefill: llama-server fills each batch in slot-id order, so with a foreign 32k prefill in slot 0 a classification moved to slot 1 starves behind it just as one left on slot 0 waits for it: measured p50 39.2 s with fallback vs 41.0 s without (the prefill took 42.1 s).",
+ "subtitle": "A long agent prefill still costs seconds: 2.2 s p50 at 32k, 3.3 s at 128k (Qwen3.5-9B).",
+ "fine_print": [
+  {
+   "lead": "Qwen3.5-9B-Q8_0, llama.cpp b50-4ebdf2c, 2026-10-02.",
+   "text": "callo v0.1 bench/acceptance.py; parallel 6 (1 reserved + 5 agent slots) for decode, 4 (1 reserved) for prefill; max_tokens 128."
+  },
+  {
+   "lead": null,
+   "text": "Solos from another session (a think calibration's budget 0, the same model file, 2026-10-08)."
+  },
+  {
+   "lead": null,
+   "text": "A foreign prefill in the reserved slot itself still blocks: 31–39 s, not plotted (Qwen3.5-9B: p50 39.2 s with the S1 fallback, 41.0 s without; Tiel-Coder 35B-A3B on Callo 0.3.0, 2026-10-11: p50 30.6 s with, 31.7 s without)."
+  }
+ ],
+ "made": [
+  {
+   "lead": "Not plotted: the S1 fallback under a foreign prefill.",
+   "text": "A foreign 32k prefill in the reserved slot itself. Qwen3.5-9B (the plotted run, 2026-10-02): p50 39.2 s with the S1 fallback, 41.0 s without (the prefill took 40.8 s median with it, 42.1 s without; 9 decisions with it, all moved off the reserved slot, and 8 without; a 33,122-token prompt). Tiel-Coder 35B-A3B (Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf on `callo` 0.3.0, the refit build, --cache on, llama.cpp b50-4ebdf2c, 2026-10-11): p50 30.6 s with the S1 fallback, 31.7 s without (the prefill took 31.9 s median with it, 32.4 s without; 8 decisions with it, all moved off the reserved slot, and 8 without; a 33,205-token prompt). The fallback helps against a foreign decode, not a foreign prefill."
+  },
+  {
+   "lead": "README limit.",
+   "text": "“When a reserved slot is busy with a request Callo did not send, Callo moves the classification to the lowest-id idle slot (the fallback). That helps against a foreign decode, not a foreign prefill: llama-server fills each batch in slot-id order, so with a foreign 32k prefill in slot 0 a classification moved to slot 1 starves behind it just as one left on slot 0 waits for it: measured p50 39.2 s with fallback vs 41.0 s without (the prefill took 42.1 s).”"
+  },
+  {
+   "lead": "Run-to-run floor.",
+   "text": "none through Callo; the nearest is an earlier raw llama-server measurement without callo, on the same model file: solo vs solo-repeat |Δp| max 0.0, p50 222 vs 219 ms. Contended there (no reserved slot), |Δp| max 0.0009 under decode, 0.0010 under 32k prefill. Its solo was p50 222 / p95 336 ms (n 656), repeat 219 / 332 ms."
+  },
+  {
+   "lead": "Context row.",
+   "text": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf with --mmproj mmproj-BF16.gguf --s1-slots 2, `callo` v0.2, 2026-10-03: a different model and session; vision ticks at 2 Hz, p50 352 ms, 783 ms on the 5 ticks overlapping an agent prompt phase."
+  },
+  {
+   "lead": "Gaps, named and not filled.",
+   "text": "(1) No same-session solo baseline in the callo v0.1 run: the solo numbers come from other sessions (a think calibration's budget 0, 2026-10-08; an earlier raw llama-server measurement without callo, on the same model file). (2) No |Δp| vs solo through callo: the callo v0.1 run saved per-row probabilities, but that session has no solo pass. (3) No run-to-run floor through callo. (4) No budget-256 (reasoning) decisions under load. (5) The plotted rows are Qwen3.5-9B on callo v0.1, not Tiel-Coder or the release; Tiel-Coder appears in the fallback case only. (6) No agent decode-throughput figure for the prefill rows (only prefill tok/s), and no solo-prefill throughput baseline in the callo v0.1 run. (7) The decode row used 5 agent slots (parallel 6), not the agent launch shape (--parallel 4 --s1-slots 1). (8) The 128k prefill row: only 2 background requests, neither inside a decision (n_inside_s1 = 0); overlap is by window (overlap_frac 1.0), not containment."
+  },
+  {
+   "lead": "Sources.",
+   "text": "Qwen3.5-9B acceptance run, callo v0.1: `summary.json` (sha256 608fccc875c1015d…); the context row's run, callo v0.2: `summary.json` (sha256 29ceebb34591177b…); Tiel-Coder 35B-A3B's fallback cycles (the start time): `cycles.json` (sha256 218e3bfb646088c4…); Tiel-Coder 35B-A3B acceptance run, callo 0.3.0: `summary.json` (sha256 1d9543b9ccf7d64c…); Qwen3.5-9B think calibration (the solo reference): `qwen9b.think.json` (sha256 54b1f01a18e8e58c…); an earlier raw llama-server measurement without callo, on the same model file: `concurrency.json` (sha256 28f537def72359ce…)."
+  }
+ ],
+ "builds": [
+  {
+   "commit": "9d52aaf",
+   "name": "the refit build"
+  }
+ ]
+}

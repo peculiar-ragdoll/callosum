@@ -1,0 +1,181 @@
+{
+ "about": "The Decision Index release plate: the 12-arm bake of 2026-10-14 (the 11 arms of 2026-10-13 plus Liquid AI's d1-3B; CyberDirk is not on this plate). Three callo lines (Tiel-Coder @{0, 256 early exit}, Sharp-MiniCPM5-2B @{0, 1024}, Qwen3.8-Flash-Next (Sharp) @{0, 256 early exit + gate}), Tiel-Coder's plain think 256 and its early exit + gate as rows of the plate's table (not drawn), Clef 27B, Clef-Flash BF16 and d1-3B as single markers; Clef-Flash Q4 is data-only. Paths are relative to the benchmark's root, given to `di.py build` as --root; callo_commits are commits of callo's development history, which the plate names by role (data/builds.json).",
+ "preliminary": false,
+ "every_arm": true,
+ "title": "Clef leads the Decision Index, *thinking narrows the gap*",
+ "y_range": [0, 70],
+ "wide_options": "kit",
+ "callo_max_options": 255,
+ "treatments": {
+  "kit": "harness/results/callo_v0.3/di/bootstrap-release3.json",
+  "all-unsupported": null
+ },
+ "paired": [
+  {"path": "harness/results/callo_v0.3/di/bootstrap-ee1-vs-tiel256.json", "arms": ["tiel-b256-ee", "tiel-b256-eeg"]},
+  {"path": "harness/results/callo_v0.3/di/bootstrap-release1-vs-fnb0.json", "arms": ["flashnext-sharp-b256-eeg"]}
+ ],
+ "sensitivity": {"path": "harness/results/callo_v0.3/di/bootstrap-release3-nobright.json", "drop": "BRIGHT"},
+ "patches": {
+  "tiel-b0": "harness/results/callo_v0.3/di/tiel-b0/patch/apply.json",
+  "tiel-b256": "harness/results/callo_v0.3/di/tiel-b256/patch/apply.json",
+  "sharp-minicpm-b1024": "harness/results/callo_v0.3/di/sharp-minicpm-b1024/patch/apply.json"
+ },
+ "union": "harness/results/callo_v0.3/di/union-release3.json",
+ "sample": "harness/results/callo_v0.3/di/sample.json",
+ "prompt_tokens": "harness/results/callo_v0.3/di/prompt_tokens.json",
+ "prompt_tokens_rows": "harness/results/callo_v0.3/di/prompt_tokens_rows.json",
+ "di_dir": "harness/results/callo_v0.3/di",
+ "area_labels_from": "harness/results/callo_v0.3/di/clef27b-udq4/score-prelim/index.json",
+ "area_labels_arm": "clef27b-udq4",
+ "reference": "clefflash-bf16",
+ "reference_label": "Clef-Flash BF16",
+ "second_reference": "clef27b-udq4",
+ "second_reference_label": "Clef 27B",
+ "story": {
+  "series": "tiel",
+  "think": 256
+ },
+ "hardware": "Apple M2 Ultra, 64 GB, one request at a time",
+ "callo_commits": {
+  "tiel-b0": "b463e5f",
+  "tiel-b256": "b463e5f",
+  "sharp-minicpm-b1024": "b463e5f",
+  "sharp-minicpm-b0": "9d52aaf",
+  "flashnext-sharp-b0": "6fc42a8",
+  "tiel-b256-ee": "0d33846",
+  "tiel-b256-eeg": "0d33846",
+  "flashnext-sharp-b256-eeg": "0d33846"
+ },
+ "explain": [],
+ "notes": {
+  "subset": "iSarcasmEval track A-En",
+  "cap_release": "Clef's own release code would refuse 12 of the 13 (“schema requires … tokens before state”) and truncate 1",
+  "wide_choice": "Callo (wide-choice readout) and Clef both answer up to 255 options, so every arm answers them",
+  "board": "the 0.3 board's public index for “Cloudflare clef” is 61.71 (full suite, authors' runtime); Clef's card reports 0.2.1 full-suite numbers",
+  "timing": "Clef 27B ran beside CPU-heavy test runs for its first ~1.5 h (~12:10–13:40 UTC on 2026-10-10) and was not re-timed, so its request time may read high",
+  "latency_figures": "two Clef arms ran beside CPU-heavy test runs (Clef 27B ~12:10–13:40 UTC, its first ~1.5 h of 3.3 h; Clef-Flash Q4 ~16:00–16:26 UTC, the last half hour of its hour; 2026-10-10); neither was re-timed",
+  "gate_read": "on Flash-Next's long DI prompts",
+  "reread_fix": "an end-of-turn token at the answer slot",
+  "run_to_run": "Tiel-Coder and Flash-Next are MoE models; on the unified KV cache Callo's llama-server runs, their runs are not bit-reproducible",
+  "builds": "without early exit their behaviour is byte-identical, but for the readout fix the re-read covers"
+ },
+ "series": [
+  {
+   "name": "tiel",
+   "label": "Tiel-Coder 35B-A3B · Q4_K_XL",
+   "short": "Tiel-Coder",
+   "kind": "callo",
+   "accent": true,
+   "runtime": "Callo · llama.cpp",
+   "model_file": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+   "budgets": {
+    "0": "tiel-b0",
+    "256": "tiel-b256-ee"
+   },
+   "variants": {
+    "tiel-b256": 256,
+    "tiel-b256-eeg": 256
+   },
+   "early_exit": {
+    "tiel-b256-ee": {"z": 0.95, "gate": false},
+    "tiel-b256-eeg": {"z": 0.95, "gate": true}
+   },
+   "not_run": [
+    512,
+    1024
+   ],
+   "label_side": "above",
+   "point_label_at": {"tiel-b256-ee": "nw"},
+   "note": "Tiel-Coder think 256 with early exit, and with early exit + gate, ran on the gate build from their own think profile (release-tiel-ee/tiel.think.json, calibrated 2026-10-12 with early exit's convergence probe); the plain think 256 point ran on the first build from release/tiel.think.json."
+  },
+  {
+   "name": "sharp-minicpm",
+   "label": "Sharp-MiniCPM5-2B · Q6_K_XL",
+   "short": "Sharp-MiniCPM5-2B",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "model_file": "MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf",
+   "budgets": {
+    "0": "sharp-minicpm-b0",
+    "1024": "sharp-minicpm-b1024"
+   },
+   "not_run": [
+    256,
+    512
+   ],
+   "note": "Sharp-MiniCPM5-2B no think was re-run 2026-10-11 on the refit build (the first run is superseded and not used); no readout of the re-run walked, so it needed no re-read.",
+   "label_side": "below"
+  },
+  {
+   "name": "flashnext-sharp",
+   "label": "Qwen3.8-Flash-Next (Sharp)",
+   "short": "Flash-Next",
+   "kind": "callo",
+   "runtime": "GSQ-RCO IQ3_XXS · Callo · llama.cpp",
+   "model_file": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+   "marker": "square",
+   "point_labels": "above",
+   "label_side": "end",
+   "budgets": {
+    "0": "flashnext-sharp-b0",
+    "256": "flashnext-sharp-b256-eeg"
+   },
+   "early_exit": {
+    "flashnext-sharp-b256-eeg": {"z": 0.95, "gate": true}
+   },
+   "note": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF (two shards; the n-gram shard is read lazily from SSD) served with the Sharp chat template v22.5.0; its think 256 point runs early exit (z .95) with the gate, its only reasoning arm on DI."
+  },
+  {
+   "name": "clef27b-udq4",
+   "label": "Clef 27B · Q4_K_XL (our quant)",
+   "short": "Clef 27B",
+   "kind": "clef",
+   "arm": "clef27b-udq4",
+   "marker": "diamond",
+   "runtime": "llama.cpp native Clef",
+   "model_file": "Clef-27B-UD-Q4_K_XL.gguf",
+   "build": "b11379 1537a0a8",
+   "note": "Clef 27B Q4_K_XL (our quant): its first session stopped at the token-count consistency check (one POP909 row, 6489 server vs 6781 offline tokens) and was re-run; the plate uses the second session."
+  },
+  {
+   "name": "clefflash-udq4",
+   "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+   "short": "Clef-Flash Q4",
+   "kind": "clef",
+   "arm": "clefflash-udq4",
+   "marker": "diamond-hollow",
+   "runtime": "llama.cpp native Clef",
+   "model_file": "Clef-Flash-UD-Q4_K_XL.gguf",
+   "build": "b11379 1537a0a8",
+   "plate": false,
+   "note": "Clef-Flash 9B Q4_K_XL (our quant): measured on DI and reported here, not drawn on the plate (it sits on the BF16 reference)."
+  },
+  {
+   "name": "clefflash-bf16",
+   "label": "Clef-Flash 9B · BF16",
+   "short": "Clef-Flash BF16",
+   "kind": "clef",
+   "arm": "clefflash-bf16",
+   "marker": "diamond",
+   "runtime": "llama.cpp native Clef",
+   "model_file": "Clef-Flash-BF16.gguf",
+   "build": "b11379 1537a0a8",
+   "note": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI."
+  },
+  {
+   "name": "d1",
+   "label": "d1-3B · Q4_K_M",
+   "short": "d1-3B",
+   "kind": "clef",
+   "family": "d1",
+   "arm": "d1-3b-q4km",
+   "marker": "triangle",
+   "runtime": "Liquid AI · llama.cpp native",
+   "model_file": "d1-3B-Q4_K_M.gguf",
+   "build": "23deec02",
+   "answering": "answers each question in its own prompt (the state, then that question)",
+   "own_prompt_tokens": "harness/results/callo_v0.3/di/prompt_tokens_rows.d1-3b-q4km.json",
+   "note": "d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context."
+  }
+ ]
+}

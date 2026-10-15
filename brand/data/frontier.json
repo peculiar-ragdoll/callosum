@@ -1,0 +1,2278 @@
+{
+ "plate_frontier": 1,
+ "title": "Tiel-Coder ties Clef-Flash without thinking, *a short think passes it*",
+ "subtitle": "The same 376 test items, one decision at a time. Callo reads the answer from the served model's own log-probabilities; its points are thinking budgets.",
+ "draft": false,
+ "latency": "mean",
+ "data": {
+  "path": "think/data/test-s1.jsonl",
+  "sha256": "49e8a1aca57fc1c06c5e3196f56332f8468ddfe1e107c70d2bd6010ac2b4de72",
+  "name": "test-s1",
+  "n": 376,
+  "sources": [
+   [
+    "mmlu",
+    80
+   ],
+   [
+    "qnli",
+    80
+   ],
+   [
+    "paws",
+    80
+   ],
+   [
+    "composition_holdout",
+    96
+   ],
+   [
+    "contrastive",
+    40
+   ]
+  ]
+ },
+ "seed": 0,
+ "strata": "source",
+ "ref": {
+  "name": "clef-flash-bf16",
+  "label": "Clef-Flash (llama.cpp BF16)",
+  "acc": 0.8537234042553191
+ },
+ "callo_cache": true,
+ "callo_run": null,
+ "arms": [
+  {
+   "name": "tiel",
+   "label": "Tiel-Coder 35B-A3B · Q4_K_XL",
+   "short": "Tiel-Coder",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": null,
+   "note": null,
+   "label_side": "end",
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release-refit/tiel/tiel.think.json",
+   "date": "2026-10-10",
+   "date_end": "2026-10-11",
+   "build": "b50-4ebdf2c",
+   "gib": 20.824818015098572,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": true,
+   "budgets": [
+    0,
+    256,
+    512,
+    1024
+   ],
+   "created": "2026-10-11T00:11:45Z",
+   "run": {
+    "started": "2026-10-10T19:22:19Z",
+    "ended": "2026-10-11T00:11:44Z"
+   },
+   "model_file": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+   "commits": {
+    "step": "refit",
+    "profile": "9d52aaf",
+    "measured": "b463e5f"
+   },
+   "opt_in": [],
+   "files": [
+    {
+     "path": "plate/release-refit/tiel/tiel.think.json",
+     "sha256": "5ead7c96ab486b6aa9354898268c2def9fc72fb1b3e2cc0c938291fc344a3cd1"
+    }
+   ]
+  },
+  {
+   "name": "flashnext-sharp",
+   "label": "Qwen3.8-Flash-Next (Sharp) · IQ3_XXS",
+   "short": "Qwen3.8-Flash-Next",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": "square",
+   "note": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF in two shards (its GiB counts both; the n-gram shard is read lazily from SSD), served with the Sharp chat template v22.5.0; calibrated at budgets 0 and 256 only.",
+   "label_side": "start",
+   "gib_note": "Qwen3.8-Flash-Next's counts both shards of its split GGUF, the n-gram shard read lazily from SSD",
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release-flashnext/flashnext-sharp.think.json",
+   "date": "2026-10-12",
+   "date_end": "2026-10-13",
+   "build": "b50-4ebdf2c",
+   "gib": 70.63150268793106,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": true,
+   "budgets": [
+    0,
+    256
+   ],
+   "created": "2026-10-13T18:03:00Z",
+   "run": {
+    "started": "2026-10-12T10:32:24Z",
+    "ended": "2026-10-13T18:02:52Z"
+   },
+   "model_file": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+   "commits": {
+    "step": "gate reads and profile",
+    "profile": "ea52406",
+    "measured": "6fc42a8"
+   },
+   "opt_in": [
+    "flashnext-sharp@ee.9",
+    "flashnext-sharp@ee.95",
+    "flashnext-sharp@ee.9+g",
+    "flashnext-sharp@ee.95+g"
+   ],
+   "files": [
+    {
+     "path": "plate/release-flashnext/flashnext-sharp.think.json",
+     "sha256": "2bfbf190943b1d9cdefdf6ccb8517d18d7c9b1acca25338bac875ee1e1647a16"
+    }
+   ]
+  },
+  {
+   "name": "dirk",
+   "label": "Dirk (Qwen3.8 27B) · Q4_K_XL",
+   "short": "Dirk",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": null,
+   "note": null,
+   "label_side": "end",
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release-refit/dirk/dirk.think.json",
+   "date": "2026-10-10",
+   "date_end": "2026-10-11",
+   "build": "b50-4ebdf2c",
+   "gib": 16.353276759386063,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": true,
+   "budgets": [
+    0,
+    256,
+    512,
+    1024
+   ],
+   "created": "2026-10-11T00:11:50Z",
+   "run": {
+    "started": "2026-10-10T21:16:34Z",
+    "ended": "2026-10-11T00:11:48Z"
+   },
+   "model_file": "Dirk-Qwen3.8-27B-UD-Q4_K_XL.gguf",
+   "commits": {
+    "step": "refit",
+    "profile": "9d52aaf",
+    "measured": "b463e5f"
+   },
+   "opt_in": [],
+   "files": [
+    {
+     "path": "plate/release-refit/dirk/dirk.think.json",
+     "sha256": "2c4f5900fc47a305e230e516e27f0d139bb6e67773739109b2f2e5d9639bcc36"
+    }
+   ]
+  },
+  {
+   "name": "qwen9b",
+   "label": "Qwen3.5-9B · Q8_0",
+   "short": "Qwen3.5-9B",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": null,
+   "note": null,
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release-refit/qwen9b/qwen9b.think.json",
+   "date": "2026-10-10",
+   "date_end": "2026-10-11",
+   "build": "b50-4ebdf2c",
+   "gib": 9.11397910118103,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": true,
+   "budgets": [
+    0,
+    256,
+    512,
+    1024
+   ],
+   "created": "2026-10-11T00:11:47Z",
+   "run": {
+    "started": "2026-10-10T19:40:20Z",
+    "ended": "2026-10-11T00:11:46Z"
+   },
+   "model_file": "Qwen3.5-9B-Q8_0.gguf",
+   "commits": {
+    "step": "refit",
+    "profile": "9d52aaf",
+    "measured": "b463e5f"
+   },
+   "opt_in": [],
+   "files": [
+    {
+     "path": "plate/release-refit/qwen9b/qwen9b.think.json",
+     "sha256": "06346d91f0a7e08baad364ed255943831f448ac2c41db5d8c61475d13f6229cd"
+    }
+   ]
+  },
+  {
+   "name": "sharp-minicpm",
+   "label": "Sharp-MiniCPM5-2B · Q6_K_XL",
+   "short": "Sharp-MiniCPM5-2B",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": null,
+   "note": null,
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release3-minicpm/sharp-minicpm.think.json",
+   "date": "2026-10-11",
+   "date_end": "2026-10-11",
+   "build": "b50-4ebdf2c",
+   "gib": 2.047487735748291,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": true,
+   "budgets": [
+    0,
+    256,
+    512,
+    1024
+   ],
+   "created": "2026-10-11T16:52:45Z",
+   "run": {
+    "started": "2026-10-11T16:30:55Z",
+    "ended": "2026-10-11T16:52:43Z"
+   },
+   "model_file": "MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf",
+   "commits": {
+    "step": null,
+    "profile": "a3a88c3",
+    "measured": "a3a88c3"
+   },
+   "opt_in": [],
+   "files": [
+    {
+     "path": "plate/release3-minicpm/sharp-minicpm.think.json",
+     "sha256": "e576cdd18aafb8f0a7cbca035e134c4ec5aa505134f62261d3e413eef52b9c4c"
+    }
+   ]
+  },
+  {
+   "name": "gemma-e4b",
+   "label": "Gemma-4-E4B · UD-Q4_K_XL",
+   "short": "Gemma-4-E4B",
+   "kind": "callo",
+   "runtime": "Callo · llama.cpp",
+   "marker": "triangle-hollow",
+   "note": "Gemma-4-E4B: budget 0 only (Callo cannot read its thinking format).",
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "callo",
+   "status": "present",
+   "path": "plate/release-refit/gemma-e4b/gemma-e4b.think.json",
+   "date": "2026-10-10",
+   "date_end": "2026-10-11",
+   "build": "b50-4ebdf2c",
+   "gib": 4.774243503808975,
+   "callo_version": "0.3.0",
+   "cache": true,
+   "host": "Apple M2 Ultra",
+   "memory_gib": 64,
+   "capable": false,
+   "budgets": [
+    0
+   ],
+   "created": "2026-10-11T00:11:48Z",
+   "run": {
+    "started": "2026-10-10T21:14:28Z",
+    "ended": "2026-10-11T00:11:48Z"
+   },
+   "model_file": "gemma-4-E4B-it-UD-Q4_K_XL.gguf",
+   "commits": {
+    "step": "refit",
+    "profile": "9d52aaf",
+    "measured": "b463e5f"
+   },
+   "opt_in": [],
+   "files": [
+    {
+     "path": "plate/release-refit/gemma-e4b/gemma-e4b.think.json",
+     "sha256": "958c401c9c0c495fdc89b28dfcc5c3dca606741430812629214870392d2ea365"
+    }
+   ]
+  },
+  {
+   "name": "clef-flash-bf16",
+   "label": "Clef-Flash 9B · BF16",
+   "short": "Clef-Flash (llama.cpp)",
+   "kind": "rows",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond",
+   "note": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI.",
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "client_http",
+   "status": "present",
+   "path": "plate/clef-flash-llamacpp-bf16",
+   "date": "2026-10-09",
+   "build": "b11379 1537a0a8",
+   "gib": 16.91699805855751,
+   "files": [
+    {
+     "path": "plate/clef-flash-llamacpp-bf16/rows.jsonl",
+     "sha256": "e5746abf9baf10339bdf40070293781371dc7657a84553b53f06748897019288"
+    },
+    {
+     "path": "plate/clef-flash-llamacpp-bf16/meta.json",
+     "sha256": "126901f60ff34f623bad5f53888c41372b7120a5a7a908c81007826685b23d46"
+    }
+   ],
+   "meta": {
+    "kind": "serve-and-run",
+    "gib": 16.91699805855751,
+    "warmup": 3,
+    "timer": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+   }
+  },
+  {
+   "name": "clef-flash-release",
+   "label": "Clef-Flash 9B · release runtime",
+   "short": "Clef-Flash (release code)",
+   "kind": "rows",
+   "runtime": "transformers · bf16 · MPS",
+   "marker": "diamond-hollow",
+   "note": "Clef-Flash release runtime: Cloudflare's release code, transformers 5.10.2, bf16, MPS, re-timed with the plate's client timer; the 2026-10-02 rows (kev RemotePredictor, 565 ms mean) agree.",
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "client_http",
+   "status": "present",
+   "path": "plate/clef-flash-native-2026-10-10",
+   "date": "2026-10-09",
+   "build": null,
+   "gib": 17.754043579101562,
+   "files": [
+    {
+     "path": "plate/clef-flash-native-2026-10-10/rows.jsonl",
+     "sha256": "9dacbfa68d8952249b9fbbfdcd6b170aaaad57957d8f46a39341dccde5bf8506"
+    },
+    {
+     "path": "plate/clef-flash-native-2026-10-10/meta.json",
+     "sha256": "8017d7d81797f8366fe8431cd443b9a680e93ce2cbe17d527a30125fcbb0d0f9"
+    }
+   ],
+   "meta": {
+    "kind": "native-run",
+    "gib": 17.754043579101562,
+    "warmup": 3,
+    "timer": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+   }
+  },
+  {
+   "name": "clef-q4",
+   "label": "Clef 27B · Q4_K_XL (our quant)",
+   "short": "Clef 27B",
+   "kind": "rows",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond",
+   "note": "Clef 27B Q4_K_XL (our quant): Dirk's per-tensor recipe + Unsloth's Qwen3.8-27B imatrix, head Q8_0 as ggml-org ships it, on llama.cpp's native Clef path; not published.",
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": true,
+   "timer": "client_http",
+   "status": "present",
+   "path": "plate/clef27b-udq4",
+   "date": "2026-10-09",
+   "build": "b11379 1537a0a8",
+   "gib": 16.15343502163887,
+   "files": [
+    {
+     "path": "plate/clef27b-udq4/rows.jsonl",
+     "sha256": "3a2fb1170ebea9b6f3a52e0eb7d86e16c1f24d50887da47643cd5a5f5a591886"
+    },
+    {
+     "path": "plate/clef27b-udq4/meta.json",
+     "sha256": "f7c344a14be8182287fece89659db533d670f5ecb8fdb4562b60712941cab107"
+    }
+   ],
+   "meta": {
+    "kind": "serve-and-run",
+    "gib": 16.15343502163887,
+    "warmup": 3,
+    "timer": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+   }
+  },
+  {
+   "name": "kev-9b",
+   "label": "Kev-9B (trained head)",
+   "short": "Kev-9B",
+   "kind": "rows",
+   "runtime": "transformers · bf16 · MPS",
+   "marker": "square",
+   "note": "Kev-9B: a LoRA and a trained head on Qwen3.5-9B-Base, a reference point; its GiB counts the base.",
+   "label_side": null,
+   "gib_note": "Kev-9B's counts its base model",
+   "on_plate": true,
+   "timer": "kev_inprocess",
+   "status": "present",
+   "path": "plate/kev-9b-2026-10-02",
+   "date": "2026-10-02",
+   "build": null,
+   "gib": 18.149506336450578,
+   "files": [
+    {
+     "path": "plate/kev-9b-2026-10-02/rows.jsonl",
+     "sha256": "3c1503baf9ed2d2daa6c848e1e7565d4b8fb28c85e7a3c41db79f72cfbc701e9"
+    },
+    {
+     "path": "plate/kev-9b-2026-10-02/meta.json",
+     "sha256": "86cbffd91840fbb6b10c93369e119ba3f64ea3d2d062c9db3743e5ac1bac041e"
+    }
+   ],
+   "meta": {
+    "kind": "import-rows",
+    "arm": "kev-9b-2026-10-02",
+    "timer": "in-process, server-free: kev.benchmark LocalPredictor (kev 6605a5a, kev/predictors.py:131-147) times model.forward + softmax + .cpu() between two device syncs on MPS; the prompt encode/tokenisation is OUTSIDE the timer; run 2026-10-02.",
+    "utc": "2026-10-09T19:13:26+00:00"
+   }
+  },
+  {
+   "name": "clef-flash-udq4",
+   "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+   "short": "Clef-Flash Q4",
+   "kind": "rows",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond-hollow",
+   "note": null,
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": false,
+   "timer": "client_http",
+   "status": "present",
+   "path": "plate/clef-flash-udq4",
+   "date": "2026-10-09",
+   "build": "b11379 1537a0a8",
+   "gib": 5.677206456661224,
+   "files": [
+    {
+     "path": "plate/clef-flash-udq4/rows.jsonl",
+     "sha256": "b7bcc8e586363db938b04b11594a5ed3bf43cae81aa1cecb1af58fa3a47d3fa8"
+    },
+    {
+     "path": "plate/clef-flash-udq4/meta.json",
+     "sha256": "3212abf5ad40c9441669b8b429f051a2c10e014fef6640422e725e1e2657de6b"
+    }
+   ],
+   "meta": {
+    "kind": "serve-and-run",
+    "gib": 5.677206456661224,
+    "warmup": 3,
+    "timer": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+   }
+  },
+  {
+   "name": "clef-ggml-q4km",
+   "label": "Clef 27B · Q4_K_M (ggml-org)",
+   "short": "Clef 27B Q4_K_M",
+   "kind": "rows",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond-hollow",
+   "note": null,
+   "label_side": null,
+   "gib_note": null,
+   "on_plate": false,
+   "timer": "client_http",
+   "status": "present",
+   "path": "plate/clef27b-ggmlorg-q4km",
+   "date": "2026-10-09",
+   "build": "b11379 1537a0a8",
+   "gib": 17.91139990091324,
+   "files": [
+    {
+     "path": "plate/clef27b-ggmlorg-q4km/rows.jsonl",
+     "sha256": "ef275073cbc24bace91f1d189fc5910c231124d02147a92c243ffae35f85ea26"
+    },
+    {
+     "path": "plate/clef27b-ggmlorg-q4km/meta.json",
+     "sha256": "913bc284ef1d137d8f1d34fd66a3cb7dd9b02e176552d7034d8db905e0903186"
+    }
+   ],
+   "meta": {
+    "kind": "serve-and-run",
+    "gib": 17.91139990091324,
+    "warmup": 3,
+    "timer": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+   }
+  }
+ ],
+ "points": [
+  {
+   "label": "tiel@0",
+   "arm": "tiel",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.8324468085106383,
+   "n": 376,
+   "lat": {
+    "mean": [
+     169.13032101868512,
+     166.71209440689208,
+     171.6784507869693
+    ],
+    "p50": [
+     166.12266702577472,
+     165.06312461569905,
+     166.6879579424858
+    ],
+    "p95": [
+     204.14091693237424,
+     196.58919527428225,
+     240.69924978539348
+    ],
+    "p99": [
+     271.0579577833414,
+     252.8038751333952,
+     306.7890000529587
+    ],
+    "max": 379.4840001501143
+   },
+   "dacc": [
+    -0.02127659574468085,
+    -0.06648936170212766,
+    0.023936170212765957
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 20.824818015098572,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "tiel@256",
+   "arm": "tiel",
+   "kind": "budget",
+   "budget": 256,
+   "value": 256,
+   "acc": 0.9202127659574468,
+   "n": 376,
+   "lat": {
+    "mean": [
+     1654.3685633423268,
+     1590.3155763850568,
+     1715.5362087972578
+    ],
+    "p50": [
+     1363.8119995594025,
+     1291.2551231565885,
+     1507.3504578322172
+    ],
+    "p95": [
+     2986.0514151786606,
+     2974.842078805163,
+     3008.5018265522567
+    ],
+    "p99": [
+     3054.255669717447,
+     3017.8220130522905,
+     3076.2444984976055
+    ],
+    "max": 3107.688958193898
+   },
+   "dacc": [
+    0.06648936170212766,
+    0.031914893617021274,
+    0.10372340425531915
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": false,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": "tiel@1024",
+    "p95": null
+   },
+   "gib": 20.824818015098572,
+   "think_mean": 135.73138297872342,
+   "pick": []
+  },
+  {
+   "label": "tiel@512",
+   "arm": "tiel",
+   "kind": "budget",
+   "budget": 512,
+   "value": 512,
+   "acc": 0.9361702127659575,
+   "n": 376,
+   "lat": {
+    "mean": [
+     1839.933907945696,
+     1727.4150387192685,
+     1958.6483177768362
+    ],
+    "p50": [
+     1363.8119995594025,
+     1291.2551231565885,
+     1507.3504578322172
+    ],
+    "p95": [
+     4371.877332683653,
+     3625.214208383113,
+     5729.261981638827
+    ],
+    "p99": [
+     5815.350233437185,
+     5718.0681261233985,
+     5865.211706895858
+    ],
+    "max": 5891.961958253383
+   },
+   "dacc": [
+    0.08244680851063829,
+    0.04521276595744681,
+    0.12234042553191489
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": false,
+    "p95": false
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": "tiel@1024",
+    "p95": "tiel@1024"
+   },
+   "gib": 20.824818015098572,
+   "think_mean": 152.86436170212767,
+   "pick": []
+  },
+  {
+   "label": "tiel@1024",
+   "arm": "tiel",
+   "kind": "budget",
+   "budget": 1024,
+   "value": 1024,
+   "acc": 0.9414893617021277,
+   "n": 376,
+   "lat": {
+    "mean": [
+     1920.5620352431458,
+     1769.439094906123,
+     2083.2009707158
+    ],
+    "p50": [
+     1363.8119995594025,
+     1291.2551231565885,
+     1507.3504578322172
+    ],
+    "p95": [
+     4371.877332683653,
+     3625.214208383113,
+     6063.168708235025
+    ],
+    "p99": [
+     10177.57379077375,
+     6570.678042713553,
+     11442.945499438792
+    ],
+    "max": 11460.289082955569
+   },
+   "dacc": [
+    0.08776595744680851,
+    0.053125000000000006,
+    0.1276595744680851
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 20.824818015098572,
+   "think_mean": 160.28191489361703,
+   "pick": []
+  },
+  {
+   "label": "flashnext-sharp@0",
+   "arm": "flashnext-sharp",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.9095744680851063,
+   "n": 376,
+   "lat": {
+    "mean": [
+     566.899975484356,
+     554.6868015641712,
+     580.1172522080881
+    ],
+    "p50": [
+     542.2288747504354,
+     530.2493749186397,
+     548.6393328756094
+    ],
+    "p95": [
+     816.9812918640673,
+     690.8455826342106,
+     948.078166693449
+    ],
+    "p99": [
+     1259.2257088981569,
+     1111.162583809346,
+     1361.7290002293885
+    ],
+    "max": 1490.4715833254158
+   },
+   "dacc": [
+    0.05585106382978723,
+    0.013297872340425532,
+    0.10372340425531915
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 70.63150268793106,
+   "think_mean": null,
+   "pick": [
+    "mean",
+    "p50",
+    "p95"
+   ]
+  },
+  {
+   "label": "flashnext-sharp@256",
+   "arm": "flashnext-sharp",
+   "kind": "budget",
+   "budget": 256,
+   "value": 256,
+   "acc": 0.9202127659574468,
+   "n": 376,
+   "lat": {
+    "mean": [
+     5259.359414602551,
+     5110.163077438576,
+     5407.592997958381
+    ],
+    "p50": [
+     5486.7839589715,
+     5134.353291243315,
+     5742.962415795773
+    ],
+    "p95": [
+     7781.669333111495,
+     7680.998499970883,
+     7941.923167090863
+    ],
+    "p99": [
+     8299.721457995474,
+     8106.812083628029,
+     8473.304541315883
+    ],
+    "max": 8656.114750541747
+   },
+   "dacc": [
+    0.06648936170212766,
+    0.023936170212765957,
+    0.11170212765957446
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 70.63150268793106,
+   "think_mean": 171.29255319148936,
+   "pick": []
+  },
+  {
+   "label": "dirk@0",
+   "arm": "dirk",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.8297872340425532,
+   "n": 376,
+   "lat": {
+    "mean": [
+     802.605996766633,
+     786.0213852197705,
+     821.0704307776858
+    ],
+    "p50": [
+     818.3346251025796,
+     817.0636249706149,
+     818.9680417999625
+    ],
+    "p95": [
+     1047.599291894585,
+     1041.951292194426,
+     1300.46970769763
+    ],
+    "p99": [
+     1524.82825005427,
+     1406.2511229887605,
+     1645.0815829448402
+    ],
+    "max": 1867.6650412380695
+   },
+   "dacc": [
+    -0.023936170212765957,
+    -0.07180851063829788,
+    0.026595744680851064
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 16.353276759386063,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "dirk@256",
+   "arm": "dirk",
+   "kind": "budget",
+   "budget": 256,
+   "value": 256,
+   "acc": 0.9175531914893617,
+   "n": 376,
+   "lat": {
+    "mean": [
+     7590.481577335956,
+     7341.5323398589,
+     7834.906809575143
+    ],
+    "p50": [
+     7420.684582553804,
+     6753.1698336824775,
+     8299.759584013373
+    ],
+    "p95": [
+     11541.126233096978,
+     11439.380175662038,
+     11775.659010639229
+    ],
+    "p99": [
+     12109.903001426488,
+     11875.406599639122,
+     12138.685292027358
+    ],
+    "max": 12374.742152782805
+   },
+   "dacc": [
+    0.06382978723404255,
+    0.026595744680851064,
+    0.10372340425531915
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": false,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": "dirk@1024",
+    "p95": null
+   },
+   "gib": 16.353276759386063,
+   "think_mean": 165.81648936170214,
+   "pick": []
+  },
+  {
+   "label": "dirk@512",
+   "arm": "dirk",
+   "kind": "budget",
+   "budget": 512,
+   "value": 512,
+   "acc": 0.9388297872340425,
+   "n": 376,
+   "lat": {
+    "mean": [
+     8489.657545071039,
+     8063.97539687368,
+     8925.045886967186
+    ],
+    "p50": [
+     7420.684582553804,
+     6753.1698336824775,
+     8299.759584013373
+    ],
+    "p95": [
+     17191.214291378856,
+     15771.285959053785,
+     20096.66220843792
+    ],
+    "p99": [
+     22022.572653885938,
+     21581.54619617049,
+     22522.05391614801
+    ],
+    "max": 22579.33804251206
+   },
+   "dacc": [
+    0.0851063829787234,
+    0.047872340425531915,
+    0.125
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": false,
+    "p95": false
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": "dirk@1024",
+    "p95": "dirk@1024"
+   },
+   "gib": 16.353276759386063,
+   "think_mean": 187.9095744680851,
+   "pick": []
+  },
+  {
+   "label": "dirk@1024",
+   "arm": "dirk",
+   "kind": "budget",
+   "budget": 1024,
+   "value": 1024,
+   "acc": 0.9414893617021277,
+   "n": 376,
+   "lat": {
+    "mean": [
+     8743.627362631934,
+     8234.541657645543,
+     9299.083059783492
+    ],
+    "p50": [
+     7420.684582553804,
+     6753.1698336824775,
+     8299.759584013373
+    ],
+    "p95": [
+     17191.214291378856,
+     15771.285959053785,
+     20096.66220843792
+    ],
+    "p99": [
+     33370.39479147643,
+     22720.89691646397,
+     43298.74904174358
+    ],
+    "max": 43518.26937496662
+   },
+   "dacc": [
+    0.08776595744680851,
+    0.05053191489361702,
+    0.1276595744680851
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 16.353276759386063,
+   "think_mean": 194.12765957446808,
+   "pick": []
+  },
+  {
+   "label": "qwen9b@0",
+   "arm": "qwen9b",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.7632978723404256,
+   "n": 376,
+   "lat": {
+    "mean": [
+     203.3116450617486,
+     199.31786602231094,
+     207.76559834410634
+    ],
+    "p50": [
+     204.75533371791244,
+     204.07100021839142,
+     205.00916615128517
+    ],
+    "p95": [
+     263.9572499319911,
+     261.87466690316796,
+     324.0007911808789
+    ],
+    "p99": [
+     402.2879172116518,
+     354.3358752503991,
+     430.3706670179963
+    ],
+    "max": 457.03387493267655
+   },
+   "dacc": [
+    -0.09042553191489362,
+    -0.13829787234042554,
+    -0.03723404255319149
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 9.11397910118103,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "qwen9b@256",
+   "arm": "qwen9b",
+   "kind": "budget",
+   "budget": 256,
+   "value": 256,
+   "acc": 0.773936170212766,
+   "n": 376,
+   "lat": {
+    "mean": [
+     4318.122764513564,
+     4313.525428593685,
+     4322.904296315374
+    ],
+    "p50": [
+     4308.7482962085505,
+     4304.525045531171,
+     4312.341082309575
+    ],
+    "p95": [
+     4403.768708203673,
+     4383.869749684663,
+     4439.491917105764
+    ],
+    "p99": [
+     4520.696827796101,
+     4466.1347091560365,
+     4542.288832955478
+    ],
+    "max": 4591.898416212885
+   },
+   "dacc": [
+    -0.0797872340425532,
+    -0.13031914893617022,
+    -0.026595744680851064
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 9.11397910118103,
+   "think_mean": 256.0,
+   "pick": []
+  },
+  {
+   "label": "qwen9b@512",
+   "arm": "qwen9b",
+   "kind": "budget",
+   "budget": 512,
+   "value": 512,
+   "acc": 0.8829787234042553,
+   "n": 376,
+   "lat": {
+    "mean": [
+     8139.2094073887965,
+     8083.838936687848,
+     8193.787555180548
+    ],
+    "p50": [
+     8397.038322260789,
+     8389.68073688975,
+     8402.86280624828
+    ],
+    "p95": [
+     8517.150999316602,
+     8485.753309701193,
+     8553.705916098625
+    ],
+    "p99": [
+     8617.664709539682,
+     8575.181167068511,
+     8654.876292207837
+    ],
+    "max": 8696.97783308938
+   },
+   "dacc": [
+    0.02925531914893617,
+    -0.013297872340425532,
+    0.07180851063829788
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 9.11397910118103,
+   "think_mean": 495.0186170212766,
+   "pick": []
+  },
+  {
+   "label": "qwen9b@1024",
+   "arm": "qwen9b",
+   "kind": "budget",
+   "budget": 1024,
+   "value": 1024,
+   "acc": 0.9281914893617021,
+   "n": 376,
+   "lat": {
+    "mean": [
+     12255.669630118993,
+     11922.209665953134,
+     12591.943629929687
+    ],
+    "p50": [
+     12401.107166428119,
+     11503.222540952265,
+     13338.298790622503
+    ],
+    "p95": [
+     16725.174834020436,
+     16694.166750181466,
+     16757.844666484743
+    ],
+    "p99": [
+     16854.89712608978,
+     16770.962540991604,
+     16907.609332352877
+    ],
+    "max": 16941.9712908566
+   },
+   "dacc": [
+    0.07446808510638298,
+    0.03723404255319149,
+    0.11436170212765957
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 9.11397910118103,
+   "think_mean": 752.3324468085107,
+   "pick": []
+  },
+  {
+   "label": "sharp-minicpm@0",
+   "arm": "sharp-minicpm",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.5771276595744681,
+   "n": 376,
+   "lat": {
+    "mean": [
+     66.6719995837837,
+     65.32277559980433,
+     68.10039434943626
+    ],
+    "p50": [
+     63.11195809394121,
+     62.99925036728382,
+     63.32066608592868
+    ],
+    "p95": [
+     86.04029193520546,
+     81.27845777198672,
+     96.64491703733802
+    ],
+    "p99": [
+     128.8958340883255,
+     116.37708405032754,
+     149.9272920191288
+    ],
+    "max": 164.36883294954896
+   },
+   "dacc": [
+    -0.2765957446808511,
+    -0.32978723404255317,
+    -0.22340425531914893
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 2.047487735748291,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "sharp-minicpm@256",
+   "arm": "sharp-minicpm",
+   "kind": "budget",
+   "budget": 256,
+   "value": 256,
+   "acc": 0.7101063829787234,
+   "n": 376,
+   "lat": {
+    "mean": [
+     1477.447026368525,
+     1449.7609293451483,
+     1504.621969840126
+    ],
+    "p50": [
+     1707.5568254671823,
+     1704.834754001976,
+     1709.0864996592788
+    ],
+    "p95": [
+     1770.2334589455124,
+     1754.1873332258167,
+     1790.9450555524213
+    ],
+    "p99": [
+     1828.714592343886,
+     1797.1527089321312,
+     1855.9598752405345
+    ],
+    "max": 1856.2181427162861
+   },
+   "dacc": [
+    -0.14361702127659576,
+    -0.19414893617021275,
+    -0.09308510638297872
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 2.047487735748291,
+   "think_mean": 218.32978723404256,
+   "pick": []
+  },
+  {
+   "label": "sharp-minicpm@512",
+   "arm": "sharp-minicpm",
+   "kind": "budget",
+   "budget": 512,
+   "value": 512,
+   "acc": 0.8271276595744681,
+   "n": 376,
+   "lat": {
+    "mean": [
+     2193.446956962474,
+     2105.8297299328333,
+     2277.723057197629
+    ],
+    "p50": [
+     2303.5673340782523,
+     2112.509707454592,
+     2440.422117803243
+    ],
+    "p95": [
+     3426.1423193653404,
+     3405.142725282947,
+     3455.6810008177163
+    ],
+    "p99": [
+     3492.8001457141017,
+     3463.3040008877815,
+     3495.424141495504
+    ],
+    "max": 3628.71729203701
+   },
+   "dacc": [
+    -0.026595744680851064,
+    -0.07180851063829788,
+    0.018617021276595744
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": false,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": "sharp-minicpm@1024",
+    "p95": null
+   },
+   "gib": 2.047487735748291,
+   "think_mean": 329.5,
+   "pick": []
+  },
+  {
+   "label": "sharp-minicpm@1024",
+   "arm": "sharp-minicpm",
+   "kind": "budget",
+   "budget": 1024,
+   "value": 1024,
+   "acc": 0.8696808510638298,
+   "n": 376,
+   "lat": {
+    "mean": [
+     2681.615780590677,
+     2495.9331058776947,
+     2865.116417247856
+    ],
+    "p50": [
+     2303.5673340782523,
+     2112.509707454592,
+     2440.422117803243
+    ],
+    "p95": [
+     6719.778582919389,
+     6681.219083722681,
+     6757.202084176242
+    ],
+    "p99": [
+     6831.454209052026,
+     6758.054499980062,
+     6840.229292400181
+    ],
+    "max": 6867.730374448001
+   },
+   "dacc": [
+    0.015957446808510637,
+    -0.02925531914893617,
+    0.06382978723404255
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 2.047487735748291,
+   "think_mean": 404.92287234042556,
+   "pick": []
+  },
+  {
+   "label": "gemma-e4b@0",
+   "arm": "gemma-e4b",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.7473404255319149,
+   "n": 376,
+   "lat": {
+    "mean": [
+     165.896751685068,
+     163.33579809461878,
+     168.64922994176828
+    ],
+    "p50": [
+     152.04304177314043,
+     151.45725011825562,
+     152.24095806479454
+    ],
+    "p95": [
+     206.37858379632235,
+     193.22766596451402,
+     248.98833315819502
+    ],
+    "p99": [
+     290.6187502667308,
+     274.8142499476671,
+     310.18633395433426
+    ],
+    "max": 332.25841727107763
+   },
+   "dacc": [
+    -0.10638297872340426,
+    -0.15691489361702127,
+    -0.05319148936170213
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 4.774243503808975,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "clef-flash-bf16",
+   "arm": "clef-flash-bf16",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.8537234042553191,
+   "n": 376,
+   "lat": {
+    "mean": [
+     286.22659589931806,
+     281.08140417554864,
+     291.56049715969317
+    ],
+    "p50": [
+     261.0576660372317,
+     260.68766694515944,
+     261.6909593343735
+    ],
+    "p95": [
+     369.2899579182267,
+     338.17712496966124,
+     427.27100010961294
+    ],
+    "p99": [
+     540.4187920503318,
+     460.80687502399087,
+     587.5789159908891
+    ],
+    "max": 641.5274171158671
+   },
+   "dacc": null,
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 16.91699805855751,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "clef-flash-release",
+   "arm": "clef-flash-release",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.8563829787234043,
+   "n": 376,
+   "lat": {
+    "mean": [
+     573.9600166091399,
+     565.4139415424459,
+     582.8719766376146
+    ],
+    "p50": [
+     551.3117080554366,
+     548.0127033311874,
+     556.1111248098314
+    ],
+    "p95": [
+     701.4278750866652,
+     687.0536250062287,
+     798.7016248516738
+    ],
+    "p99": [
+     969.0377088263631,
+     871.135292109102,
+     1116.5727907791734
+    ],
+    "max": 1239.0474588610232
+   },
+   "dacc": [
+    0.0026595744680851063,
+    -0.007978723404255319,
+    0.015957446808510637
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 17.754043579101562,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "clef-q4",
+   "arm": "clef-q4",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.9175531914893617,
+   "n": 376,
+   "lat": {
+    "mean": [
+     1006.6958570449137,
+     989.2093192731177,
+     1024.7913310635572
+    ],
+    "p50": [
+     923.7956670112908,
+     923.0921249836683,
+     925.3938747569919
+    ],
+    "p95": [
+     1288.967584259808,
+     1185.1151250302792,
+     1526.8241669982672
+    ],
+    "p99": [
+     1875.84862485528,
+     1643.77750037238,
+     1881.7914160899818
+    ],
+    "max": 2168.567791581154
+   },
+   "dacc": [
+    0.06382978723404255,
+    0.023936170212765957,
+    0.10904255319148937
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 16.15343502163887,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "kev-9b",
+   "arm": "kev-9b",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.8590425531914894,
+   "n": 376,
+   "lat": {
+    "mean": [
+     703.8954668876497,
+     683.1729711383268,
+     724.6071699705158
+    ],
+    "p50": [
+     620.3679158352315,
+     620.1769588515162,
+     620.6115828827024
+    ],
+    "p95": [
+     960.226375143975,
+     891.7718334123492,
+     1228.5155830904841
+    ],
+    "p99": [
+     1736.7061669938266,
+     1477.4033748544753,
+     1787.6754999160767
+    ],
+    "max": 2054.9727086909115
+   },
+   "dacc": [
+    0.005319148936170213,
+    -0.034574468085106384,
+    0.047872340425531915
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 18.149506336450578,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "clef-flash-udq4",
+   "arm": "clef-flash-udq4",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.851063829787234,
+   "n": 376,
+   "lat": {
+    "mean": [
+     289.6581622288919,
+     284.5945929421392,
+     294.82406507809077
+    ],
+    "p50": [
+     266.6434170678258,
+     266.08170894905925,
+     267.2290001064539
+    ],
+    "p95": [
+     371.85758305713534,
+     339.83970806002617,
+     434.25329169258475
+    ],
+    "p99": [
+     545.3612920828164,
+     471.8481251038611,
+     547.86516726017
+    ],
+    "max": 648.7659998238087
+   },
+   "dacc": [
+    -0.0026595744680851063,
+    -0.015957446808510637,
+    0.013297872340425532
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 5.677206456661224,
+   "think_mean": null,
+   "pick": []
+  },
+  {
+   "label": "clef-ggml-q4km",
+   "arm": "clef-ggml-q4km",
+   "kind": "budget",
+   "budget": 0,
+   "value": 0,
+   "acc": 0.9122340425531915,
+   "n": 376,
+   "lat": {
+    "mean": [
+     918.8847508989869,
+     902.9186607288949,
+     935.2850233144597
+    ],
+    "p50": [
+     845.812083221972,
+     844.2903752438724,
+     848.3697501942515
+    ],
+    "p95": [
+     1178.901500068605,
+     1077.4865001440048,
+     1396.196166984737
+    ],
+    "p99": [
+     1710.7625002972782,
+     1505.0359594868496,
+     1725.0002082437277
+    ],
+    "max": 1970.2448747120798
+   },
+   "dacc": [
+    0.05851063829787234,
+    0.02127659574468085,
+    0.10106382978723404
+   ],
+   "frontier": {
+    "mean": true,
+    "p50": true,
+    "p95": true
+   },
+   "dominated_by": {
+    "mean": null,
+    "p50": null,
+    "p95": null
+   },
+   "gib": 17.91139990091324,
+   "think_mean": null,
+   "pick": []
+  }
+ ],
+ "picks": {
+  "mean": "flashnext-sharp@0",
+  "p50": "flashnext-sharp@0",
+  "p95": "flashnext-sharp@0"
+ },
+ "flags": [
+  "different user delimiters: tiel <|im_end|>\n<|im_start|>user, flashnext-sharp <|im_end|>\n<|im_start|>user, dirk <|im_end|>\n<|im_start|>user, qwen9b <|im_end|>\n<|im_start|>user, sharp-minicpm <|im_end|>\n<|im_start|>user, gemma-e4b <turn|>\n<|turn>user",
+  "different server args (KV types, speculative/MTP, LoRA): tiel --cache-ram 0, flashnext-sharp --cache-ram 0 -b 1024 -ub 1024 -fa on -ctk q8_0 -ctv q8_0 --ctx-checkpoints 6 --chat-template-file sharp_qwen3.8-froggeric-v22.5.0.jinja, dirk --cache-ram 0, qwen9b --cache-ram 0, sharp-minicpm --cache-ram 0, gemma-e4b --cache-ram 0",
+  "different host prompt-cache settings (llama-server --cache-ram; null: unknown, an attach mode): tiel unknown, flashnext-sharp 0, dirk unknown, qwen9b unknown, sharp-minicpm 0, gemma-e4b unknown"
+ ],
+ "notes": [
+  "tiel: no thermal data",
+  "flashnext-sharp: no thermal data",
+  "dirk: no thermal data",
+  "qwen9b: no thermal data",
+  "sharp-minicpm: no thermal data",
+  "gemma-e4b: budget 0 only: thinks in a format callo cannot read",
+  "gemma-e4b: no thermal data"
+ ],
+ "validation": {
+  "agree": 373,
+  "n": 376,
+  "median_dp": 0.0006410356949565479,
+  "pass": true,
+  "min_agree": 369,
+  "max_median_dp": 0.01,
+  "label": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows)",
+  "path": "plate/clef-flash-llamacpp-bf16/validate.json",
+  "sha256": "1207f51c66fdd0b7e5a738e1f95d1c5fb01bf9e8865e1ae52ebe6fa46e2f0653"
+ },
+ "q4_cost": {
+  "arm": "clef-flash-udq4",
+  "dacc": [
+   -0.0026595744680851063,
+   -0.015957446808510637,
+   0.013297872340425532
+  ],
+  "median_dp": 0.0029537818838351344,
+  "bf16_rows": "plate/clef-flash-llamacpp-bf16",
+  "label": "Clef-Flash Q4_K_XL vs BF16, both on llama.cpp"
+ },
+ "generator": {
+  "callo_commit": "1f3e2b5d2261",
+  "built": "2026-10-14T20:14:01Z",
+  "spec": "brand/data/frontier.release.spec.json"
+ },
+ "pending": [],
+ "early_exit": {
+  "z": 0.95,
+  "gate": true,
+  "budget": 256,
+  "points": [
+   {
+    "arm": "tiel",
+    "short": "Tiel-Coder",
+    "own": false,
+    "created": "2026-10-12T16:32:18Z",
+    "commit": "0d33846",
+    "table": {
+     "acc": 0.9202127659574468,
+     "p50": 1363.8119995594025
+    },
+    "path": "plate/release-tiel-ee/tiel.think.json",
+    "sha256": "f7e1a46aea49367b0d4ac009e9c4a891cba07def1fae81bbec085420de08e76d",
+    "acc": 0.9228723404255319,
+    "n": 376,
+    "p50": 1037.5463161780947,
+    "mean": 1581.2232460420576,
+    "think_mean": 112.13297872340425,
+    "gate_share": 0.4148936170212766,
+    "plain": {
+     "acc": 0.9228723404255319,
+     "p50": 1374.3959572166204,
+     "mean": 1655.6315134450338
+    }
+   },
+   {
+    "arm": "flashnext-sharp",
+    "short": "Qwen3.8-Flash-Next",
+    "own": true,
+    "created": "2026-10-13T18:03:00Z",
+    "commit": null,
+    "table": {
+     "acc": 0.9202127659574468,
+     "p50": 5486.7839589715
+    },
+    "path": "plate/release-flashnext/flashnext-sharp.think.json",
+    "sha256": "2bfbf190943b1d9cdefdf6ccb8517d18d7c9b1acca25338bac875ee1e1647a16",
+    "acc": 0.925531914893617,
+    "n": 376,
+    "p50": 2101.573302270018,
+    "mean": 3933.151909886603,
+    "think_mean": 102.21808510638297,
+    "gate_share": 0.35106382978723405,
+    "plain": {
+     "acc": 0.9202127659574468,
+     "p50": 5486.7839589715,
+     "mean": 5259.359414602551
+    }
+   }
+  ]
+ },
+ "readout_check": {
+  "arm": "sharp-minicpm",
+  "short": "Sharp-MiniCPM5-2B",
+  "fix": "a3a88c3",
+  "before": "plate/release-refit/sharp-minicpm/sharp-minicpm.think.json",
+  "sha256": "cf044ed3552b7aec2a0d1f2e0a01c0b3456557a3db9b006271596adf7fc26283",
+  "budgets": [
+   {
+    "budget": 0,
+    "before": 0.5771276595744681,
+    "after": 0.5771276595744681,
+    "same_T": true
+   },
+   {
+    "budget": 256,
+    "before": 0.7154255319148937,
+    "after": 0.7101063829787234,
+    "same_T": true
+   },
+   {
+    "budget": 512,
+    "before": 0.8271276595744681,
+    "after": 0.8271276595744681,
+    "same_T": true
+   },
+   {
+    "budget": 1024,
+    "before": 0.8696808510638298,
+    "after": 0.8696808510638298,
+    "same_T": true
+   }
+  ],
+  "max_move": 0.005319148936170248,
+  "predates": [
+   "b463e5f"
+  ]
+ },
+ "story": {
+  "mean": {
+   "subtitle": "Tiel-Coder with no thinking matches Clef-Flash (−2.1 pp, CI includes 0) at 0.59× its mean latency, both on llama.cpp; ~140 thinking tokens put it +6.6 to +8.2 pp above Clef-Flash at 1.7–1.8 s mean.",
+   "zero": "tiel@0",
+   "ref": "clef-flash-bf16",
+   "span": [
+    "tiel@256",
+    "tiel@512"
+   ],
+   "ratio": 0.5908965953610326,
+   "dacc": [
+    -0.02127659574468085,
+    -0.06648936170212766,
+    0.023936170212765957
+   ],
+   "ties": true,
+   "engines": "Clef-Flash (release code): 574 ms mean, 2.0× the llama.cpp run's 286 ms; Tiel-Coder without thinking reads 0.29× against it, a gap of engines, not of models."
+  },
+  "p50": {
+   "subtitle": "Tiel-Coder with no thinking matches Clef-Flash (−2.1 pp, CI includes 0) at 0.64× its p50 latency, both on llama.cpp; ~140 thinking tokens put it +6.6 to +8.2 pp above Clef-Flash at 1.4 s p50.",
+   "zero": "tiel@0",
+   "ref": "clef-flash-bf16",
+   "span": [
+    "tiel@256",
+    "tiel@512"
+   ],
+   "ratio": 0.6363447185729552,
+   "dacc": [
+    -0.02127659574468085,
+    -0.06648936170212766,
+    0.023936170212765957
+   ],
+   "ties": true,
+   "engines": "Clef-Flash (release code): 551 ms p50, 2.1× the llama.cpp run's 261 ms; Tiel-Coder without thinking reads 0.30× against it, a gap of engines, not of models."
+  },
+  "p95": {
+   "subtitle": "Tiel-Coder with no thinking matches Clef-Flash (−2.1 pp, CI includes 0) at 0.55× its p95 latency, both on llama.cpp; ~140 thinking tokens put it +6.6 to +8.2 pp above Clef-Flash at 3.0–4.4 s p95.",
+   "zero": "tiel@0",
+   "ref": "clef-flash-bf16",
+   "span": [
+    "tiel@256",
+    "tiel@512"
+   ],
+   "ratio": 0.5527930358116533,
+   "dacc": [
+    -0.02127659574468085,
+    -0.06648936170212766,
+    0.023936170212765957
+   ],
+   "ties": true,
+   "engines": "Clef-Flash (release code): 701 ms p95, 1.9× the llama.cpp run's 369 ms; Tiel-Coder without thinking reads 0.29× against it, a gap of engines, not of models."
+  }
+ },
+ "fine_print": {
+  "mean": [
+   {
+    "lead": "Data.",
+    "text": "n = 376 test-s1 (mmlu 80, qnli 80, paws 80, composition_holdout 96, contrastive 40); idle M2 Ultra 64 GB, one at a time; Callo 2026-10-10 to 2026-10-13; Clef 2026-10-09; Kev-9B 2026-10-02."
+   },
+   {
+    "lead": "Timers.",
+    "text": "Callo arms: --cache on (default); in-Callo frame + read wall time."
+   },
+   {
+    "lead": "Clef arms (2026-10-09).",
+    "text": "Client wall per request (clef_run.py: a fresh loopback connection, the round trip and JSON parse, one at a time)."
+   },
+   {
+    "lead": "Kev-9B (2026-10-02).",
+    "text": "In-process model forward only (kev.benchmark's LocalPredictor, MPS); tokenisation outside the timer."
+   },
+   {
+    "lead": "Whiskers.",
+    "text": "Paired 95 % cluster-bootstrap CIs vs Clef-Flash (llama.cpp BF16), stratified by source; dashed line = its accuracy; tails run to each point's p95."
+   },
+   {
+    "lead": null,
+    "text": "Callo's pick: the fastest point statistically tied with the most accurate (callo compare default, on mean)."
+   },
+   {
+    "lead": null,
+    "text": "Budgets are read from one generation per item, cut at each budget: an item that stops thinking early reads the same at larger budgets, so p50 and p95 can stack."
+   },
+   {
+    "lead": "GiB.",
+    "text": "File size (GGUF; for native, safetensors shards and head, as shipped); Qwen3.8-Flash-Next's counts both shards of its split GGUF, the n-gram shard read lazily from SSD; Kev-9B's counts its base model."
+   },
+   {
+    "lead": "Early exit.",
+    "text": "Opt-in and experimental in Callo, never picked, so not plotted. At think 256, z .95 with the gate: Tiel-Coder 92.3 % at 1.0 s p50, from a separate calibration whose plain think 256 reads 92.3 % at 1.4 s p50 (the table's run: 92.0 %); Qwen3.8-Flash-Next 92.6 % at 2.1 s p50 (its plain think 256: 92.0 % at 5.5 s p50)."
+   },
+   {
+    "lead": "Validation.",
+    "text": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows): 373/376 argmax agreement, median |Δp| 0.0006 (pre-registered bar 369/376 and 0.010: pass)."
+   },
+   {
+    "lead": "Engines.",
+    "text": "Clef-Flash (release code): 574 ms mean, 2.0× the llama.cpp run's 286 ms; Tiel-Coder without thinking reads 0.29× against it, a gap of engines, not of models."
+   },
+   {
+    "lead": "Builds.",
+    "text": "Callo 0.3.0 development builds: Tiel-Coder, Dirk, Qwen3.5-9B and Gemma-4-E4B measured on the first build, refit on the refit build; Qwen3.8-Flash-Next measured on the early-exit build, gate reads and profile on the gate-reads build; Sharp-MiniCPM5-2B on the readout-fix build; Tiel-Coder's early-exit calibration on the gate build; llama.cpp b50-4ebdf2c (Callo) and b11379 1537a0a8 (Clef). The first build predates the readout fix; Sharp-MiniCPM5-2B, measured on both sides of it, moved by at most 0.5 pp."
+   }
+  ],
+  "p50": [
+   {
+    "lead": "Data.",
+    "text": "n = 376 test-s1 (mmlu 80, qnli 80, paws 80, composition_holdout 96, contrastive 40); idle M2 Ultra 64 GB, one at a time; Callo 2026-10-10 to 2026-10-13; Clef 2026-10-09; Kev-9B 2026-10-02."
+   },
+   {
+    "lead": "Timers.",
+    "text": "Callo arms: --cache on (default); in-Callo frame + read wall time."
+   },
+   {
+    "lead": "Clef arms (2026-10-09).",
+    "text": "Client wall per request (clef_run.py: a fresh loopback connection, the round trip and JSON parse, one at a time)."
+   },
+   {
+    "lead": "Kev-9B (2026-10-02).",
+    "text": "In-process model forward only (kev.benchmark's LocalPredictor, MPS); tokenisation outside the timer."
+   },
+   {
+    "lead": "Whiskers.",
+    "text": "Paired 95 % cluster-bootstrap CIs vs Clef-Flash (llama.cpp BF16), stratified by source; dashed line = its accuracy; tails run to each point's p95."
+   },
+   {
+    "lead": null,
+    "text": "Callo's pick: the fastest point statistically tied with the most accurate (callo compare default, on p50)."
+   },
+   {
+    "lead": null,
+    "text": "Budgets are read from one generation per item, cut at each budget: an item that stops thinking early reads the same at larger budgets, so p50 and p95 can stack."
+   },
+   {
+    "lead": "GiB.",
+    "text": "File size (GGUF; for native, safetensors shards and head, as shipped); Qwen3.8-Flash-Next's counts both shards of its split GGUF, the n-gram shard read lazily from SSD; Kev-9B's counts its base model."
+   },
+   {
+    "lead": "Early exit.",
+    "text": "Opt-in and experimental in Callo, never picked, so not plotted. At think 256, z .95 with the gate: Tiel-Coder 92.3 % at 1.0 s p50, from a separate calibration whose plain think 256 reads 92.3 % at 1.4 s p50 (the table's run: 92.0 %); Qwen3.8-Flash-Next 92.6 % at 2.1 s p50 (its plain think 256: 92.0 % at 5.5 s p50)."
+   },
+   {
+    "lead": "Validation.",
+    "text": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows): 373/376 argmax agreement, median |Δp| 0.0006 (pre-registered bar 369/376 and 0.010: pass)."
+   },
+   {
+    "lead": "Engines.",
+    "text": "Clef-Flash (release code): 551 ms p50, 2.1× the llama.cpp run's 261 ms; Tiel-Coder without thinking reads 0.30× against it, a gap of engines, not of models."
+   },
+   {
+    "lead": "Builds.",
+    "text": "Callo 0.3.0 development builds: Tiel-Coder, Dirk, Qwen3.5-9B and Gemma-4-E4B measured on the first build, refit on the refit build; Qwen3.8-Flash-Next measured on the early-exit build, gate reads and profile on the gate-reads build; Sharp-MiniCPM5-2B on the readout-fix build; Tiel-Coder's early-exit calibration on the gate build; llama.cpp b50-4ebdf2c (Callo) and b11379 1537a0a8 (Clef). The first build predates the readout fix; Sharp-MiniCPM5-2B, measured on both sides of it, moved by at most 0.5 pp."
+   }
+  ],
+  "p95": [
+   {
+    "lead": "Data.",
+    "text": "n = 376 test-s1 (mmlu 80, qnli 80, paws 80, composition_holdout 96, contrastive 40); idle M2 Ultra 64 GB, one at a time; Callo 2026-10-10 to 2026-10-13; Clef 2026-10-09; Kev-9B 2026-10-02."
+   },
+   {
+    "lead": "Timers.",
+    "text": "Callo arms: --cache on (default); in-Callo frame + read wall time."
+   },
+   {
+    "lead": "Clef arms (2026-10-09).",
+    "text": "Client wall per request (clef_run.py: a fresh loopback connection, the round trip and JSON parse, one at a time)."
+   },
+   {
+    "lead": "Kev-9B (2026-10-02).",
+    "text": "In-process model forward only (kev.benchmark's LocalPredictor, MPS); tokenisation outside the timer."
+   },
+   {
+    "lead": "Whiskers.",
+    "text": "Paired 95 % cluster-bootstrap CIs vs Clef-Flash (llama.cpp BF16), stratified by source; dashed line = its accuracy; tails run to each point's p99."
+   },
+   {
+    "lead": null,
+    "text": "Callo's pick: the fastest point statistically tied with the most accurate (callo compare default, on p95)."
+   },
+   {
+    "lead": null,
+    "text": "Budgets are read from one generation per item, cut at each budget: an item that stops thinking early reads the same at larger budgets, so p50 and p95 can stack."
+   },
+   {
+    "lead": "GiB.",
+    "text": "File size (GGUF; for native, safetensors shards and head, as shipped); Qwen3.8-Flash-Next's counts both shards of its split GGUF, the n-gram shard read lazily from SSD; Kev-9B's counts its base model."
+   },
+   {
+    "lead": "Early exit.",
+    "text": "Opt-in and experimental in Callo, never picked, so not plotted. At think 256, z .95 with the gate: Tiel-Coder 92.3 % at 1.0 s p50, from a separate calibration whose plain think 256 reads 92.3 % at 1.4 s p50 (the table's run: 92.0 %); Qwen3.8-Flash-Next 92.6 % at 2.1 s p50 (its plain think 256: 92.0 % at 5.5 s p50)."
+   },
+   {
+    "lead": "Validation.",
+    "text": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows): 373/376 argmax agreement, median |Δp| 0.0006 (pre-registered bar 369/376 and 0.010: pass)."
+   },
+   {
+    "lead": "Engines.",
+    "text": "Clef-Flash (release code): 701 ms p95, 1.9× the llama.cpp run's 369 ms; Tiel-Coder without thinking reads 0.29× against it, a gap of engines, not of models."
+   },
+   {
+    "lead": "Builds.",
+    "text": "Callo 0.3.0 development builds: Tiel-Coder, Dirk, Qwen3.5-9B and Gemma-4-E4B measured on the first build, refit on the refit build; Qwen3.8-Flash-Next measured on the early-exit build, gate reads and profile on the gate-reads build; Sharp-MiniCPM5-2B on the readout-fix build; Tiel-Coder's early-exit calibration on the gate build; llama.cpp b50-4ebdf2c (Callo) and b11379 1537a0a8 (Clef). The first build predates the readout fix; Sharp-MiniCPM5-2B, measured on both sides of it, moved by at most 0.5 pp."
+   }
+  ]
+ },
+ "made": [
+  {
+   "lead": "Builds.",
+   "text": "`callo` 0.3.0 profiles; llama.cpp b50-4ebdf2c for Tiel-Coder, Qwen3.8-Flash-Next, Dirk, Qwen3.5-9B, Sharp-MiniCPM5-2B, Gemma-4-E4B; llama.cpp b11379 1537a0a8 for Clef-Flash (llama.cpp), Clef 27B, Clef-Flash Q4, Clef 27B Q4_K_M."
+  },
+  {
+   "lead": "GiB.",
+   "text": "GiB = file size (GGUF; for native, safetensors shards + head, as shipped)."
+  },
+  {
+   "lead": "Tiel-Coder 35B-A3B · Q4_K_XL.",
+   "text": "`Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf`; budgets 0, 256, 512, 1024; `callo` 0.3.0, measured on the first build, refit on the refit build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-10T19:22:19Z to 2026-10-11T00:11:44Z, profile written 2026-10-11T00:11:45Z."
+  },
+  {
+   "lead": "Qwen3.8-Flash-Next (Sharp) · IQ3_XXS.",
+   "text": "`Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf`; budgets 0, 256; `callo` 0.3.0, measured on the early-exit build, gate reads and profile on the gate-reads build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-12T10:32:24Z to 2026-10-13T18:02:52Z, profile written 2026-10-13T18:03:00Z; opt-in points in the profile, not plotted: flashnext-sharp@ee.9, flashnext-sharp@ee.95, flashnext-sharp@ee.9+g, flashnext-sharp@ee.95+g."
+  },
+  {
+   "lead": "Dirk (Qwen3.8 27B) · Q4_K_XL.",
+   "text": "`Dirk-Qwen3.8-27B-UD-Q4_K_XL.gguf`; budgets 0, 256, 512, 1024; `callo` 0.3.0, measured on the first build, refit on the refit build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-10T21:16:34Z to 2026-10-11T00:11:48Z, profile written 2026-10-11T00:11:50Z."
+  },
+  {
+   "lead": "Qwen3.5-9B · Q8_0.",
+   "text": "`Qwen3.5-9B-Q8_0.gguf`; budgets 0, 256, 512, 1024; `callo` 0.3.0, measured on the first build, refit on the refit build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-10T19:40:20Z to 2026-10-11T00:11:46Z, profile written 2026-10-11T00:11:47Z."
+  },
+  {
+   "lead": "Sharp-MiniCPM5-2B · Q6_K_XL.",
+   "text": "`MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf`; budgets 0, 256, 512, 1024; `callo` 0.3.0, on the readout-fix build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-11T16:30:55Z to 2026-10-11T16:52:43Z, profile written 2026-10-11T16:52:45Z."
+  },
+  {
+   "lead": "Gemma-4-E4B · UD-Q4_K_XL.",
+   "text": "`gemma-4-E4B-it-UD-Q4_K_XL.gguf`; budgets 0; `callo` 0.3.0, measured on the first build, refit on the refit build; --cache on (default); llama.cpp b50-4ebdf2c; run 2026-10-10T21:14:28Z to 2026-10-11T00:11:48Z, profile written 2026-10-11T00:11:48Z."
+  },
+  {
+   "lead": null,
+   "text": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF in two shards (its GiB counts both; the n-gram shard is read lazily from SSD), served with the Sharp chat template v22.5.0; calibrated at budgets 0 and 256 only."
+  },
+  {
+   "lead": null,
+   "text": "Gemma-4-E4B: budget 0 only (Callo cannot read its thinking format)."
+  },
+  {
+   "lead": null,
+   "text": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI."
+  },
+  {
+   "lead": null,
+   "text": "Clef-Flash release runtime: Cloudflare's release code, transformers 5.10.2, bf16, MPS, re-timed with the plate's client timer; the 2026-10-02 rows (kev RemotePredictor, 565 ms mean) agree."
+  },
+  {
+   "lead": null,
+   "text": "Clef 27B Q4_K_XL (our quant): Dirk's per-tensor recipe + Unsloth's Qwen3.8-27B imatrix, head Q8_0 as ggml-org ships it, on llama.cpp's native Clef path; not published."
+  },
+  {
+   "lead": null,
+   "text": "Kev-9B: a LoRA and a trained head on Qwen3.5-9B-Base, a reference point; its GiB counts the base."
+  },
+  {
+   "lead": "Early exit, Tiel-Coder (not plotted).",
+   "text": "think 256, z .95 with the gate, from its own early-exit calibration, `tiel.think.json` (sha256 f7e1a46aea49367b…), written 2026-10-12T16:32:18Z: accuracy 92.3 %, p50 1.0 s, mean 1.6 s; the gate sent 41 % of questions to full thinking; plain think 256 there: 92.3 %, p50 1.4 s, mean 1.7 s. Opt-in and experimental; Callo never picks it."
+  },
+  {
+   "lead": "Early exit, Qwen3.8-Flash-Next (not plotted).",
+   "text": "think 256, z .95 with the gate, from its plotted profile: accuracy 92.6 %, p50 2.1 s, mean 3.9 s; the gate sent 35 % of questions to full thinking; plain think 256 there: 92.0 %, p50 5.5 s, mean 5.3 s. Opt-in and experimental; Callo never picks it."
+  },
+  {
+   "lead": "Readout fix.",
+   "text": "Sharp-MiniCPM5-2B measured before it, `sharp-minicpm.think.json` (sha256 cf044ed3552b7aec…), and after it (plotted) on the readout-fix build: accuracy 57.7 → 57.7 % at 0, 71.5 → 71.0 % at 256, 82.7 → 82.7 % at 512, 87.0 → 87.0 % at 1024; temperature fits identical at every budget. Arms measured on the first build predate it."
+  },
+  {
+   "lead": "Clef-Flash (llama.cpp) timer (rows meta).",
+   "text": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+  },
+  {
+   "lead": "Clef-Flash (release code) timer (rows meta).",
+   "text": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+  },
+  {
+   "lead": "Clef 27B timer (rows meta).",
+   "text": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+  },
+  {
+   "lead": "Kev-9B timer (rows meta).",
+   "text": "in-process, server-free: kev.benchmark LocalPredictor (kev 6605a5a, kev/predictors.py:131-147) times model.forward + softmax + .cpu() between two device syncs on MPS; the prompt encode/tokenisation is OUTSIDE the timer; run 2026-10-02."
+  },
+  {
+   "lead": "Clef-Flash Q4 timer (rows meta).",
+   "text": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+  },
+  {
+   "lead": "Clef 27B Q4_K_M timer (rows meta).",
+   "text": "lat_ms = time.perf_counter() taken after the request body is serialised and immediately before a fresh http.client connection to 127.0.0.1 is opened and the request bytes are sent (loopback TCP connect included, as in kev's RemotePredictor and callo's own urllib timer), until the full response body is read and JSON-parsed. One request at a time, a fresh connection per request, no concurrency. The first --warmup records are sent once untimed and never written. The prompt render and tokenisation happen inside the server, so they are inside the wall (the analogue of callo's frame_ms + read_ms)."
+  },
+  {
+   "lead": "Clef-Flash 9B · Q4_K_XL (our quant) (measured, not drawn).",
+   "text": "accuracy 85.1 %, mean 290 ms, p95 372 ms, 5.7 GiB, llama.cpp native Clef, 2026-10-09; vs Clef-Flash (llama.cpp BF16) Δacc −0.3 pp [−1.6, +1.3]."
+  },
+  {
+   "lead": "Clef 27B · Q4_K_M (ggml-org) (measured, not drawn).",
+   "text": "accuracy 91.2 %, mean 919 ms, p95 1.2 s, 17.9 GiB, llama.cpp native Clef, 2026-10-09; vs Clef-Flash (llama.cpp BF16) Δacc +5.9 pp [+2.1, +10.1]."
+  },
+  {
+   "lead": "What Q4 costs a Clef model.",
+   "text": "Clef-Flash Q4_K_XL vs BF16, both on llama.cpp: Δacc −0.3 pp [−1.6, +1.3], median |Δp| 0.0030."
+  },
+  {
+   "lead": "Validation.",
+   "text": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows): 373/376 argmax agreement, median |Δp| 0.0006 (pre-registered bar 369/376 and 0.010: pass). Source: `validate.json` (sha256 1207f51c66fdd0b7…)."
+  },
+  {
+   "lead": "Statistics.",
+   "text": "seed 0; one row set (376 questions) for every paired interval, as `callo compare`; per-model frontiers by think.frontier over each model's thinking budgets; the pick by compare.joint."
+  },
+  {
+   "lead": "`callo compare` flags.",
+   "text": "different user delimiters: tiel <|im_end|>\\n<|im_start|>user, flashnext-sharp <|im_end|>\\n<|im_start|>user, dirk <|im_end|>\\n<|im_start|>user, qwen9b <|im_end|>\\n<|im_start|>user, sharp-minicpm <|im_end|>\\n<|im_start|>user, gemma-e4b <turn|>\\n<|turn>user; different server args (KV types, speculative/MTP, LoRA): tiel --cache-ram 0, flashnext-sharp --cache-ram 0 -b 1024 -ub 1024 -fa on -ctk q8_0 -ctv q8_0 --ctx-checkpoints 6 --chat-template-file sharp_qwen3.8-froggeric-v22.5.0.jinja, dirk --cache-ram 0, qwen9b --cache-ram 0, sharp-minicpm --cache-ram 0, gemma-e4b --cache-ram 0; different host prompt-cache settings (llama-server --cache-ram; null: unknown, an attach mode): tiel unknown, flashnext-sharp 0, dirk unknown, qwen9b unknown, sharp-minicpm 0, gemma-e4b unknown."
+  }
+ ],
+ "builds": [
+  {
+   "commit": "b463e5f",
+   "name": "the first build"
+  },
+  {
+   "commit": "9d52aaf",
+   "name": "the refit build"
+  },
+  {
+   "commit": "a3a88c3",
+   "name": "the readout-fix build"
+  },
+  {
+   "commit": "6fc42a8",
+   "name": "the early-exit build"
+  },
+  {
+   "commit": "0d33846",
+   "name": "the gate build"
+  },
+  {
+   "commit": "ea52406",
+   "name": "the gate-reads build"
+  }
+ ]
+}

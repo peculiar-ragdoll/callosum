@@ -1,0 +1,217 @@
+{
+ "about": "The frontier release plate (callo 0.3.0): accuracy against per-decision latency on test-s1 (376 questions), callo's thinking budgets beside trained decision heads. callo arms are calibrations with --cache on (the default): Tiel-Coder, Dirk, Qwen3.5-9B and Gemma-4-E4B measured on the first build (2026-10-10) and refit offline on the refit build (the temperature grid widened to 0.25..16; Tiel, Dirk and Qwen budget entries byte-identical, Gemma keeps T 3.909); Sharp-MiniCPM5-2B re-measured on the readout-fix build (its T fit equals the refit's); Qwen3.8-Flash-Next (Sharp) at budgets 0 and 256, measured on the early-exit build (with the convergence probe) and its profile rebuilt with the gate reads on the gate-reads build. Only thinking-budget points are plotted (Tiel-Coder's early-exit point comes from its own calibration, plate/release-tiel-ee, on the gate build): early exit is opt-in and never picked, so the profiles' early-exit points stay off the chart and one fine-print line states the measured z .95 + gate point. Clef arms: Clef-Flash on llama.cpp's native Clef path (BF16, the reference) and on its release runtime, Clef 27B (our quant), Kev-9B; the Q4 Clef-Flash control and ggml-org's Clef Q4_K_M are reported in FIGURES.md only. CyberDirk is not on this plate; it is reported on its own model card. Label sides are art-directed: Flash-Next's label at its line's start (above callo's pick), Tiel-Coder's and Dirk's at their lines' ends. Paths are relative to the results root, given to `frontier.py build` as --root; callo_commits are commits of callo's development history, which the plate names by role (data/builds.json).",
+ "data": "think/data/test-s1.jsonl",
+ "ref": "clef-flash-bf16",
+ "ref_label": "Clef-Flash (llama.cpp BF16)",
+ "latency": "mean",
+ "callo_cache": true,
+ "callo_run": null,
+ "draft": false,
+ "source_order": [
+  "mmlu",
+  "qnli",
+  "paws",
+  "composition_holdout",
+  "contrastive"
+ ],
+ "title": "Tiel-Coder ties Clef-Flash without thinking, *a short think passes it*",
+ "subtitle": "The same 376 test items, one decision at a time. Callo reads the answer from the served model's own log-probabilities; its points are thinking budgets.",
+ "story": {
+  "model": "tiel",
+  "think": [
+   256,
+   512
+  ],
+  "vs": "both on llama.cpp",
+  "release": "clef-flash-release",
+  "ref_short": "Clef-Flash"
+ },
+ "validation": {
+  "path": "plate/clef-flash-llamacpp-bf16/validate.json",
+  "label": "llama.cpp BF16 vs Clef-Flash's release code (2026-10-02 rows)"
+ },
+ "q4_cost": {
+  "arm": "clef-flash-udq4",
+  "bf16_rows": "plate/clef-flash-llamacpp-bf16",
+  "vs": "plate/clef-flash-udq4/vs_bf16.json",
+  "label": "Clef-Flash Q4_K_XL vs BF16, both on llama.cpp"
+ },
+ "callo_commits": {
+  "tiel": {
+   "profile": "9d52aaf",
+   "measured": "b463e5f",
+   "step": "refit"
+  },
+  "dirk": {
+   "profile": "9d52aaf",
+   "measured": "b463e5f",
+   "step": "refit"
+  },
+  "qwen9b": {
+   "profile": "9d52aaf",
+   "measured": "b463e5f",
+   "step": "refit"
+  },
+  "gemma-e4b": {
+   "profile": "9d52aaf",
+   "measured": "b463e5f",
+   "step": "refit"
+  },
+  "sharp-minicpm": {
+   "profile": "a3a88c3"
+  },
+  "flashnext-sharp": {
+   "profile": "ea52406",
+   "measured": "6fc42a8",
+   "step": "gate reads and profile"
+  }
+ },
+ "early_exit": {
+  "z": 0.95,
+  "gate": true,
+  "budget": 256,
+  "arms": {
+   "tiel": {
+    "path": "plate/release-tiel-ee/tiel.think.json",
+    "commit": "0d33846"
+   },
+   "flashnext-sharp": null
+  }
+ },
+ "readout_check": {
+  "arm": "sharp-minicpm",
+  "before": "plate/release-refit/sharp-minicpm/sharp-minicpm.think.json",
+  "fix": "a3a88c3"
+ },
+ "arms": [
+  {
+   "name": "tiel",
+   "label": "Tiel-Coder 35B-A3B · Q4_K_XL",
+   "short": "Tiel-Coder",
+   "kind": "callo",
+   "profile": "plate/release-refit/tiel/tiel.think.json",
+   "runtime": "Callo · llama.cpp",
+   "label_side": "end"
+  },
+  {
+   "name": "flashnext-sharp",
+   "label": "Qwen3.8-Flash-Next (Sharp) · IQ3_XXS",
+   "short": "Qwen3.8-Flash-Next",
+   "kind": "callo",
+   "profile": "plate/release-flashnext/flashnext-sharp.think.json",
+   "runtime": "Callo · llama.cpp",
+   "marker": "square",
+   "note": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF in two shards (its GiB counts both; the n-gram shard is read lazily from SSD), served with the Sharp chat template v22.5.0; calibrated at budgets 0 and 256 only.",
+   "label_side": "start",
+   "gib_note": "Qwen3.8-Flash-Next's counts both shards of its split GGUF, the n-gram shard read lazily from SSD"
+  },
+  {
+   "name": "dirk",
+   "label": "Dirk (Qwen3.8 27B) · Q4_K_XL",
+   "short": "Dirk",
+   "kind": "callo",
+   "profile": "plate/release-refit/dirk/dirk.think.json",
+   "runtime": "Callo · llama.cpp",
+   "label_side": "end"
+  },
+  {
+   "name": "qwen9b",
+   "label": "Qwen3.5-9B · Q8_0",
+   "short": "Qwen3.5-9B",
+   "kind": "callo",
+   "profile": "plate/release-refit/qwen9b/qwen9b.think.json",
+   "runtime": "Callo · llama.cpp"
+  },
+  {
+   "name": "sharp-minicpm",
+   "label": "Sharp-MiniCPM5-2B · Q6_K_XL",
+   "short": "Sharp-MiniCPM5-2B",
+   "kind": "callo",
+   "profile": "plate/release3-minicpm/sharp-minicpm.think.json",
+   "runtime": "Callo · llama.cpp"
+  },
+  {
+   "name": "gemma-e4b",
+   "label": "Gemma-4-E4B · UD-Q4_K_XL",
+   "short": "Gemma-4-E4B",
+   "kind": "callo",
+   "profile": "plate/release-refit/gemma-e4b/gemma-e4b.think.json",
+   "runtime": "Callo · llama.cpp",
+   "marker": "triangle-hollow",
+   "note": "Gemma-4-E4B: budget 0 only (Callo cannot read its thinking format)."
+  },
+  {
+   "name": "clef-flash-bf16",
+   "label": "Clef-Flash 9B · BF16",
+   "short": "Clef-Flash (llama.cpp)",
+   "kind": "rows",
+   "rows": "plate/clef-flash-llamacpp-bf16",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond",
+   "timer": "client_http",
+   "build": "b11379 1537a0a8",
+   "note": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI."
+  },
+  {
+   "name": "clef-flash-release",
+   "label": "Clef-Flash 9B · release runtime",
+   "short": "Clef-Flash (release code)",
+   "kind": "rows",
+   "rows": "plate/clef-flash-native-2026-10-10",
+   "runtime": "transformers · bf16 · MPS",
+   "marker": "diamond-hollow",
+   "timer": "client_http",
+   "note": "Clef-Flash release runtime: Cloudflare's release code, transformers 5.10.2, bf16, MPS, re-timed with the plate's client timer; the 2026-10-02 rows (kev RemotePredictor, 565 ms mean) agree."
+  },
+  {
+   "name": "clef-q4",
+   "label": "Clef 27B · Q4_K_XL (our quant)",
+   "short": "Clef 27B",
+   "kind": "rows",
+   "rows": "plate/clef27b-udq4",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond",
+   "timer": "client_http",
+   "build": "b11379 1537a0a8",
+   "note": "Clef 27B Q4_K_XL (our quant): Dirk's per-tensor recipe + Unsloth's Qwen3.8-27B imatrix, head Q8_0 as ggml-org ships it, on llama.cpp's native Clef path; not published."
+  },
+  {
+   "name": "kev-9b",
+   "label": "Kev-9B (trained head)",
+   "short": "Kev-9B",
+   "kind": "rows",
+   "rows": "plate/kev-9b-2026-10-02",
+   "runtime": "transformers · bf16 · MPS",
+   "marker": "square",
+   "timer": "kev_inprocess",
+   "date": "2026-10-02",
+   "gib": 18.149506336450578,
+   "note": "Kev-9B: a LoRA and a trained head on Qwen3.5-9B-Base, a reference point; its GiB counts the base.",
+   "gib_note": "Kev-9B's counts its base model"
+  },
+  {
+   "name": "clef-flash-udq4",
+   "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+   "short": "Clef-Flash Q4",
+   "kind": "rows",
+   "rows": "plate/clef-flash-udq4",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond-hollow",
+   "timer": "client_http",
+   "build": "b11379 1537a0a8",
+   "plate": false
+  },
+  {
+   "name": "clef-ggml-q4km",
+   "label": "Clef 27B · Q4_K_M (ggml-org)",
+   "short": "Clef 27B Q4_K_M",
+   "kind": "rows",
+   "rows": "plate/clef27b-ggmlorg-q4km",
+   "runtime": "llama.cpp native Clef",
+   "marker": "diamond-hollow",
+   "timer": "client_http",
+   "build": "b11379 1537a0a8",
+   "plate": false
+  }
+ ]
+}

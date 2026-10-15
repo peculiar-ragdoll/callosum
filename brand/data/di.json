@@ -1,0 +1,3825 @@
+{
+ "plate_di": 1,
+ "preliminary": false,
+ "title": "Clef leads the Decision Index, *thinking narrows the gap*",
+ "edition": "0.3",
+ "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+ "sample": {
+  "n": 1480,
+  "seed": 20260919,
+  "sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+  "command": "python -m decision_index suite sample --dir di-suite-0.3-counted --n 1480 --seed 20260919 --out harness/results/callo_v0.3/di/sample-1480.jsonl.gz",
+  "benchmarks": 37,
+  "groups": [
+   33,
+   34
+  ],
+  "groups_total": 1229
+ },
+ "bootstrap": {
+  "n": 1000,
+  "seed": 20260919,
+  "level": 0.95,
+  "method": "paired percentile bootstrap: linked groups (catalog_id, group_id) resampled with replacement within each benchmark, the same draws for every arm; copies suffixed #k in run_id and group_id; each resample scored in process by the kit's pipeline.score_run_v02 over an in-memory Suite whose in_edition strips #k; index = the kit's headline (balanced_skill), areas = area skill; latency = the kit's total_wall_ms over rows ok in every given arm, p95 = sorted[int(0.95(n-1))]",
+  "generated": "2026-10-14T21:47:21+00:00"
+ },
+ "reference": {
+  "arm": "clefflash-bf16",
+  "label": "Clef-Flash BF16",
+  "index": 54.85,
+  "areas": {
+   "knowledge": 0.5608,
+   "language": 0.4619,
+   "retrieval": 0.4634,
+   "tools": 0.8152,
+   "arts": 0.424
+  }
+ },
+ "second_reference": {
+  "arm": "clef27b-udq4",
+  "label": "Clef 27B",
+  "index": 58.0
+ },
+ "areas": [
+  {
+   "id": "knowledge",
+   "label": "Knowledge & Reasoning",
+   "weight": 25.8
+  },
+  {
+   "id": "language",
+   "label": "Language Understanding",
+   "weight": 25.8
+  },
+  {
+   "id": "retrieval",
+   "label": "Retrieval & Classification",
+   "weight": 20.0
+  },
+  {
+   "id": "tools",
+   "label": "Tools & Automation",
+   "weight": 18.3
+  },
+  {
+   "id": "arts",
+   "label": "Arts & Human Taste",
+   "weight": 10.0
+  }
+ ],
+ "series": [
+  {
+   "name": "tiel",
+   "label": "Tiel-Coder 35B-A3B · Q4_K_XL",
+   "short": "Tiel-Coder",
+   "kind": "callo",
+   "marker": null,
+   "runtime": "Callo · llama.cpp",
+   "accent": true,
+   "not_run": [
+    512,
+    1024
+   ],
+   "note": "Tiel-Coder think 256 with early exit, and with early exit + gate, ran on the gate build from their own think profile (release-tiel-ee/tiel.think.json, calibrated 2026-10-12 with early exit's convergence probe); the plain think 256 point ran on the first build from release/tiel.think.json.",
+   "label_side": "above",
+   "point_labels": null,
+   "point_label_at": {
+    "tiel-b256-ee": "nw"
+   },
+   "on_plate": true,
+   "budgets": [
+    0,
+    256
+   ],
+   "arms": [
+    "tiel-b0",
+    "tiel-b256-ee"
+   ],
+   "variants": [
+    "tiel-b256",
+    "tiel-b256-eeg"
+   ],
+   "rows": [
+    "tiel-b0",
+    "tiel-b256",
+    "tiel-b256-ee",
+    "tiel-b256-eeg"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "sharp-minicpm",
+   "label": "Sharp-MiniCPM5-2B · Q6_K_XL",
+   "short": "Sharp-MiniCPM5-2B",
+   "kind": "callo",
+   "marker": null,
+   "runtime": "Callo · llama.cpp",
+   "accent": null,
+   "not_run": [
+    256,
+    512
+   ],
+   "note": "Sharp-MiniCPM5-2B no think was re-run 2026-10-11 on the refit build (the first run is superseded and not used); no readout of the re-run walked, so it needed no re-read.",
+   "label_side": "below",
+   "point_labels": null,
+   "point_label_at": null,
+   "on_plate": true,
+   "budgets": [
+    0,
+    1024
+   ],
+   "arms": [
+    "sharp-minicpm-b0",
+    "sharp-minicpm-b1024"
+   ],
+   "variants": [],
+   "rows": [
+    "sharp-minicpm-b0",
+    "sharp-minicpm-b1024"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "flashnext-sharp",
+   "label": "Qwen3.8-Flash-Next (Sharp)",
+   "short": "Flash-Next",
+   "kind": "callo",
+   "marker": "square",
+   "runtime": "GSQ-RCO IQ3_XXS · Callo · llama.cpp",
+   "accent": null,
+   "not_run": [],
+   "note": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF (two shards; the n-gram shard is read lazily from SSD) served with the Sharp chat template v22.5.0; its think 256 point runs early exit (z .95) with the gate, its only reasoning arm on DI.",
+   "label_side": "end",
+   "point_labels": "above",
+   "point_label_at": null,
+   "on_plate": true,
+   "budgets": [
+    0,
+    256
+   ],
+   "arms": [
+    "flashnext-sharp-b0",
+    "flashnext-sharp-b256-eeg"
+   ],
+   "variants": [],
+   "rows": [
+    "flashnext-sharp-b0",
+    "flashnext-sharp-b256-eeg"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "clef27b-udq4",
+   "label": "Clef 27B · Q4_K_XL (our quant)",
+   "short": "Clef 27B",
+   "kind": "clef",
+   "marker": "diamond",
+   "runtime": "llama.cpp native Clef",
+   "accent": null,
+   "not_run": null,
+   "note": "Clef 27B Q4_K_XL (our quant): its first session stopped at the token-count consistency check (one POP909 row, 6489 server vs 6781 offline tokens) and was re-run; the plate uses the second session.",
+   "label_side": null,
+   "point_labels": null,
+   "point_label_at": null,
+   "on_plate": true,
+   "budgets": null,
+   "arms": [
+    "clef27b-udq4"
+   ],
+   "variants": [],
+   "rows": [
+    "clef27b-udq4"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "clefflash-udq4",
+   "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+   "short": "Clef-Flash Q4",
+   "kind": "clef",
+   "marker": "diamond-hollow",
+   "runtime": "llama.cpp native Clef",
+   "accent": null,
+   "not_run": null,
+   "note": "Clef-Flash 9B Q4_K_XL (our quant): measured on DI and reported here, not drawn on the plate (it sits on the BF16 reference).",
+   "label_side": null,
+   "point_labels": null,
+   "point_label_at": null,
+   "on_plate": false,
+   "budgets": null,
+   "arms": [
+    "clefflash-udq4"
+   ],
+   "variants": [],
+   "rows": [
+    "clefflash-udq4"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "clefflash-bf16",
+   "label": "Clef-Flash 9B · BF16",
+   "short": "Clef-Flash BF16",
+   "kind": "clef",
+   "marker": "diamond",
+   "runtime": "llama.cpp native Clef",
+   "accent": null,
+   "not_run": null,
+   "note": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI.",
+   "label_side": null,
+   "point_labels": null,
+   "point_label_at": null,
+   "on_plate": true,
+   "budgets": null,
+   "arms": [
+    "clefflash-bf16"
+   ],
+   "variants": [],
+   "rows": [
+    "clefflash-bf16"
+   ],
+   "status": "present",
+   "pending_note": null
+  },
+  {
+   "name": "d1",
+   "label": "d1-3B · Q4_K_M",
+   "short": "d1-3B",
+   "kind": "clef",
+   "marker": "triangle",
+   "runtime": "Liquid AI · llama.cpp native",
+   "accent": null,
+   "not_run": null,
+   "note": "d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context.",
+   "label_side": null,
+   "point_labels": null,
+   "point_label_at": null,
+   "family": "d1",
+   "answering": "answers each question in its own prompt (the state, then that question)",
+   "on_plate": true,
+   "budgets": null,
+   "arms": [
+    "d1-3b-q4km"
+   ],
+   "variants": [],
+   "rows": [
+    "d1-3b-q4km"
+   ],
+   "status": "present",
+   "pending_note": null
+  }
+ ],
+ "y_range": [
+  0.0,
+  70.0
+ ],
+ "points": [
+  {
+   "arm": "tiel-b0",
+   "series": "tiel",
+   "kind": "callo",
+   "budget": 0,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Tiel-Coder · no think",
+   "index": 38.48,
+   "index_ci": [
+    34.86,
+    41.9007
+   ],
+   "dref": [
+    -16.37,
+    -20.3818,
+    -12.6995
+   ],
+   "dsecond": [
+    -19.52,
+    -23.0205,
+    -15.748
+   ],
+   "areas": {
+    "knowledge": 0.2818,
+    "language": 0.4572,
+    "retrieval": 0.2914,
+    "tools": 0.5655,
+    "arts": 0.3204
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.2165,
+     0.3466
+    ],
+    "language": [
+     0.3727,
+     0.5266
+    ],
+    "retrieval": [
+     0.2194,
+     0.3663
+    ],
+    "tools": [
+     0.4899,
+     0.6384
+    ],
+    "arts": [
+     0.2383,
+     0.4098
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.279,
+     -0.3596,
+     -0.2093
+    ],
+    "language": [
+     -0.0047,
+     -0.0835,
+     0.0554
+    ],
+    "retrieval": [
+     -0.172,
+     -0.2606,
+     -0.0789
+    ],
+    "tools": [
+     -0.2497,
+     -0.3259,
+     -0.1852
+    ],
+    "arts": [
+     -0.1036,
+     -0.2052,
+     -0.0029
+    ]
+   },
+   "lat": {
+    "mean": 2225.5,
+    "p95": 10884.1,
+    "mean_ci": [
+     2042.6,
+     2390.1
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/tiel-b0",
+    "utc_start": "2026-10-10T23:42:57+00:00",
+    "utc_end": "2026-10-11T00:37:33+00:00",
+    "date": "2026-10-10",
+    "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+    "model_sha256": "9779b32f998371c66ae5e1aa9a0bc7ad946b1a36c61ea6a8eb39d523b4b19033",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b0/di_meta.json",
+      "sha256": "0c513dde83aca9ec331000aad1435759470b199c45e2262199922764606e8b9f"
+     },
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b0/patch/apply.json",
+      "sha256": "bb8ca17ee152154a60aa5f4ed7d37b1466aff920e78856b86bade4f3f461b501"
+     }
+    ],
+    "early_exit": null,
+    "server_args": [],
+    "think_budget": 0,
+    "think_profile": "harness/results/callo_v0.3/plate/release/tiel.think.json",
+    "think_profile_sha256": "31e1529b6abb9e79249f63ecc24949e58f9ae9f075fe43f41b125cdbb0e15fe1",
+    "callo_commit": "b463e5f",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": {
+     "path": "harness/results/callo_v0.3/di/tiel-b0/patch/apply.json",
+     "sha256": "bb8ca17ee152154a60aa5f4ed7d37b1466aff920e78856b86bade4f3f461b501",
+     "callo_commit": "a3a88c3",
+     "walked": 66,
+     "control": 40,
+     "status_match": 40,
+     "bit_identical": 12,
+     "nondeterministic": true,
+     "argmax_changed_rows": 6
+    }
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "tiel-b256",
+   "series": "tiel",
+   "kind": "callo",
+   "budget": 256,
+   "variant_of": "tiel-b256-ee",
+   "early_exit": null,
+   "label": "Tiel-Coder · think 256",
+   "index": 48.83,
+   "index_ci": [
+    45.43,
+    52.271
+   ],
+   "dref": [
+    -6.02,
+    -9.7505,
+    -2.4392
+   ],
+   "dsecond": [
+    -9.17,
+    -12.5203,
+    -5.4995
+   ],
+   "areas": {
+    "knowledge": 0.4476,
+    "language": 0.5173,
+    "retrieval": 0.3976,
+    "tools": 0.7009,
+    "arts": 0.3112
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.3889,
+     0.5139
+    ],
+    "language": [
+     0.4363,
+     0.5928
+    ],
+    "retrieval": [
+     0.3121,
+     0.4847
+    ],
+    "tools": [
+     0.6371,
+     0.7644
+    ],
+    "arts": [
+     0.2371,
+     0.3874
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.1132,
+     -0.1843,
+     -0.0427
+    ],
+    "language": [
+     0.0554,
+     -0.0212,
+     0.127
+    ],
+    "retrieval": [
+     -0.0658,
+     -0.1577,
+     0.0251
+    ],
+    "tools": [
+     -0.1143,
+     -0.1828,
+     -0.0502
+    ],
+    "arts": [
+     -0.1128,
+     -0.211,
+     -0.0145
+    ]
+   },
+   "lat": {
+    "mean": 13873.5,
+    "p95": 76491.3,
+    "mean_ci": [
+     12508.3,
+     15164.8
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/tiel-b256",
+    "utc_start": "2026-10-11T00:37:43+00:00",
+    "utc_end": "2026-10-11T06:17:13+00:00",
+    "date": "2026-10-11",
+    "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+    "model_sha256": "9779b32f998371c66ae5e1aa9a0bc7ad946b1a36c61ea6a8eb39d523b4b19033",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b256/di_meta.json",
+      "sha256": "83db2366a695e91d259c26bedd7051bc450d374cfce1b9fe0fe8491335285dc5"
+     },
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b256/patch/apply.json",
+      "sha256": "cdce0218d2d99f57e2826135a898bbc7eea2f021c284a0bf0ab949eafb90d2eb"
+     }
+    ],
+    "early_exit": null,
+    "server_args": [],
+    "think_budget": 256,
+    "think_profile": "harness/results/callo_v0.3/plate/release/tiel.think.json",
+    "think_profile_sha256": "31e1529b6abb9e79249f63ecc24949e58f9ae9f075fe43f41b125cdbb0e15fe1",
+    "callo_commit": "b463e5f",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": {
+     "path": "harness/results/callo_v0.3/di/tiel-b256/patch/apply.json",
+     "sha256": "cdce0218d2d99f57e2826135a898bbc7eea2f021c284a0bf0ab949eafb90d2eb",
+     "callo_commit": "a3a88c3",
+     "walked": 43,
+     "control": 40,
+     "status_match": 40,
+     "bit_identical": 2,
+     "nondeterministic": true,
+     "argmax_changed_rows": 18
+    }
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "tiel-b256-ee",
+   "series": "tiel",
+   "kind": "callo",
+   "budget": 256,
+   "variant_of": null,
+   "early_exit": {
+    "z": 0.95,
+    "gate": false,
+    "default_z": 0.95,
+    "K": 32,
+    "requests": 1471,
+    "questions": 13175,
+    "converged": 11602,
+    "probes": 27684,
+    "tokens_saved": 2337184,
+    "warmup_requests": 5
+   },
+   "label": "Tiel-Coder · think 256, early exit",
+   "index": 49.04,
+   "index_ci": [
+    45.6093,
+    52.28
+   ],
+   "dref": [
+    -5.81,
+    -9.4908,
+    -2.5685
+   ],
+   "dsecond": [
+    -8.96,
+    -12.2803,
+    -5.4497
+   ],
+   "areas": {
+    "knowledge": 0.4489,
+    "language": 0.5369,
+    "retrieval": 0.4386,
+    "tools": 0.6605,
+    "arts": 0.27
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.3895,
+     0.5124
+    ],
+    "language": [
+     0.4504,
+     0.6021
+    ],
+    "retrieval": [
+     0.3587,
+     0.523
+    ],
+    "tools": [
+     0.5896,
+     0.7281
+    ],
+    "arts": [
+     0.2233,
+     0.3524
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.1119,
+     -0.1844,
+     -0.0399
+    ],
+    "language": [
+     0.075,
+     -0.003,
+     0.1327
+    ],
+    "retrieval": [
+     -0.0248,
+     -0.1132,
+     0.0637
+    ],
+    "tools": [
+     -0.1547,
+     -0.2298,
+     -0.088
+    ],
+    "arts": [
+     -0.154,
+     -0.2345,
+     -0.0452
+    ]
+   },
+   "lat": {
+    "mean": 9722.5,
+    "p95": 50492.0,
+    "mean_ci": [
+     8798.2,
+     10599.3
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/tiel-b256-ee",
+    "utc_start": "2026-10-12T16:32:40+00:00",
+    "utc_end": "2026-10-12T20:30:40+00:00",
+    "date": "2026-10-12",
+    "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+    "model_sha256": "9779b32f998371c66ae5e1aa9a0bc7ad946b1a36c61ea6a8eb39d523b4b19033",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b256-ee/di_meta.json",
+      "sha256": "2c41574d0fa1cacaa89fa2192f41c8529b33941044d1b10fd9496f9e7569788e"
+     }
+    ],
+    "early_exit": {
+     "z": 0.95,
+     "gate": false,
+     "default_z": 0.95,
+     "K": 32,
+     "requests": 1471,
+     "questions": 13175,
+     "converged": 11602,
+     "probes": 27684,
+     "tokens_saved": 2337184,
+     "warmup_requests": 5
+    },
+    "server_args": [],
+    "think_budget": 256,
+    "think_profile": "harness/results/callo_v0.3/plate/release-tiel-ee/tiel.think.json",
+    "think_profile_sha256": "f7e1a46aea49367b0d4ac009e9c4a891cba07def1fae81bbec085420de08e76d",
+    "callo_commit": "0d33846",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "tiel-b256-eeg",
+   "series": "tiel",
+   "kind": "callo",
+   "budget": 256,
+   "variant_of": "tiel-b256-ee",
+   "early_exit": {
+    "z": 0.95,
+    "gate": true,
+    "default_z": 0.95,
+    "K": 32,
+    "requests": 892,
+    "questions": 9643,
+    "converged": 8628,
+    "probes": 18929,
+    "tokens_saved": 1753568,
+    "warmup_requests": 5,
+    "gate_reads": {
+     "asked": 1471,
+     "skipped": 579,
+     "errors": 0,
+     "read_ms_session": {
+      "p50": 181.78558396175504,
+      "p95": 1393.1734170764685
+     }
+    }
+   },
+   "label": "Tiel-Coder · think 256, early exit + gate",
+   "index": 48.06,
+   "index_ci": [
+    44.7393,
+    51.4007
+   ],
+   "dref": [
+    -6.79,
+    -10.6805,
+    -3.2893
+   ],
+   "dsecond": [
+    -9.94,
+    -13.5907,
+    -6.24
+   ],
+   "areas": {
+    "knowledge": 0.442,
+    "language": 0.5347,
+    "retrieval": 0.3688,
+    "tools": 0.6803,
+    "arts": 0.2993
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.38,
+     0.5089
+    ],
+    "language": [
+     0.4509,
+     0.6087
+    ],
+    "retrieval": [
+     0.289,
+     0.448
+    ],
+    "tools": [
+     0.6136,
+     0.7439
+    ],
+    "arts": [
+     0.2392,
+     0.3789
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.1188,
+     -0.1991,
+     -0.046
+    ],
+    "language": [
+     0.0728,
+     -0.0075,
+     0.1421
+    ],
+    "retrieval": [
+     -0.0946,
+     -0.1783,
+     -0.011
+    ],
+    "tools": [
+     -0.1349,
+     -0.2072,
+     -0.0711
+    ],
+    "arts": [
+     -0.1247,
+     -0.2239,
+     -0.0186
+    ]
+   },
+   "lat": {
+    "mean": 11423.2,
+    "p95": 54327.9,
+    "mean_ci": [
+     10480.7,
+     12375.5
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/tiel-b256-eeg",
+    "utc_start": "2026-10-12T20:30:50+00:00",
+    "utc_end": "2026-10-13T01:10:27+00:00",
+    "date": "2026-10-12",
+    "model": "Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf",
+    "model_sha256": "9779b32f998371c66ae5e1aa9a0bc7ad946b1a36c61ea6a8eb39d523b4b19033",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/tiel-b256-eeg/di_meta.json",
+      "sha256": "37aad3740b82eb03988d861abbf171b8d925b9a2583aa71c54f5e250e6aabfd7"
+     }
+    ],
+    "early_exit": {
+     "z": 0.95,
+     "gate": true,
+     "default_z": 0.95,
+     "K": 32,
+     "requests": 892,
+     "questions": 9643,
+     "converged": 8628,
+     "probes": 18929,
+     "tokens_saved": 1753568,
+     "warmup_requests": 5,
+     "gate_reads": {
+      "asked": 1471,
+      "skipped": 579,
+      "errors": 0,
+      "read_ms_session": {
+       "p50": 181.78558396175504,
+       "p95": 1393.1734170764685
+      }
+     }
+    },
+    "server_args": [],
+    "think_budget": 256,
+    "think_profile": "harness/results/callo_v0.3/plate/release-tiel-ee/tiel.think.json",
+    "think_profile_sha256": "f7e1a46aea49367b0d4ac009e9c4a891cba07def1fae81bbec085420de08e76d",
+    "callo_commit": "0d33846",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "sharp-minicpm-b0",
+   "series": "sharp-minicpm",
+   "kind": "callo",
+   "budget": 0,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Sharp-MiniCPM5-2B · no think",
+   "index": 22.54,
+   "index_ci": [
+    19.8797,
+    25.9902
+   ],
+   "dref": [
+    -32.31,
+    -35.9515,
+    -28.0197
+   ],
+   "dsecond": [
+    -35.46,
+    -39.2518,
+    -31.079
+   ],
+   "areas": {
+    "knowledge": 0.164,
+    "language": 0.175,
+    "retrieval": 0.2253,
+    "tools": 0.4198,
+    "arts": 0.1589
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.1127,
+     0.2325
+    ],
+    "language": [
+     0.0932,
+     0.2515
+    ],
+    "retrieval": [
+     0.174,
+     0.2986
+    ],
+    "tools": [
+     0.3424,
+     0.4903
+    ],
+    "arts": [
+     0.1136,
+     0.2191
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.3968,
+     -0.4695,
+     -0.3169
+    ],
+    "language": [
+     -0.2869,
+     -0.3846,
+     -0.1914
+    ],
+    "retrieval": [
+     -0.2381,
+     -0.3163,
+     -0.143
+    ],
+    "tools": [
+     -0.3954,
+     -0.4731,
+     -0.3184
+    ],
+    "arts": [
+     -0.2651,
+     -0.3502,
+     -0.182
+    ]
+   },
+   "lat": {
+    "mean": 780.2,
+    "p95": 3280.1,
+    "mean_ci": [
+     725.7,
+     831.9
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/sharp-minicpm-b0",
+    "utc_start": "2026-10-11T14:04:34+00:00",
+    "utc_end": "2026-10-11T14:23:46+00:00",
+    "date": "2026-10-11",
+    "model": "MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf",
+    "model_sha256": "0722928b41fae86210ee2a78f1ba49c6eb682cd4d65ae5433d976e255ff336ca",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/sharp-minicpm-b0/di_meta.json",
+      "sha256": "18de6767f47c6b0472023b229893a5bc9ab408c8c0255799ed2c92963cd512e3"
+     }
+    ],
+    "early_exit": null,
+    "server_args": [],
+    "think_budget": 0,
+    "think_profile": "harness/results/callo_v0.3/plate/release-refit/sharp-minicpm/sharp-minicpm.think.json",
+    "think_profile_sha256": "cf044ed3552b7aec2a0d1f2e0a01c0b3456557a3db9b006271596adf7fc26283",
+    "callo_commit": "9d52aaf",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "sharp-minicpm-b1024",
+   "series": "sharp-minicpm",
+   "kind": "callo",
+   "budget": 1024,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Sharp-MiniCPM5-2B · think 1024",
+   "index": 41.04,
+   "index_ci": [
+    37.8498,
+    43.9203
+   ],
+   "dref": [
+    -13.81,
+    -17.78,
+    -10.529
+   ],
+   "dsecond": [
+    -16.96,
+    -20.8603,
+    -13.3395
+   ],
+   "areas": {
+    "knowledge": 0.3437,
+    "language": 0.4716,
+    "retrieval": 0.3454,
+    "tools": 0.6184,
+    "arts": 0.1747
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.294,
+     0.4067
+    ],
+    "language": [
+     0.3842,
+     0.5354
+    ],
+    "retrieval": [
+     0.2798,
+     0.4104
+    ],
+    "tools": [
+     0.5575,
+     0.679
+    ],
+    "arts": [
+     0.119,
+     0.2681
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.2171,
+     -0.2881,
+     -0.1439
+    ],
+    "language": [
+     0.0097,
+     -0.0789,
+     0.07
+    ],
+    "retrieval": [
+     -0.118,
+     -0.205,
+     -0.0326
+    ],
+    "tools": [
+     -0.1968,
+     -0.2655,
+     -0.138
+    ],
+    "arts": [
+     -0.2493,
+     -0.3455,
+     -0.1319
+    ]
+   },
+   "lat": {
+    "mean": 18705.9,
+    "p95": 94810.0,
+    "mean_ci": [
+     17052.1,
+     20306.6
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/sharp-minicpm-b1024",
+    "utc_start": "2026-10-11T06:17:14+00:00",
+    "utc_end": "2026-10-11T13:55:02+00:00",
+    "date": "2026-10-11",
+    "model": "MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf",
+    "model_sha256": "0722928b41fae86210ee2a78f1ba49c6eb682cd4d65ae5433d976e255ff336ca",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1466,
+     "error": 1
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/sharp-minicpm-b1024/di_meta.json",
+      "sha256": "797e2a70c9bc12bba764bf4f1346a1f9b7f089336542f459b19947deeefc9ea7"
+     },
+     {
+      "path": "harness/results/callo_v0.3/di/sharp-minicpm-b1024/patch/apply.json",
+      "sha256": "fe0fe40bbeba0cf3d1cbe92210bd57967eebae9b21afa61a4a208555aecb1e96"
+     }
+    ],
+    "early_exit": null,
+    "server_args": [],
+    "think_budget": 1024,
+    "think_profile": "harness/results/callo_v0.3/plate/release-refit/sharp-minicpm/sharp-minicpm.think.json",
+    "think_profile_sha256": "cf044ed3552b7aec2a0d1f2e0a01c0b3456557a3db9b006271596adf7fc26283",
+    "callo_commit": "b463e5f",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": {
+     "path": "harness/results/callo_v0.3/di/sharp-minicpm-b1024/patch/apply.json",
+     "sha256": "fe0fe40bbeba0cf3d1cbe92210bd57967eebae9b21afa61a4a208555aecb1e96",
+     "callo_commit": "a3a88c3",
+     "walked": 147,
+     "control": 40,
+     "status_match": 40,
+     "bit_identical": 40,
+     "nondeterministic": false,
+     "argmax_changed_rows": 90
+    }
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "flashnext-sharp-b0",
+   "series": "flashnext-sharp",
+   "kind": "callo",
+   "budget": 0,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Flash-Next · no think",
+   "index": 47.59,
+   "index_ci": [
+    44.0985,
+    50.7105
+   ],
+   "dref": [
+    -7.26,
+    -11.4507,
+    -3.9395
+   ],
+   "dsecond": [
+    -10.41,
+    -13.953,
+    -7.1795
+   ],
+   "areas": {
+    "knowledge": 0.3737,
+    "language": 0.4723,
+    "retrieval": 0.4743,
+    "tools": 0.6917,
+    "arts": 0.3584
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.3161,
+     0.4359
+    ],
+    "language": [
+     0.3828,
+     0.5378
+    ],
+    "retrieval": [
+     0.3927,
+     0.5571
+    ],
+    "tools": [
+     0.6268,
+     0.7554
+    ],
+    "arts": [
+     0.2795,
+     0.4461
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.1871,
+     -0.257,
+     -0.1198
+    ],
+    "language": [
+     0.0104,
+     -0.0835,
+     0.0787
+    ],
+    "retrieval": [
+     0.0109,
+     -0.075,
+     0.1
+    ],
+    "tools": [
+     -0.1235,
+     -0.1927,
+     -0.0598
+    ],
+    "arts": [
+     -0.0656,
+     -0.1588,
+     0.0227
+    ]
+   },
+   "lat": {
+    "mean": 8762.5,
+    "p95": 35251.3,
+    "mean_ci": [
+     8188.3,
+     9288.9
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/flashnext-sharp-b0",
+    "utc_start": "2026-10-12T11:21:08+00:00",
+    "utc_end": "2026-10-12T14:55:56+00:00",
+    "date": "2026-10-12",
+    "model": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+    "model_sha256": "219ea929900dfa9ef091f3aa473fdba6874b65fcb36526d7d851ac9e95856d15",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/flashnext-sharp-b0/di_meta.json",
+      "sha256": "4c39f15dd2c8803c0db3514b15669556951e5fb83f3b2b4fe5fd1c9280176df4"
+     }
+    ],
+    "early_exit": null,
+    "server_args": [
+     "-b",
+     "1024",
+     "-ub",
+     "1024",
+     "-fa",
+     "on",
+     "-ctk",
+     "q8_0",
+     "-ctv",
+     "q8_0",
+     "--ctx-checkpoints",
+     "6",
+     "--chat-template-file",
+     "sharp_qwen3.8-froggeric-v22.5.0.jinja"
+    ],
+    "chat_template": {
+     "path": "sharp_qwen3.8-froggeric-v22.5.0.jinja",
+     "sha256": "cdff39fb26b60dc90faa292e726655c6b21f62db497846e02e4c4bbab942a84a"
+    },
+    "think_budget": 0,
+    "think_profile": "harness/results/callo_v0.3/plate/release-flashnext/flashnext-sharp.think.json",
+    "think_profile_sha256": "23117ada8206f2faafa18a3943e9d825a793da477e7887be06de10a4444f72d8",
+    "callo_commit": "6fc42a8",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "flashnext-sharp-b256-eeg",
+   "series": "flashnext-sharp",
+   "kind": "callo",
+   "budget": 256,
+   "variant_of": null,
+   "early_exit": {
+    "z": 0.95,
+    "gate": true,
+    "default_z": 0.95,
+    "K": 32,
+    "requests": 1016,
+    "questions": 11017,
+    "converged": 10652,
+    "probes": 15966,
+    "tokens_saved": 2288032,
+    "warmup_requests": 5,
+    "gate_reads": {
+     "asked": 1471,
+     "skipped": 455,
+     "errors": 0,
+     "read_ms_session": {
+      "p50": 1130.0570000894368,
+      "p95": 5930.138583295047
+     }
+    }
+   },
+   "label": "Flash-Next · think 256, early exit + gate",
+   "index": 51.74,
+   "index_ci": [
+    48.2295,
+    55.0905
+   ],
+   "dref": [
+    -3.11,
+    -6.9105,
+    0.571
+   ],
+   "dsecond": [
+    -6.26,
+    -9.77,
+    -2.8398
+   ],
+   "areas": {
+    "knowledge": 0.4832,
+    "language": 0.5326,
+    "retrieval": 0.4329,
+    "tools": 0.7199,
+    "arts": 0.3662
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.424,
+     0.5402
+    ],
+    "language": [
+     0.4483,
+     0.6043
+    ],
+    "retrieval": [
+     0.3508,
+     0.5224
+    ],
+    "tools": [
+     0.651,
+     0.781
+    ],
+    "arts": [
+     0.2896,
+     0.4545
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.0776,
+     -0.1479,
+     -0.0116
+    ],
+    "language": [
+     0.0707,
+     -0.0225,
+     0.1478
+    ],
+    "retrieval": [
+     -0.0305,
+     -0.1118,
+     0.0578
+    ],
+    "tools": [
+     -0.0953,
+     -0.1647,
+     -0.0358
+    ],
+    "arts": [
+     -0.0578,
+     -0.161,
+     0.0516
+    ]
+   },
+   "lat": {
+    "mean": 28469.9,
+    "p95": 126640.9,
+    "mean_ci": [
+     26047.2,
+     30871.1
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/flashnext-sharp-b256-eeg",
+    "utc_start": "2026-10-13T06:20:03+00:00",
+    "utc_end": "2026-10-13T17:56:59+00:00",
+    "date": "2026-10-13",
+    "model": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+    "model_sha256": "219ea929900dfa9ef091f3aa473fdba6874b65fcb36526d7d851ac9e95856d15",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/flashnext-sharp-b256-eeg/di_meta.json",
+      "sha256": "e06c61ef673966d69a34d84768479430b3d8c76c67a1113f3c7ad349038d11a1"
+     }
+    ],
+    "early_exit": {
+     "z": 0.95,
+     "gate": true,
+     "default_z": 0.95,
+     "K": 32,
+     "requests": 1016,
+     "questions": 11017,
+     "converged": 10652,
+     "probes": 15966,
+     "tokens_saved": 2288032,
+     "warmup_requests": 5,
+     "gate_reads": {
+      "asked": 1471,
+      "skipped": 455,
+      "errors": 0,
+      "read_ms_session": {
+       "p50": 1130.0570000894368,
+       "p95": 5930.138583295047
+      }
+     }
+    },
+    "server_args": [
+     "-b",
+     "1024",
+     "-ub",
+     "1024",
+     "-fa",
+     "on",
+     "-ctk",
+     "q8_0",
+     "-ctv",
+     "q8_0",
+     "--ctx-checkpoints",
+     "6",
+     "--chat-template-file",
+     "sharp_qwen3.8-froggeric-v22.5.0.jinja"
+    ],
+    "chat_template": {
+     "path": "sharp_qwen3.8-froggeric-v22.5.0.jinja",
+     "sha256": "cdff39fb26b60dc90faa292e726655c6b21f62db497846e02e4c4bbab942a84a"
+    },
+    "think_budget": 256,
+    "think_profile": "harness/results/callo_v0.3/plate/release-flashnext/flashnext-sharp.think.json",
+    "think_profile_sha256": "23117ada8206f2faafa18a3943e9d825a793da477e7887be06de10a4444f72d8",
+    "callo_commit": "0d33846",
+    "cache": "on (default)",
+    "build": "b50-4ebdf2c",
+    "server": {
+     "ctx": "65536",
+     "parallel": "4",
+     "s1-slots": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "clef27b-udq4",
+   "series": "clef27b-udq4",
+   "kind": "clef",
+   "budget": null,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Clef 27B · Q4_K_XL (our quant)",
+   "index": 58.0,
+   "index_ci": [
+    54.83,
+    61.0012
+   ],
+   "dref": [
+    3.15,
+    -0.1607,
+    6.0405
+   ],
+   "dsecond": null,
+   "areas": {
+    "knowledge": 0.5552,
+    "language": 0.5451,
+    "retrieval": 0.5721,
+    "tools": 0.7951,
+    "arts": 0.3572
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.5054,
+     0.6137
+    ],
+    "language": [
+     0.461,
+     0.6141
+    ],
+    "retrieval": [
+     0.5032,
+     0.6433
+    ],
+    "tools": [
+     0.7417,
+     0.8516
+    ],
+    "arts": [
+     0.2921,
+     0.4404
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.0056,
+     -0.0606,
+     0.0471
+    ],
+    "language": [
+     0.0832,
+     0.0117,
+     0.136
+    ],
+    "retrieval": [
+     0.1087,
+     0.0339,
+     0.1959
+    ],
+    "tools": [
+     -0.0201,
+     -0.0707,
+     0.0315
+    ],
+    "arts": [
+     -0.0668,
+     -0.1547,
+     0.0285
+    ]
+   },
+   "lat": {
+    "mean": 8521.4,
+    "p95": 36583.0,
+    "mean_ci": [
+     7921.2,
+     9086.1
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/clef27b-udq4",
+    "utc_start": "2026-10-10T12:10:05+00:00",
+    "utc_end": "2026-10-10T15:29:11+00:00",
+    "date": "2026-10-10",
+    "model": "Clef-27B-UD-Q4_K_XL.gguf",
+    "model_sha256": null,
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 2,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/clef27b-udq4/di_meta.json",
+      "sha256": "bdeee809cf6a5d4375e379bf25e68c3f4c25a3ed2b49a059a96dc63ca32b7124"
+     }
+    ],
+    "build": "b11379 1537a0a8",
+    "server": {
+     "ctx": "16384",
+     "batch": "16384",
+     "ubatch": "16384",
+     "parallel": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "clefflash-udq4",
+   "series": "clefflash-udq4",
+   "kind": "clef",
+   "budget": null,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+   "index": 55.59,
+   "index_ci": [
+    52.8088,
+    58.36
+   ],
+   "dref": [
+    0.74,
+    -0.4003,
+    1.6003
+   ],
+   "dsecond": [
+    -2.41,
+    -5.25,
+    0.8403
+   ],
+   "areas": {
+    "knowledge": 0.5438,
+    "language": 0.4628,
+    "retrieval": 0.503,
+    "tools": 0.8245,
+    "arts": 0.4426
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.4958,
+     0.5991
+    ],
+    "language": [
+     0.4007,
+     0.5265
+    ],
+    "retrieval": [
+     0.422,
+     0.5745
+    ],
+    "tools": [
+     0.7762,
+     0.877
+    ],
+    "arts": [
+     0.3622,
+     0.5283
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.017,
+     -0.0422,
+     0.002
+    ],
+    "language": [
+     0.0009,
+     -0.0138,
+     0.0174
+    ],
+    "retrieval": [
+     0.0396,
+     0.0124,
+     0.0588
+    ],
+    "tools": [
+     0.0093,
+     -0.0017,
+     0.0301
+    ],
+    "arts": [
+     0.0186,
+     -0.0252,
+     0.0567
+    ]
+   },
+   "lat": {
+    "mean": 2435.6,
+    "p95": 10493.6,
+    "mean_ci": [
+     2264.1,
+     2596.2
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/clefflash-udq4",
+    "utc_start": "2026-10-10T15:29:12+00:00",
+    "utc_end": "2026-10-10T16:28:54+00:00",
+    "date": "2026-10-10",
+    "model": "Clef-Flash-UD-Q4_K_XL.gguf",
+    "model_sha256": null,
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/clefflash-udq4/di_meta.json",
+      "sha256": "9d3c7c906f562e2cdc7f741d1297f17791f112d7e43872236bff496af7d1f7a7"
+     }
+    ],
+    "build": "b11379 1537a0a8",
+    "server": {
+     "ctx": "16384",
+     "batch": "16384",
+     "ubatch": "16384",
+     "parallel": "1"
+    },
+    "reread": null
+   },
+   "on_plate": false
+  },
+  {
+   "arm": "clefflash-bf16",
+   "series": "clefflash-bf16",
+   "kind": "clef",
+   "budget": null,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Clef-Flash 9B · BF16",
+   "index": 54.85,
+   "index_ci": [
+    52.1097,
+    57.71
+   ],
+   "dref": null,
+   "dsecond": [
+    -3.15,
+    -6.0405,
+    0.1607
+   ],
+   "areas": {
+    "knowledge": 0.5608,
+    "language": 0.4619,
+    "retrieval": 0.4634,
+    "tools": 0.8152,
+    "arts": 0.424
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.5144,
+     0.6145
+    ],
+    "language": [
+     0.4002,
+     0.5211
+    ],
+    "retrieval": [
+     0.3872,
+     0.5376
+    ],
+    "tools": [
+     0.7645,
+     0.8676
+    ],
+    "arts": [
+     0.3526,
+     0.508
+    ]
+   },
+   "area_dref": null,
+   "lat": {
+    "mean": 2389.2,
+    "p95": 10264.6,
+    "mean_ci": [
+     2220.0,
+     2546.4
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/clefflash-bf16",
+    "utc_start": "2026-10-10T16:28:54+00:00",
+    "utc_end": "2026-10-10T17:27:33+00:00",
+    "date": "2026-10-10",
+    "model": "Clef-Flash-BF16.gguf",
+    "model_sha256": null,
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/clefflash-bf16/di_meta.json",
+      "sha256": "2012b308d81f98ebe831debff7cdaa079f22bd9e98a233b7c1188e62eb6c8a80"
+     }
+    ],
+    "build": "b11379 1537a0a8",
+    "server": {
+     "ctx": "16384",
+     "batch": "16384",
+     "ubatch": "16384",
+     "parallel": "1"
+    },
+    "reread": null
+   },
+   "on_plate": true
+  },
+  {
+   "arm": "d1-3b-q4km",
+   "series": "d1",
+   "kind": "clef",
+   "budget": null,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "d1-3B · Q4_K_M",
+   "index": 46.07,
+   "index_ci": [
+    43.1497,
+    49.3203
+   ],
+   "dref": [
+    -8.78,
+    -12.0918,
+    -5.1597
+   ],
+   "dsecond": [
+    -11.93,
+    -15.3042,
+    -8.0092
+   ],
+   "areas": {
+    "knowledge": 0.2258,
+    "language": 0.5307,
+    "retrieval": 0.4373,
+    "tools": 0.7992,
+    "arts": 0.3149
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.1822,
+     0.2895
+    ],
+    "language": [
+     0.4421,
+     0.6056
+    ],
+    "retrieval": [
+     0.3785,
+     0.5031
+    ],
+    "tools": [
+     0.7398,
+     0.8499
+    ],
+    "arts": [
+     0.2435,
+     0.4174
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.335,
+     -0.3943,
+     -0.2632
+    ],
+    "language": [
+     0.0688,
+     -0.0197,
+     0.1503
+    ],
+    "retrieval": [
+     -0.0261,
+     -0.0885,
+     0.041
+    ],
+    "tools": [
+     -0.016,
+     -0.0813,
+     0.0463
+    ],
+    "arts": [
+     -0.1091,
+     -0.2025,
+     -0.0029
+    ]
+   },
+   "lat": {
+    "mean": 1491.4,
+    "p95": 6240.9,
+    "mean_ci": [
+     1384.9,
+     1595.2
+    ],
+    "n": 1467
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/d1-3b-q4km",
+    "utc_start": "2026-10-14T21:04:14+00:00",
+    "utc_end": "2026-10-14T21:40:45+00:00",
+    "date": "2026-10-14",
+    "model": "d1-3B-Q4_K_M.gguf",
+    "model_sha256": "16aff27ea2eefdc32b9897f43854a5d3170c1dc8dccb9c756905af30a4e22402",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 13,
+     "ok": 1467
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/d1-3b-q4km/di_meta.json",
+      "sha256": "fbec479e67973671f810e9aef0e105ceb45100540390594f9772dbe1c4a403df"
+     },
+     {
+      "path": "harness/results/callo_v0.3/di/prompt_tokens_rows.d1-3b-q4km.json",
+      "sha256": "df16992437091e67f0f4c59ee9959beca55ddbca5cb6b3656cc4708c9edef137"
+     }
+    ],
+    "build": "23deec02",
+    "server": {
+     "ctx": "16384",
+     "batch": "16384",
+     "ubatch": "16384",
+     "parallel": "1"
+    },
+    "reread": null,
+    "own_tokens": {
+     "path": "harness/results/callo_v0.3/di/prompt_tokens_rows.d1-3b-q4km.json",
+     "sha256": "df16992437091e67f0f4c59ee9959beca55ddbca5cb6b3656cc4708c9edef137",
+     "n_ctx": 16384,
+     "over_cap_question_max": [
+      1198,
+      7044
+     ],
+     "sent_rows": 1467,
+     "sent_questions": 13171,
+     "sent_question_max": 9393
+    }
+   },
+   "on_plate": true
+  }
+ ],
+ "paired": [
+  {
+   "path": "harness/results/callo_v0.3/di/bootstrap-ee1-vs-tiel256.json",
+   "sha256": "e7205828268df85ac733d5d9a0c5b586f8d15c881b554f03d1ce074d343fc33a",
+   "reference": "tiel-b256",
+   "comparisons": [
+    {
+     "arm": "tiel-b256-ee",
+     "vs": "tiel-b256",
+     "d": [
+      0.21,
+      -1.9603,
+      2.3
+     ],
+     "lat_ratio": 0.700796482502613,
+     "label": "Tiel-Coder · think 256, early exit",
+     "vs_label": "Tiel-Coder · think 256"
+    },
+    {
+     "arm": "tiel-b256-eeg",
+     "vs": "tiel-b256",
+     "d": [
+      -0.77,
+      -2.9213,
+      1.51
+     ],
+     "lat_ratio": 0.823382708040509,
+     "label": "Tiel-Coder · think 256, early exit + gate",
+     "vs_label": "Tiel-Coder · think 256"
+    }
+   ]
+  },
+  {
+   "path": "harness/results/callo_v0.3/di/bootstrap-release1-vs-fnb0.json",
+   "sha256": "f3ca0f546e002bf715ed94dbad45f8242dcf301f6b64f4bbc7578eb95664d657",
+   "reference": "flashnext-sharp-b0",
+   "comparisons": [
+    {
+     "arm": "flashnext-sharp-b256-eeg",
+     "vs": "flashnext-sharp-b0",
+     "d": [
+      4.15,
+      1.7385,
+      6.8103
+     ],
+     "lat_ratio": 3.249061340941512,
+     "label": "Flash-Next · think 256, early exit + gate",
+     "vs_label": "Flash-Next · no think"
+    }
+   ]
+  }
+ ],
+ "unanswered": {
+  "sample_rows": 1480,
+  "union_rows": 13,
+  "by_reason": {
+   "pre-marked": 13
+  },
+  "latency_rows": 1467,
+  "over_cap": {
+   "n": 13,
+   "run_ids": [
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:aops:aops_2022_AIME_I_Problems/Problem_11:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:biology:29:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:earth_science:93:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:11:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:125:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:140:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:21:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:78:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:robotics:7:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:31:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:72:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:87:chunk0",
+    "36:BRIGHT-retrieval:BRIGHT-retrieval:theoremqa_questions:TheoremQA_tonyxia/particle4.json:chunk0"
+   ],
+   "catalog_ids": [
+    36
+   ],
+   "benchmarks": [
+    "BRIGHT"
+   ],
+   "groups": 13,
+   "of_groups": 33,
+   "cap": 16384,
+   "tokens": [
+    17112,
+    32805
+   ]
+  },
+  "errors": []
+ },
+ "wide": {
+  "rows_gt26": 157,
+  "questions_gt26": 157,
+  "rows_gt255": 0,
+  "max_options": 151,
+  "benchmarks": [
+   [
+    "API-Bank",
+    34
+   ],
+   [
+    "BANKING77",
+    34
+   ],
+   [
+    "CLINC150+OOS",
+    34
+   ],
+   [
+    "POP909-CL",
+    33
+   ],
+   [
+    "ChessBench",
+    22
+   ]
+  ],
+  "switch": "kit",
+  "label": "(a) kit-faithful",
+  "computed": {
+   "kit": true,
+   "all-unsupported": false
+  },
+  "callo_max_options": 255,
+  "rows_over_callo": 0,
+  "moot": true,
+  "moot_text": "moot: no row exceeds Callo's 255-option limit, so it equals (a)"
+ },
+ "treatments": {
+  "kit": {
+   "label": "(a) kit-faithful",
+   "computed": true,
+   "path": "harness/results/callo_v0.3/di/bootstrap-release3.json",
+   "sha256": "68bb08ae254548990756537505f2d6a3cd34407089c3449e04225b788ac93c4f",
+   "arms": {
+    "tiel-b0": {
+     "arm": "tiel-b0",
+     "series": "tiel",
+     "kind": "callo",
+     "budget": 0,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Tiel-Coder · no think",
+     "index": 38.48,
+     "index_ci": [
+      34.86,
+      41.9007
+     ],
+     "dref": [
+      -16.37,
+      -20.3818,
+      -12.6995
+     ],
+     "dsecond": [
+      -19.52,
+      -23.0205,
+      -15.748
+     ],
+     "areas": {
+      "knowledge": 0.2818,
+      "language": 0.4572,
+      "retrieval": 0.2914,
+      "tools": 0.5655,
+      "arts": 0.3204
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.2165,
+       0.3466
+      ],
+      "language": [
+       0.3727,
+       0.5266
+      ],
+      "retrieval": [
+       0.2194,
+       0.3663
+      ],
+      "tools": [
+       0.4899,
+       0.6384
+      ],
+      "arts": [
+       0.2383,
+       0.4098
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.279,
+       -0.3596,
+       -0.2093
+      ],
+      "language": [
+       -0.0047,
+       -0.0835,
+       0.0554
+      ],
+      "retrieval": [
+       -0.172,
+       -0.2606,
+       -0.0789
+      ],
+      "tools": [
+       -0.2497,
+       -0.3259,
+       -0.1852
+      ],
+      "arts": [
+       -0.1036,
+       -0.2052,
+       -0.0029
+      ]
+     },
+     "lat": {
+      "mean": 2225.5,
+      "p95": 10884.1,
+      "mean_ci": [
+       2042.6,
+       2390.1
+      ],
+      "n": 1467
+     }
+    },
+    "tiel-b256": {
+     "arm": "tiel-b256",
+     "series": "tiel",
+     "kind": "callo",
+     "budget": 256,
+     "variant_of": "tiel-b256-ee",
+     "early_exit": null,
+     "label": "Tiel-Coder · think 256",
+     "index": 48.83,
+     "index_ci": [
+      45.43,
+      52.271
+     ],
+     "dref": [
+      -6.02,
+      -9.7505,
+      -2.4392
+     ],
+     "dsecond": [
+      -9.17,
+      -12.5203,
+      -5.4995
+     ],
+     "areas": {
+      "knowledge": 0.4476,
+      "language": 0.5173,
+      "retrieval": 0.3976,
+      "tools": 0.7009,
+      "arts": 0.3112
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.3889,
+       0.5139
+      ],
+      "language": [
+       0.4363,
+       0.5928
+      ],
+      "retrieval": [
+       0.3121,
+       0.4847
+      ],
+      "tools": [
+       0.6371,
+       0.7644
+      ],
+      "arts": [
+       0.2371,
+       0.3874
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.1132,
+       -0.1843,
+       -0.0427
+      ],
+      "language": [
+       0.0554,
+       -0.0212,
+       0.127
+      ],
+      "retrieval": [
+       -0.0658,
+       -0.1577,
+       0.0251
+      ],
+      "tools": [
+       -0.1143,
+       -0.1828,
+       -0.0502
+      ],
+      "arts": [
+       -0.1128,
+       -0.211,
+       -0.0145
+      ]
+     },
+     "lat": {
+      "mean": 13873.5,
+      "p95": 76491.3,
+      "mean_ci": [
+       12508.3,
+       15164.8
+      ],
+      "n": 1467
+     }
+    },
+    "tiel-b256-ee": {
+     "arm": "tiel-b256-ee",
+     "series": "tiel",
+     "kind": "callo",
+     "budget": 256,
+     "variant_of": null,
+     "early_exit": {
+      "z": 0.95,
+      "gate": false
+     },
+     "label": "Tiel-Coder · think 256, early exit",
+     "index": 49.04,
+     "index_ci": [
+      45.6093,
+      52.28
+     ],
+     "dref": [
+      -5.81,
+      -9.4908,
+      -2.5685
+     ],
+     "dsecond": [
+      -8.96,
+      -12.2803,
+      -5.4497
+     ],
+     "areas": {
+      "knowledge": 0.4489,
+      "language": 0.5369,
+      "retrieval": 0.4386,
+      "tools": 0.6605,
+      "arts": 0.27
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.3895,
+       0.5124
+      ],
+      "language": [
+       0.4504,
+       0.6021
+      ],
+      "retrieval": [
+       0.3587,
+       0.523
+      ],
+      "tools": [
+       0.5896,
+       0.7281
+      ],
+      "arts": [
+       0.2233,
+       0.3524
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.1119,
+       -0.1844,
+       -0.0399
+      ],
+      "language": [
+       0.075,
+       -0.003,
+       0.1327
+      ],
+      "retrieval": [
+       -0.0248,
+       -0.1132,
+       0.0637
+      ],
+      "tools": [
+       -0.1547,
+       -0.2298,
+       -0.088
+      ],
+      "arts": [
+       -0.154,
+       -0.2345,
+       -0.0452
+      ]
+     },
+     "lat": {
+      "mean": 9722.5,
+      "p95": 50492.0,
+      "mean_ci": [
+       8798.2,
+       10599.3
+      ],
+      "n": 1467
+     }
+    },
+    "tiel-b256-eeg": {
+     "arm": "tiel-b256-eeg",
+     "series": "tiel",
+     "kind": "callo",
+     "budget": 256,
+     "variant_of": "tiel-b256-ee",
+     "early_exit": {
+      "z": 0.95,
+      "gate": true
+     },
+     "label": "Tiel-Coder · think 256, early exit + gate",
+     "index": 48.06,
+     "index_ci": [
+      44.7393,
+      51.4007
+     ],
+     "dref": [
+      -6.79,
+      -10.6805,
+      -3.2893
+     ],
+     "dsecond": [
+      -9.94,
+      -13.5907,
+      -6.24
+     ],
+     "areas": {
+      "knowledge": 0.442,
+      "language": 0.5347,
+      "retrieval": 0.3688,
+      "tools": 0.6803,
+      "arts": 0.2993
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.38,
+       0.5089
+      ],
+      "language": [
+       0.4509,
+       0.6087
+      ],
+      "retrieval": [
+       0.289,
+       0.448
+      ],
+      "tools": [
+       0.6136,
+       0.7439
+      ],
+      "arts": [
+       0.2392,
+       0.3789
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.1188,
+       -0.1991,
+       -0.046
+      ],
+      "language": [
+       0.0728,
+       -0.0075,
+       0.1421
+      ],
+      "retrieval": [
+       -0.0946,
+       -0.1783,
+       -0.011
+      ],
+      "tools": [
+       -0.1349,
+       -0.2072,
+       -0.0711
+      ],
+      "arts": [
+       -0.1247,
+       -0.2239,
+       -0.0186
+      ]
+     },
+     "lat": {
+      "mean": 11423.2,
+      "p95": 54327.9,
+      "mean_ci": [
+       10480.7,
+       12375.5
+      ],
+      "n": 1467
+     }
+    },
+    "sharp-minicpm-b0": {
+     "arm": "sharp-minicpm-b0",
+     "series": "sharp-minicpm",
+     "kind": "callo",
+     "budget": 0,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Sharp-MiniCPM5-2B · no think",
+     "index": 22.54,
+     "index_ci": [
+      19.8797,
+      25.9902
+     ],
+     "dref": [
+      -32.31,
+      -35.9515,
+      -28.0197
+     ],
+     "dsecond": [
+      -35.46,
+      -39.2518,
+      -31.079
+     ],
+     "areas": {
+      "knowledge": 0.164,
+      "language": 0.175,
+      "retrieval": 0.2253,
+      "tools": 0.4198,
+      "arts": 0.1589
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.1127,
+       0.2325
+      ],
+      "language": [
+       0.0932,
+       0.2515
+      ],
+      "retrieval": [
+       0.174,
+       0.2986
+      ],
+      "tools": [
+       0.3424,
+       0.4903
+      ],
+      "arts": [
+       0.1136,
+       0.2191
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.3968,
+       -0.4695,
+       -0.3169
+      ],
+      "language": [
+       -0.2869,
+       -0.3846,
+       -0.1914
+      ],
+      "retrieval": [
+       -0.2381,
+       -0.3163,
+       -0.143
+      ],
+      "tools": [
+       -0.3954,
+       -0.4731,
+       -0.3184
+      ],
+      "arts": [
+       -0.2651,
+       -0.3502,
+       -0.182
+      ]
+     },
+     "lat": {
+      "mean": 780.2,
+      "p95": 3280.1,
+      "mean_ci": [
+       725.7,
+       831.9
+      ],
+      "n": 1467
+     }
+    },
+    "sharp-minicpm-b1024": {
+     "arm": "sharp-minicpm-b1024",
+     "series": "sharp-minicpm",
+     "kind": "callo",
+     "budget": 1024,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Sharp-MiniCPM5-2B · think 1024",
+     "index": 41.04,
+     "index_ci": [
+      37.8498,
+      43.9203
+     ],
+     "dref": [
+      -13.81,
+      -17.78,
+      -10.529
+     ],
+     "dsecond": [
+      -16.96,
+      -20.8603,
+      -13.3395
+     ],
+     "areas": {
+      "knowledge": 0.3437,
+      "language": 0.4716,
+      "retrieval": 0.3454,
+      "tools": 0.6184,
+      "arts": 0.1747
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.294,
+       0.4067
+      ],
+      "language": [
+       0.3842,
+       0.5354
+      ],
+      "retrieval": [
+       0.2798,
+       0.4104
+      ],
+      "tools": [
+       0.5575,
+       0.679
+      ],
+      "arts": [
+       0.119,
+       0.2681
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.2171,
+       -0.2881,
+       -0.1439
+      ],
+      "language": [
+       0.0097,
+       -0.0789,
+       0.07
+      ],
+      "retrieval": [
+       -0.118,
+       -0.205,
+       -0.0326
+      ],
+      "tools": [
+       -0.1968,
+       -0.2655,
+       -0.138
+      ],
+      "arts": [
+       -0.2493,
+       -0.3455,
+       -0.1319
+      ]
+     },
+     "lat": {
+      "mean": 18705.9,
+      "p95": 94810.0,
+      "mean_ci": [
+       17052.1,
+       20306.6
+      ],
+      "n": 1467
+     }
+    },
+    "flashnext-sharp-b0": {
+     "arm": "flashnext-sharp-b0",
+     "series": "flashnext-sharp",
+     "kind": "callo",
+     "budget": 0,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Flash-Next · no think",
+     "index": 47.59,
+     "index_ci": [
+      44.0985,
+      50.7105
+     ],
+     "dref": [
+      -7.26,
+      -11.4507,
+      -3.9395
+     ],
+     "dsecond": [
+      -10.41,
+      -13.953,
+      -7.1795
+     ],
+     "areas": {
+      "knowledge": 0.3737,
+      "language": 0.4723,
+      "retrieval": 0.4743,
+      "tools": 0.6917,
+      "arts": 0.3584
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.3161,
+       0.4359
+      ],
+      "language": [
+       0.3828,
+       0.5378
+      ],
+      "retrieval": [
+       0.3927,
+       0.5571
+      ],
+      "tools": [
+       0.6268,
+       0.7554
+      ],
+      "arts": [
+       0.2795,
+       0.4461
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.1871,
+       -0.257,
+       -0.1198
+      ],
+      "language": [
+       0.0104,
+       -0.0835,
+       0.0787
+      ],
+      "retrieval": [
+       0.0109,
+       -0.075,
+       0.1
+      ],
+      "tools": [
+       -0.1235,
+       -0.1927,
+       -0.0598
+      ],
+      "arts": [
+       -0.0656,
+       -0.1588,
+       0.0227
+      ]
+     },
+     "lat": {
+      "mean": 8762.5,
+      "p95": 35251.3,
+      "mean_ci": [
+       8188.3,
+       9288.9
+      ],
+      "n": 1467
+     }
+    },
+    "flashnext-sharp-b256-eeg": {
+     "arm": "flashnext-sharp-b256-eeg",
+     "series": "flashnext-sharp",
+     "kind": "callo",
+     "budget": 256,
+     "variant_of": null,
+     "early_exit": {
+      "z": 0.95,
+      "gate": true
+     },
+     "label": "Flash-Next · think 256, early exit + gate",
+     "index": 51.74,
+     "index_ci": [
+      48.2295,
+      55.0905
+     ],
+     "dref": [
+      -3.11,
+      -6.9105,
+      0.571
+     ],
+     "dsecond": [
+      -6.26,
+      -9.77,
+      -2.8398
+     ],
+     "areas": {
+      "knowledge": 0.4832,
+      "language": 0.5326,
+      "retrieval": 0.4329,
+      "tools": 0.7199,
+      "arts": 0.3662
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.424,
+       0.5402
+      ],
+      "language": [
+       0.4483,
+       0.6043
+      ],
+      "retrieval": [
+       0.3508,
+       0.5224
+      ],
+      "tools": [
+       0.651,
+       0.781
+      ],
+      "arts": [
+       0.2896,
+       0.4545
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.0776,
+       -0.1479,
+       -0.0116
+      ],
+      "language": [
+       0.0707,
+       -0.0225,
+       0.1478
+      ],
+      "retrieval": [
+       -0.0305,
+       -0.1118,
+       0.0578
+      ],
+      "tools": [
+       -0.0953,
+       -0.1647,
+       -0.0358
+      ],
+      "arts": [
+       -0.0578,
+       -0.161,
+       0.0516
+      ]
+     },
+     "lat": {
+      "mean": 28469.9,
+      "p95": 126640.9,
+      "mean_ci": [
+       26047.2,
+       30871.1
+      ],
+      "n": 1467
+     }
+    },
+    "clef27b-udq4": {
+     "arm": "clef27b-udq4",
+     "series": "clef27b-udq4",
+     "kind": "clef",
+     "budget": null,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Clef 27B · Q4_K_XL (our quant)",
+     "index": 58.0,
+     "index_ci": [
+      54.83,
+      61.0012
+     ],
+     "dref": [
+      3.15,
+      -0.1607,
+      6.0405
+     ],
+     "dsecond": null,
+     "areas": {
+      "knowledge": 0.5552,
+      "language": 0.5451,
+      "retrieval": 0.5721,
+      "tools": 0.7951,
+      "arts": 0.3572
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.5054,
+       0.6137
+      ],
+      "language": [
+       0.461,
+       0.6141
+      ],
+      "retrieval": [
+       0.5032,
+       0.6433
+      ],
+      "tools": [
+       0.7417,
+       0.8516
+      ],
+      "arts": [
+       0.2921,
+       0.4404
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.0056,
+       -0.0606,
+       0.0471
+      ],
+      "language": [
+       0.0832,
+       0.0117,
+       0.136
+      ],
+      "retrieval": [
+       0.1087,
+       0.0339,
+       0.1959
+      ],
+      "tools": [
+       -0.0201,
+       -0.0707,
+       0.0315
+      ],
+      "arts": [
+       -0.0668,
+       -0.1547,
+       0.0285
+      ]
+     },
+     "lat": {
+      "mean": 8521.4,
+      "p95": 36583.0,
+      "mean_ci": [
+       7921.2,
+       9086.1
+      ],
+      "n": 1467
+     }
+    },
+    "clefflash-udq4": {
+     "arm": "clefflash-udq4",
+     "series": "clefflash-udq4",
+     "kind": "clef",
+     "budget": null,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Clef-Flash 9B · Q4_K_XL (our quant)",
+     "index": 55.59,
+     "index_ci": [
+      52.8088,
+      58.36
+     ],
+     "dref": [
+      0.74,
+      -0.4003,
+      1.6003
+     ],
+     "dsecond": [
+      -2.41,
+      -5.25,
+      0.8403
+     ],
+     "areas": {
+      "knowledge": 0.5438,
+      "language": 0.4628,
+      "retrieval": 0.503,
+      "tools": 0.8245,
+      "arts": 0.4426
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.4958,
+       0.5991
+      ],
+      "language": [
+       0.4007,
+       0.5265
+      ],
+      "retrieval": [
+       0.422,
+       0.5745
+      ],
+      "tools": [
+       0.7762,
+       0.877
+      ],
+      "arts": [
+       0.3622,
+       0.5283
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.017,
+       -0.0422,
+       0.002
+      ],
+      "language": [
+       0.0009,
+       -0.0138,
+       0.0174
+      ],
+      "retrieval": [
+       0.0396,
+       0.0124,
+       0.0588
+      ],
+      "tools": [
+       0.0093,
+       -0.0017,
+       0.0301
+      ],
+      "arts": [
+       0.0186,
+       -0.0252,
+       0.0567
+      ]
+     },
+     "lat": {
+      "mean": 2435.6,
+      "p95": 10493.6,
+      "mean_ci": [
+       2264.1,
+       2596.2
+      ],
+      "n": 1467
+     }
+    },
+    "clefflash-bf16": {
+     "arm": "clefflash-bf16",
+     "series": "clefflash-bf16",
+     "kind": "clef",
+     "budget": null,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Clef-Flash 9B · BF16",
+     "index": 54.85,
+     "index_ci": [
+      52.1097,
+      57.71
+     ],
+     "dref": null,
+     "dsecond": [
+      -3.15,
+      -6.0405,
+      0.1607
+     ],
+     "areas": {
+      "knowledge": 0.5608,
+      "language": 0.4619,
+      "retrieval": 0.4634,
+      "tools": 0.8152,
+      "arts": 0.424
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.5144,
+       0.6145
+      ],
+      "language": [
+       0.4002,
+       0.5211
+      ],
+      "retrieval": [
+       0.3872,
+       0.5376
+      ],
+      "tools": [
+       0.7645,
+       0.8676
+      ],
+      "arts": [
+       0.3526,
+       0.508
+      ]
+     },
+     "area_dref": null,
+     "lat": {
+      "mean": 2389.2,
+      "p95": 10264.6,
+      "mean_ci": [
+       2220.0,
+       2546.4
+      ],
+      "n": 1467
+     }
+    },
+    "d1-3b-q4km": {
+     "arm": "d1-3b-q4km",
+     "series": "d1",
+     "kind": "clef",
+     "budget": null,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "d1-3B · Q4_K_M",
+     "index": 46.07,
+     "index_ci": [
+      43.1497,
+      49.3203
+     ],
+     "dref": [
+      -8.78,
+      -12.0918,
+      -5.1597
+     ],
+     "dsecond": [
+      -11.93,
+      -15.3042,
+      -8.0092
+     ],
+     "areas": {
+      "knowledge": 0.2258,
+      "language": 0.5307,
+      "retrieval": 0.4373,
+      "tools": 0.7992,
+      "arts": 0.3149
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.1822,
+       0.2895
+      ],
+      "language": [
+       0.4421,
+       0.6056
+      ],
+      "retrieval": [
+       0.3785,
+       0.5031
+      ],
+      "tools": [
+       0.7398,
+       0.8499
+      ],
+      "arts": [
+       0.2435,
+       0.4174
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.335,
+       -0.3943,
+       -0.2632
+      ],
+      "language": [
+       0.0688,
+       -0.0197,
+       0.1503
+      ],
+      "retrieval": [
+       -0.0261,
+       -0.0885,
+       0.041
+      ],
+      "tools": [
+       -0.016,
+       -0.0813,
+       0.0463
+      ],
+      "arts": [
+       -0.1091,
+       -0.2025,
+       -0.0029
+      ]
+     },
+     "lat": {
+      "mean": 1491.4,
+      "p95": 6240.9,
+      "mean_ci": [
+       1384.9,
+       1595.2
+      ],
+      "n": 1467
+     }
+    }
+   }
+  },
+  "all-unsupported": {
+   "label": "(b) unanswerable for every arm",
+   "computed": false,
+   "moot": true,
+   "why": "Moot: no row exceeds Callo's 255-option limit, so it equals (a)"
+  }
+ },
+ "notes": {
+  "subset": "iSarcasmEval track A-En",
+  "cap_release": "Clef's own release code would refuse 12 of the 13 (“schema requires … tokens before state”) and truncate 1",
+  "wide_choice": "Callo (wide-choice readout) and Clef both answer up to 255 options, so every arm answers them",
+  "board": "the 0.3 board's public index for “Cloudflare clef” is 61.71 (full suite, authors' runtime); Clef's card reports 0.2.1 full-suite numbers",
+  "timing": "Clef 27B ran beside CPU-heavy test runs for its first ~1.5 h (~12:10–13:40 UTC on 2026-10-10) and was not re-timed, so its request time may read high",
+  "latency_figures": "two Clef arms ran beside CPU-heavy test runs (Clef 27B ~12:10–13:40 UTC, its first ~1.5 h of 3.3 h; Clef-Flash Q4 ~16:00–16:26 UTC, the last half hour of its hour; 2026-10-10); neither was re-timed",
+  "gate_read": "on Flash-Next's long DI prompts",
+  "reread_fix": "an end-of-turn token at the answer slot",
+  "run_to_run": "Tiel-Coder and Flash-Next are MoE models; on the unified KV cache Callo's llama-server runs, their runs are not bit-reproducible",
+  "builds": "without early exit their behaviour is byte-identical, but for the readout fix the re-read covers"
+ },
+ "hardware": "Apple M2 Ultra, 64 GB, one request at a time",
+ "story_cfg": {
+  "series": "tiel",
+  "think": 256
+ },
+ "generator": {
+  "callo_commit": "b576d0d85dba",
+  "spec": "brand/data/di.release.spec.json",
+  "built": "2026-10-14T22:01:58Z"
+ },
+ "sensitivity": {
+  "drop": "BRIGHT",
+  "catalog_id": 36,
+  "area": "retrieval",
+  "weights_before": {
+   "4": 0.181818,
+   "5": 0.181818,
+   "36": 0.181818,
+   "37": 0.151515,
+   "56": 0.151515,
+   "61": 0.151515
+  },
+  "weights_after": {
+   "4": 0.222222,
+   "5": 0.222222,
+   "37": 0.185185,
+   "56": 0.185185,
+   "61": 0.185185
+  },
+  "area_weights": {
+   "knowledge": 0.258494,
+   "language": 0.258494,
+   "retrieval": 0.200229,
+   "tools": 0.182783,
+   "arts": 0.1
+  },
+  "scored_edition": "0.3-drop-36",
+  "rows": 1447,
+  "n": 1000,
+  "seed": 20260919,
+  "path": "harness/results/callo_v0.3/di/bootstrap-release3-nobright.json",
+  "sha256": "f7331060df33714c5e67fd3f0eab6084e4a1fb22ec144b2ad709b134124b438e",
+  "arms": {
+   "tiel-b0": {
+    "with": 38.48,
+    "without": 39.42,
+    "without_ci": [
+     35.7095,
+     42.9732
+    ],
+    "dref": [
+     -16.37,
+     -20.3818,
+     -12.6995
+    ],
+    "dref_without": [
+     -17.29,
+     -21.5003,
+     -13.4692
+    ],
+    "dsecond": [
+     -19.52,
+     -23.0205,
+     -15.748
+    ],
+    "dsecond_without": [
+     -20.7,
+     -24.39,
+     -16.6895
+    ]
+   },
+   "tiel-b256": {
+    "with": 48.83,
+    "without": 50.25,
+    "without_ci": [
+     46.62,
+     53.8605
+    ],
+    "dref": [
+     -6.02,
+     -9.7505,
+     -2.4392
+    ],
+    "dref_without": [
+     -6.46,
+     -10.53,
+     -2.6383
+    ],
+    "dsecond": [
+     -9.17,
+     -12.5203,
+     -5.4995
+    ],
+    "dsecond_without": [
+     -9.87,
+     -13.4503,
+     -5.96
+    ]
+   },
+   "tiel-b256-ee": {
+    "with": 49.04,
+    "without": 50.69,
+    "without_ci": [
+     47.1597,
+     54.0802
+    ],
+    "dref": [
+     -5.81,
+     -9.4908,
+     -2.5685
+    ],
+    "dref_without": [
+     -6.02,
+     -9.9005,
+     -2.5792
+    ],
+    "dsecond": [
+     -8.96,
+     -12.2803,
+     -5.4497
+    ],
+    "dsecond_without": [
+     -9.43,
+     -12.9115,
+     -5.7997
+    ]
+   },
+   "tiel-b256-eeg": {
+    "with": 48.06,
+    "without": 49.4,
+    "without_ci": [
+     45.8897,
+     52.821
+    ],
+    "dref": [
+     -6.79,
+     -10.6805,
+     -3.2893
+    ],
+    "dref_without": [
+     -7.31,
+     -11.5202,
+     -3.6093
+    ],
+    "dsecond": [
+     -9.94,
+     -13.5907,
+     -6.24
+    ],
+    "dsecond_without": [
+     -10.72,
+     -14.6305,
+     -6.7
+    ]
+   },
+   "sharp-minicpm-b0": {
+    "with": 22.54,
+    "without": 23.37,
+    "without_ci": [
+     20.4875,
+     26.9812
+    ],
+    "dref": [
+     -32.31,
+     -35.9515,
+     -28.0197
+    ],
+    "dref_without": [
+     -33.34,
+     -37.1303,
+     -28.7997
+    ],
+    "dsecond": [
+     -35.46,
+     -39.2518,
+     -31.079
+    ],
+    "dsecond_without": [
+     -36.75,
+     -40.73,
+     -32.1695
+    ]
+   },
+   "sharp-minicpm-b1024": {
+    "with": 41.04,
+    "without": 42.58,
+    "without_ci": [
+     39.2782,
+     45.5205
+    ],
+    "dref": [
+     -13.81,
+     -17.78,
+     -10.529
+    ],
+    "dref_without": [
+     -14.13,
+     -18.3307,
+     -10.73
+    ],
+    "dsecond": [
+     -16.96,
+     -20.8603,
+     -13.3395
+    ],
+    "dsecond_without": [
+     -17.54,
+     -21.6313,
+     -13.8895
+    ]
+   },
+   "flashnext-sharp-b0": {
+    "with": 47.59,
+    "without": 49.24,
+    "without_ci": [
+     45.5397,
+     52.4203
+    ],
+    "dref": [
+     -7.26,
+     -11.4507,
+     -3.9395
+    ],
+    "dref_without": [
+     -7.47,
+     -11.674,
+     -3.8595
+    ],
+    "dsecond": [
+     -10.41,
+     -13.953,
+     -7.1795
+    ],
+    "dsecond_without": [
+     -10.88,
+     -14.5213,
+     -7.4688
+    ]
+   },
+   "flashnext-sharp-b256-eeg": {
+    "with": 51.74,
+    "without": 53.33,
+    "without_ci": [
+     49.7493,
+     56.8007
+    ],
+    "dref": [
+     -3.11,
+     -6.9105,
+     0.571
+    ],
+    "dref_without": [
+     -3.38,
+     -7.3803,
+     0.4912
+    ],
+    "dsecond": [
+     -6.26,
+     -9.77,
+     -2.8398
+    ],
+    "dsecond_without": [
+     -6.79,
+     -10.371,
+     -3.2393
+    ]
+   },
+   "clef27b-udq4": {
+    "with": 58.0,
+    "without": 60.12,
+    "without_ci": [
+     56.8595,
+     63.1318
+    ],
+    "dref": [
+     3.15,
+     -0.1607,
+     6.0405
+    ],
+    "dref_without": [
+     3.41,
+     -0.0312,
+     6.501
+    ],
+    "dsecond": null,
+    "dsecond_without": null
+   },
+   "clefflash-udq4": {
+    "with": 55.59,
+    "without": 57.59,
+    "without_ci": [
+     54.6298,
+     60.4002
+    ],
+    "dref": [
+     0.74,
+     -0.4003,
+     1.6003
+    ],
+    "dref_without": [
+     0.88,
+     -0.3205,
+     1.82
+    ],
+    "dsecond": [
+     -2.41,
+     -5.25,
+     0.8403
+    ],
+    "dsecond_without": [
+     -2.53,
+     -5.6203,
+     0.94
+    ]
+   },
+   "clefflash-bf16": {
+    "with": 54.85,
+    "without": 56.71,
+    "without_ci": [
+     53.879,
+     59.75
+    ],
+    "dref": null,
+    "dref_without": null,
+    "dsecond": [
+     -3.15,
+     -6.0405,
+     0.1607
+    ],
+    "dsecond_without": [
+     -3.41,
+     -6.501,
+     0.0312
+    ]
+   },
+   "d1-3b-q4km": {
+    "with": 46.07,
+    "without": 47.83,
+    "without_ci": [
+     44.7095,
+     51.2112
+    ],
+    "dref": [
+     -8.78,
+     -12.0918,
+     -5.1597
+    ],
+    "dref_without": [
+     -8.88,
+     -12.3522,
+     -5.1798
+    ],
+    "dsecond": [
+     -11.93,
+     -15.3042,
+     -8.0092
+    ],
+    "dsecond_without": [
+     -12.29,
+     -15.88,
+     -8.2973
+    ]
+   }
+  },
+  "shift": [
+   0.8300000000000018,
+   2.1199999999999974
+  ],
+  "order_same": true,
+  "order": [
+   "clef27b-udq4",
+   "clefflash-udq4",
+   "clefflash-bf16",
+   "flashnext-sharp-b256-eeg",
+   "tiel-b256-ee",
+   "tiel-b256",
+   "tiel-b256-eeg",
+   "flashnext-sharp-b0",
+   "d1-3b-q4km",
+   "sharp-minicpm-b1024",
+   "tiel-b0",
+   "sharp-minicpm-b0"
+  ],
+  "order_without": [
+   "clef27b-udq4",
+   "clefflash-udq4",
+   "clefflash-bf16",
+   "flashnext-sharp-b256-eeg",
+   "tiel-b256-ee",
+   "tiel-b256",
+   "tiel-b256-eeg",
+   "flashnext-sharp-b0",
+   "d1-3b-q4km",
+   "sharp-minicpm-b1024",
+   "tiel-b0",
+   "sharp-minicpm-b0"
+  ],
+  "flips": [],
+  "pairs": 22
+ },
+ "inputs": [
+  {
+   "role": "bootstrap, treatment (a)",
+   "path": "harness/results/callo_v0.3/di/bootstrap-release3.json",
+   "sha256": "68bb08ae254548990756537505f2d6a3cd34407089c3449e04225b788ac93c4f"
+  },
+  {
+   "role": "paired vs Tiel-Coder · think 256",
+   "path": "harness/results/callo_v0.3/di/bootstrap-ee1-vs-tiel256.json",
+   "sha256": "e7205828268df85ac733d5d9a0c5b586f8d15c881b554f03d1ce074d343fc33a"
+  },
+  {
+   "role": "paired vs Flash-Next · no think",
+   "path": "harness/results/callo_v0.3/di/bootstrap-release1-vs-fnb0.json",
+   "sha256": "f3ca0f546e002bf715ed94dbad45f8242dcf301f6b64f4bbc7578eb95664d657"
+  },
+  {
+   "role": "bootstrap without BRIGHT",
+   "path": "harness/results/callo_v0.3/di/bootstrap-release3-nobright.json",
+   "sha256": "f7331060df33714c5e67fd3f0eab6084e4a1fb22ec144b2ad709b134124b438e"
+  },
+  {
+   "role": "union",
+   "path": "harness/results/callo_v0.3/di/union-release3.json",
+   "sha256": "54e1f5e8b094e13e9002df4c77f512f9cdb004f227b45efc24ca916f400e3924"
+  },
+  {
+   "role": "sample",
+   "path": "harness/results/callo_v0.3/di/sample.json",
+   "sha256": "23cd39c94fea2cc7d9c1b83175b2d0012a600d795d694df57e9c2e2ab95f9e3f"
+  },
+  {
+   "role": "Clef prompt tokens",
+   "path": "harness/results/callo_v0.3/di/prompt_tokens.json",
+   "sha256": "82fab5e3dc4cb7f9ce88b23fcae174cf455de68cfe612915b604c3dd87979512"
+  },
+  {
+   "role": "Clef prompt tokens per row",
+   "path": "harness/results/callo_v0.3/di/prompt_tokens_rows.json",
+   "sha256": "0fb3fa3d85176e4ea7e10412c96c05909579df6618b4af04c48711dec8e2457d"
+  },
+  {
+   "role": "area labels",
+   "path": "harness/results/callo_v0.3/di/clef27b-udq4/score-prelim/index.json",
+   "sha256": "370bc4064a7e60abdd5219b416bfdbbd447f71f44ee75a26e71e9d72bb374036"
+  }
+ ],
+ "pending": [],
+ "story": {
+  "subtitle": "Tiel-Coder with no thinking scores 38.5, 16.4 points under Clef-Flash BF16 (CI 12.7–20.4), at 0.93× its mean request time; a 256-token think per question with opt-in early exit lifts it to 49.0, 5.8 under (CI 2.6–9.5), at 4.1× the time.",
+  "zero": "tiel-b0",
+  "think": "tiel-b256-ee",
+  "ratio_zero": 0.9314833417043362,
+  "ratio_think": 4.069353758580278,
+  "dref_zero": [
+   -16.37,
+   -20.3818,
+   -12.6995
+  ],
+  "dref_think": [
+   -5.81,
+   -9.4908,
+   -2.5685
+  ],
+  "gap_closed": 0.6450824679291388
+ },
+ "fine_print": [
+  {
+   "lead": "Data.",
+   "text": "Decision Index 0.3 public subset: the 37 counted benchmarks (iSarcasmEval track A-En), kit 9eb2dbe2 and its unmodified scorer, suite sample --n 1480 --seed 20260919 (sha256 0ab3526d6a8e…), 33–34 linked groups per benchmark; not the board's Full score."
+  },
+  {
+   "lead": "Index.",
+   "text": "The Decision Index's balanced skill: chance-corrected benchmark scores averaged in five fixed-weight areas (the panels); chance levels are the index's own fixed values: per row for the accuracy, nDCG@10 and BFCL benchmarks, fixed for the F1 benchmarks and the benchmarks added in 0.2."
+  },
+  {
+   "lead": "Unanswered.",
+   "text": "Rows over 16,384 Clef prompt tokens (n = 13) and any row not answered by every arm count as wrong for every arm (the index's no-truncation rule; all 13 are BRIGHT, 13 of its 33 groups, 17,112–32,805 tokens, length in the 32-document schema); Clef's own release code would refuse 12 of the 13 (“schema requires … tokens before state”) and truncate 1."
+  },
+  {
+   "lead": "d1-3B.",
+   "text": "Answers each question in its own prompt (the state, then that question), so its prompts on the 13 BRIGHT rows (7,044 tokens at most) would fit its 16,384-token context; they still count as wrong for every arm."
+  },
+  {
+   "lead": "Without BRIGHT.",
+   "text": "Every arm +0.8 to +2.1 (the index's own re-weighting, the same draws); the order is unchanged and no paired CI changes whether it includes 0; Clef-Flash BF16 56.7."
+  },
+  {
+   "lead": "> 26 options.",
+   "text": "157 rows (API-Bank 34, BANKING77 34, CLINC150+OOS 34, POP909-CL 33, ChessBench 22), none over 255 options; Callo (wide-choice readout) and Clef both answer up to 255 options, so every arm answers them. Plotted: treatment (a), kit-faithful; (b), unanswerable for every arm, is moot: no row exceeds Callo's 255-option limit, so it equals (a)."
+  },
+  {
+   "lead": "Answering.",
+   "text": "Callo answers a request's questions one at a time, reusing the state prefix (thinking per question at a budget above 0); Clef answers all of a row's questions in one joint pass; requests in the sampler's round-robin order, one at a time."
+  },
+  {
+   "lead": "Early exit.",
+   "text": "Opt-in in Callo (--think-converge, z .95): Callo stops a think once the answer has settled instead of using the whole budget. Tiel-Coder's line ends at think 256 with early exit: against plain think 256 on the same draws, index +0.2 [−2.0, +2.3] at 30 % less mean request time; the gate variant −0.8 [−2.9, +1.5] at 18 % less. Plain think 256 and the gate variant are in the table, not drawn. The gate first asks the model one zero-think question and sends multi-step rule problems to full thinking; on Flash-Next it sent 455 of 1,471 requests (31 %), and its read took about 1.1 s at the median on Flash-Next's long DI prompts. Paired vs Flash-Next no think: think 256 with early exit + gate +4.2 [+1.7, +6.8], at 3.2× the mean request time."
+  },
+  {
+   "lead": "Latency.",
+   "text": "Request completion time, measured by one HTTP client that is the same for every arm, over the 1,467 rows answered by every arm: points at the mean, tails to the p95."
+  },
+  {
+   "lead": "Timing.",
+   "text": "Clef 27B ran beside CPU-heavy test runs for its first ~1.5 h (~12:10–13:40 UTC on 2026-10-10) and was not re-timed, so its request time may read high."
+  },
+  {
+   "lead": "Whiskers.",
+   "text": "Paired 95 % percentile bootstrap CIs of the difference vs Clef-Flash BF16 (1,000 resamples of linked groups within each benchmark, the same draws for every arm, the index's own scorer in the loop, seed 20260919). The difference vs Clef 27B is in the table only."
+  },
+  {
+   "lead": "Re-read.",
+   "text": "Tiel-Coder (no think, think 256) and Sharp-MiniCPM5-2B think 1024 ran before a readout fix (an end-of-turn token at the answer slot); their 66, 43 and 147 rows with an affected readout were re-read on the readout-fix build, and 40 unaffected rows per arm re-run as controls matched in status, bit for bit on Sharp-MiniCPM5-2B."
+  },
+  {
+   "lead": "Run to run.",
+   "text": "Tiel-Coder and Flash-Next are MoE models; on the unified KV cache Callo's llama-server runs, their runs are not bit-reproducible (Tiel-Coder's re-read controls: 12 and 2 of 40 rows bit for bit)."
+  },
+  {
+   "lead": "Clef cross-check.",
+   "text": "The 0.3 board's public index for “Cloudflare clef” is 61.71 (full suite, authors' runtime); Clef's card reports 0.2.1 full-suite numbers."
+  },
+  {
+   "lead": "Builds.",
+   "text": "Callo 0.3.0 development builds: the first build (Tiel-Coder no think and think 256; Sharp-MiniCPM5-2B think 1024), the refit build (Sharp-MiniCPM5-2B no think), the early-exit build (Flash-Next no think) and the gate build (the early-exit points); without early exit their behaviour is byte-identical, but for the readout fix the re-read covers; --cache on (default); llama.cpp b50-4ebdf2c (Callo), b11379 1537a0a8 (Clef) and 23deec02 (d1); Tiel-Coder budgets 512 and 1024 not run on DI (only 0 and 256); Sharp-MiniCPM5-2B budgets 256 and 512 not run on DI (only 0 and 1024); Apple M2 Ultra, 64 GB, one request at a time; run Callo 2026-10-10 to 2026-10-13, Clef 2026-10-10, d1 2026-10-14 (UTC)."
+  }
+ ],
+ "made": [
+  {
+   "lead": "Sample.",
+   "text": "python -m decision_index suite sample --dir di-suite-0.3-counted --n 1480 --seed 20260919 --out sample-1480.jsonl.gz (sha256 of the uncompressed rows 0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b); 1480 rows, 1229 linked groups in 37 benchmarks."
+  },
+  {
+   "lead": "Bootstrap.",
+   "text": "paired percentile bootstrap: linked groups (catalog_id, group_id) resampled with replacement within each benchmark, the same draws for every arm; copies suffixed #k in run_id and group_id; each resample scored in process by the kit's pipeline.score_run_v02 over an in-memory Suite whose in_edition strips #k; index = the kit's headline (balanced_skill), areas = area skill; latency = the kit's total_wall_ms over rows ok in every given arm, p95 = sorted[int(0.95(n-1))]; 1000 resamples, seed 20260919, generated 2026-10-14T21:47:21+00:00."
+  },
+  {
+   "lead": "Areas.",
+   "text": "the index's fixed weights: Knowledge & Reasoning 25.8 %, Language Understanding 25.8 %, Retrieval & Classification 20 %, Tools & Automation 18.3 %, Arts & Human Taste 10 %."
+  },
+  {
+   "lead": "Unanswered rows.",
+   "text": "13 of 1480 sampled rows are not answered by every arm (13 pre-marked); latency over the other 1467. Pre-marked: 36:BRIGHT-retrieval:BRIGHT-retrieval:aops:aops_2022_AIME_I_Problems/Problem_11:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:biology:29:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:earth_science:93:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:11:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:125:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:140:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:21:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:78:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:robotics:7:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:31:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:72:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:87:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:theoremqa_questions:TheoremQA_tonyxia/particle4.json:chunk0."
+  },
+  {
+   "lead": "Sensitivity without BRIGHT.",
+   "text": "BRIGHT (catalog 36) dropped by the Decision Index kit's own retirement: the scored edition is 0.3-drop-36, and its aggregate re-weights the retrieval area's benchmarks from 4, 5 and 36: 0.1818; 37, 56 and 61: 0.1515 to 4 and 5: 0.2222; 37, 56 and 61: 0.1852; the area weights are unchanged (retrieval 20.02 %). The plotted bootstrap's 1,000 draws (seed 20260919) and results, 1,447 rows; latency stays the plotted bootstrap's. Every arm +0.8 to +2.1 (+0.83 to +2.12); the order of all 12 arms is unchanged; none of the 22 paired CIs (vs Clef-Flash BF16 and vs Clef 27B) changes whether it includes 0. Per arm in the table below; source `bootstrap-release3-nobright.json` (sha256 f7331060df33714c…)."
+  },
+  {
+   "lead": "Clef timings.",
+   "text": "Two Clef arms ran beside CPU-heavy test runs (Clef 27B ~12:10–13:40 UTC, its first ~1.5 h of 3.3 h; Clef-Flash Q4 ~16:00–16:26 UTC, the last half hour of its hour; 2026-10-10); neither was re-timed."
+  },
+  {
+   "lead": "Clef-Flash 9B · Q4_K_XL (our quant) (measured, not drawn).",
+   "text": "index 55.59 [52.8, 58.4], level with Clef-Flash BF16 (+0.7, CI −0.4 to +1.6); mean request time 2.4 s, p95 10.5 s."
+  },
+  {
+   "lead": "Tiel-Coder · no think.",
+   "text": "`Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf` (sha256 9779b32f998371c6…); `callo` 0.3.0, the first build, --think-budget 0, --cache on (default), think profile tiel.think.json (sha256 31e1529b6abb9e79…); re-read after the readout fix: 66 rows on the readout-fix build; controls 40 of 40 in status, 12 bit for bit; `apply.json` (sha256 bb8ca17ee152154a…); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-10T23:42:57+00:00 to 2026-10-11T00:37:33+00:00; mean request time 2.2 s [2.0 s, 2.4 s]."
+  },
+  {
+   "lead": "Tiel-Coder · think 256.",
+   "text": "`Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf` (sha256 9779b32f998371c6…); `callo` 0.3.0, the first build, --think-budget 256, --cache on (default), think profile tiel.think.json (sha256 31e1529b6abb9e79…); re-read after the readout fix: 43 rows on the readout-fix build; controls 40 of 40 in status, 2 bit for bit; `apply.json` (sha256 cdce0218d2d99f57…); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-11T00:37:43+00:00 to 2026-10-11T06:17:13+00:00; mean request time 13.9 s [12.5 s, 15.2 s]."
+  },
+  {
+   "lead": "Tiel-Coder · think 256, early exit.",
+   "text": "`Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf` (sha256 9779b32f998371c6…); `callo` 0.3.0, the gate build, --think-budget 256, --cache on (default), think profile tiel.think.json (sha256 f7e1a46aea49367b…); early exit --think-converge 0.95: 13,175 questions on 1,471 requests thought with a rule, 11,602 converged, 27,684 probes (the counters less the warm-up's 5 requests); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-12T16:32:40+00:00 to 2026-10-12T20:30:40+00:00; mean request time 9.7 s [8.8 s, 10.6 s]."
+  },
+  {
+   "lead": "Tiel-Coder · think 256, early exit + gate.",
+   "text": "`Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf` (sha256 9779b32f998371c6…); `callo` 0.3.0, the gate build, --think-budget 256, --cache on (default), think profile tiel.think.json (sha256 f7e1a46aea49367b…); early exit --think-converge 0.95 --think-converge-gate: 9,643 questions on 892 requests thought with a rule, 8,628 converged, 18,929 probes (the counters less the warm-up's 5 requests); gate: 1,471 reads, 579 sent to full thinking (39.4 %), 0 errors; read p50 182 ms, p95 1.4 s over the session (warm-up reads included); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-12T20:30:50+00:00 to 2026-10-13T01:10:27+00:00; mean request time 11.4 s [10.5 s, 12.4 s]."
+  },
+  {
+   "lead": "Sharp-MiniCPM5-2B · no think.",
+   "text": "`MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf` (sha256 0722928b41fae862…); `callo` 0.3.0, the refit build, --think-budget 0, --cache on (default), think profile sharp-minicpm.think.json (sha256 cf044ed3552b7aec…); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-11T14:04:34+00:00 to 2026-10-11T14:23:46+00:00; mean request time 780 ms [726 ms, 832 ms]."
+  },
+  {
+   "lead": "Sharp-MiniCPM5-2B · think 1024.",
+   "text": "`MiniCPM5-2B-Sharp-UD-Q6_K_XL.nocomment.gguf` (sha256 0722928b41fae862…); `callo` 0.3.0, the first build, --think-budget 1024, --cache on (default), think profile sharp-minicpm.think.json (sha256 cf044ed3552b7aec…); re-read after the readout fix: 147 rows on the readout-fix build; controls 40 of 40 in status, 40 bit for bit; `apply.json` (sha256 fe0fe40bbeba0cf3…); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-11T06:17:14+00:00 to 2026-10-11T13:55:02+00:00; mean request time 18.7 s [17.1 s, 20.3 s]."
+  },
+  {
+   "lead": "Flash-Next · no think.",
+   "text": "`Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf` (sha256 219ea929900dfa9e…); `callo` 0.3.0, the early-exit build, --think-budget 0, --cache on (default), think profile flashnext-sharp.think.json (sha256 23117ada8206f2fa…); llama-server args -b 1024 -ub 1024 -fa on -ctk q8_0 -ctv q8_0 --ctx-checkpoints 6 --chat-template-file sharp_qwen3.8-froggeric-v22.5.0.jinja; llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-12T11:21:08+00:00 to 2026-10-12T14:55:56+00:00; mean request time 8.8 s [8.2 s, 9.3 s]."
+  },
+  {
+   "lead": "Flash-Next · think 256, early exit + gate.",
+   "text": "`Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf` (sha256 219ea929900dfa9e…); `callo` 0.3.0, the gate build, --think-budget 256, --cache on (default), think profile flashnext-sharp.think.json (sha256 23117ada8206f2fa…); early exit --think-converge 0.95 --think-converge-gate: 11,017 questions on 1,016 requests thought with a rule, 10,652 converged, 15,966 probes (the counters less the warm-up's 5 requests); gate: 1,471 reads, 455 sent to full thinking (30.9 %), 0 errors; read p50 1.1 s, p95 5.9 s over the session (warm-up reads included); llama-server args -b 1024 -ub 1024 -fa on -ctk q8_0 -ctv q8_0 --ctx-checkpoints 6 --chat-template-file sharp_qwen3.8-froggeric-v22.5.0.jinja; llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-13T06:20:03+00:00 to 2026-10-13T17:56:59+00:00; mean request time 28.5 s [26.0 s, 30.9 s]."
+  },
+  {
+   "lead": "Clef 27B · Q4_K_XL (our quant).",
+   "text": "`Clef-27B-UD-Q4_K_XL.gguf`; llama.cpp b11379 1537a0a8; server ctx 16384, batch 16384, ubatch 16384, parallel 1; run 2026-10-10T12:10:05+00:00 to 2026-10-10T15:29:11+00:00 (session 2 of 2); mean request time 8.5 s [7.9 s, 9.1 s]."
+  },
+  {
+   "lead": "Clef-Flash 9B · Q4_K_XL (our quant).",
+   "text": "`Clef-Flash-UD-Q4_K_XL.gguf`; llama.cpp b11379 1537a0a8; server ctx 16384, batch 16384, ubatch 16384, parallel 1; run 2026-10-10T15:29:12+00:00 to 2026-10-10T16:28:54+00:00; mean request time 2.4 s [2.3 s, 2.6 s]."
+  },
+  {
+   "lead": "Clef-Flash 9B · BF16.",
+   "text": "`Clef-Flash-BF16.gguf`; llama.cpp b11379 1537a0a8; server ctx 16384, batch 16384, ubatch 16384, parallel 1; run 2026-10-10T16:28:54+00:00 to 2026-10-10T17:27:33+00:00; mean request time 2.4 s [2.2 s, 2.5 s]."
+  },
+  {
+   "lead": "d1-3B · Q4_K_M.",
+   "text": "`d1-3B-Q4_K_M.gguf` (sha256 16aff27ea2eefdc3…); llama.cpp 23deec02; server ctx 16384, batch 16384, ubatch 16384, parallel 1; its own prompt-token counts `prompt_tokens_rows.d1-3b-q4km.json` (sha256 df16992437091e67…) (the server's own code, offline): 13,171 questions on 1,467 rows, one prompt each, the longest 9,393 tokens; on the 13 pre-marked rows the longest prompt per row is 1,198–7,044 tokens; run 2026-10-14T21:04:14+00:00 to 2026-10-14T21:40:45+00:00; mean request time 1.5 s [1.4 s, 1.6 s]."
+  },
+  {
+   "lead": "Paired vs Tiel-Coder · think 256.",
+   "text": "`bootstrap-ee1-vs-tiel256.json` (sha256 e7205828268df85a…), the same draws, kit and results as the plotted bootstrap: Tiel-Coder · think 256, early exit +0.2 [−2.0, +2.3], mean request time ×0.701; Tiel-Coder · think 256, early exit + gate −0.8 [−2.9, +1.5], mean request time ×0.823."
+  },
+  {
+   "lead": "Paired vs Flash-Next · no think.",
+   "text": "`bootstrap-release1-vs-fnb0.json` (sha256 f3ca0f546e002bf7…), the same draws, kit and results as the plotted bootstrap: Flash-Next · think 256, early exit + gate +4.2 [+1.7, +6.8], mean request time ×3.249."
+  },
+  {
+   "lead": null,
+   "text": "Tiel-Coder think 256 with early exit, and with early exit + gate, ran on the gate build from their own think profile (release-tiel-ee/tiel.think.json, calibrated 2026-10-12 with early exit's convergence probe); the plain think 256 point ran on the first build from release/tiel.think.json."
+  },
+  {
+   "lead": null,
+   "text": "Sharp-MiniCPM5-2B no think was re-run 2026-10-11 on the refit build (the first run is superseded and not used); no readout of the re-run walked, so it needed no re-read."
+  },
+  {
+   "lead": null,
+   "text": "Qwen3.8-Flash-Next (Sharp): ISTA-DASLab's GSQ-RCO IQ3_XXS GGUF (two shards; the n-gram shard is read lazily from SSD) served with the Sharp chat template v22.5.0; its think 256 point runs early exit (z .95) with the gate, its only reasoning arm on DI."
+  },
+  {
+   "lead": null,
+   "text": "Clef 27B Q4_K_XL (our quant): its first session stopped at the token-count consistency check (one POP909 row, 6489 server vs 6781 offline tokens) and was re-run; the plate uses the second session."
+  },
+  {
+   "lead": null,
+   "text": "Clef-Flash 9B Q4_K_XL (our quant): measured on DI and reported here, not drawn on the plate (it sits on the BF16 reference)."
+  },
+  {
+   "lead": null,
+   "text": "Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI."
+  },
+  {
+   "lead": null,
+   "text": "d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context."
+  }
+ ],
+ "builds": [
+  {
+   "commit": "b463e5f",
+   "name": "the first build"
+  },
+  {
+   "commit": "9d52aaf",
+   "name": "the refit build"
+  },
+  {
+   "commit": "a3a88c3",
+   "name": "the readout-fix build"
+  },
+  {
+   "commit": "6fc42a8",
+   "name": "the early-exit build"
+  },
+  {
+   "commit": "0d33846",
+   "name": "the gate build"
+  }
+ ]
+}

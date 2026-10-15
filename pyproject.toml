@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-fancy-pypi-readme>=24.1"]
+build-backend = "hatchling.build"
+
+[project]
+name = "callo"
+version = "0.3.1"
+description = "Bridging quick decisions and deep work on the model you already serve: System One classification in front of llama-server"
+dynamic = ["readme"]  # README.md with its relative links made absolute for PyPI (see fancy-pypi-readme below)
+# The wheel and the sdist ship code only, all Apache-2.0. The built-in bias set (MIT MMLU and CC-BY-4.0 Banking77
+# data) is fetched on first use from the HF dataset peculiar-ragdoll/callo-bias-set; NOTICE says which data file in
+# the source repository carries which licence.
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.10"
+# gguf 0.16: ReaderField.contents(), used to read the vocabulary. numpy: the position-bias permutation test and the
+# bootstrap are vectorised; it was already installed through gguf.
+dependencies = ["gguf>=0.16", "numpy>=1.24"]
+authors = [{ name = "Peculiar Ragdoll" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.scripts]
+callo = "callo.__main__:main"  # refuses Windows in one line before importing anything POSIX-only
+
+[project.urls]
+Repository = "https://github.com/peculiar-ragdoll/callosum"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+# PyPI's long description: README.md as GitHub renders it, with its relative image paths and links made absolute
+# (PyPI cannot resolve a path inside the repository).
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '(src|srcset)="(?!https?://)([^"]+)"'
+replacement = '\1="https://raw.githubusercontent.com/peculiar-ragdoll/callosum/main/\2"'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\]\((?!https?://|#)([^)\s]+)\)'
+replacement = '](https://github.com/peculiar-ragdoll/callosum/blob/main/\1)'
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/callo"]
+
+[tool.hatch.build.targets.sdist]
+# Anchored with "/": an unanchored "README.md" also matches brand/README.md. Brand and launch assets never ship.
+include = ["/src/callo", "/tests", "/docs/guide", "/LICENSE", "/NOTICE", "/README.md", "/pyproject.toml"]
+exclude = ["/brand", "/launch"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]  # so tests can import the repo-root `bench` package (it is not part of the wheel)
+markers = ["live: needs a GPU, the master llama-server build and the Qwen3.5-9B GGUF (skipped by default)"]
+addopts = "-m 'not live'"

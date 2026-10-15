@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use Callo in your work, please cite it as below."
+type: software
+title: "Callosum: Bridging System One and Deep Work"
+abstract: >-
+  Callosum (Callo, the Python package and command `callo`) bridges quick decisions and deep work on the model you
+  already serve: a small server in front of llama-server that answers System One classification requests from the
+  same model your agent runs, on reserved slots, with optional think budgets and calibration.
+authors:
+  - given-names: Saga
+    family-names: Ishtardottir
+version: 0.3.1
+license: Apache-2.0
+repository-code: "https://github.com/peculiar-ragdoll/callosum"
+url: "https://github.com/peculiar-ragdoll/callosum"
+keywords:
+  - llama.cpp
+  - classification
+  - decision models
+  - System One
+  - LLM serving

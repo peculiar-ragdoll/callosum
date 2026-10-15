@@ -1,0 +1,58 @@
+{
+ "salt": "bias-v1",
+ "set": "builtin-v1",
+ "heldout": "heldout-v1",
+ "sources": {
+  "mmlu": {
+   "repo": "cais/mmlu",
+   "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+   "file": "all/validation-00000-of-00001.parquet",
+   "sha256": "66cdf0b090ccb657d18d13cd81e31fdc55c3467da9642ffb178653268a97c8ef",
+   "licence": "MIT",
+   "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/all/validation-00000-of-00001.parquet"
+  },
+  "banking77": {
+   "repo": "PolyAI-LDN/task-specific-datasets",
+   "revision": "57ec275d8078af65b7731c2a98be812d844a6d6b",
+   "files": {
+    "banking_data/train.csv": "b06e26ac675513959a63135f11b94ea7786ed02da65db93a5650d8838cbc664b",
+    "banking_data/categories.json": "53261da888122daf2d120d925458631d9619e15d82e56052e7a42e535ce32b63"
+   },
+   "licence": "CC-BY-4.0",
+   "urls": [
+    "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data/train.csv",
+    "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data/categories.json"
+   ]
+  }
+ },
+ "counts": {
+  "builtin": {
+   "banking77/2": 24,
+   "banking77/3": 24,
+   "banking77/4": 24,
+   "banking77/5": 48,
+   "banking77/6": 48,
+   "banking77/7": 48,
+   "banking77/8": 48,
+   "mmlu/2": 24,
+   "mmlu/3": 24,
+   "mmlu/4": 24
+  },
+  "heldout": {
+   "banking77/2": 48,
+   "banking77/3": 48,
+   "banking77/4": 48,
+   "banking77/5": 48,
+   "banking77/6": 48,
+   "banking77/7": 48,
+   "banking77/8": 48,
+   "mmlu/2": 48,
+   "mmlu/3": 48,
+   "mmlu/4": 48
+  }
+ },
+ "outputs": {
+  "bench/data/bias_set.jsonl": "f73ff674470f75993076e4e00cc306c88fa1f28bde1e85b49dcf03738a9811a1",
+  "bench/data/bias_heldout_v1.jsonl": "d13d5144e26841d4b459c5175d9b9aa94b3136e28e6c8bb27d4cbb613ffe7e88"
+ }
+}

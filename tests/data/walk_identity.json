@@ -1,0 +1,166 @@
+{
+ "walks": {
+  "decides": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "-0x1.058aefa811452p-1",
+    "D": "-0x1.34378fcbda721p+0"
+   },
+   "option_mass": "0x1.cccccccccccccp-1",
+   "depth": 0,
+   "stop": "diverged"
+  },
+  "markdown": {
+   "prefix": [
+    90
+   ],
+   "option_logprobs": {
+    "C": "-0x1.6d3c324e13f50p-2",
+    "D": "-0x1.62e42fefa39efp+0"
+   },
+   "option_mass": "0x1.e666666666666p-1",
+   "depth": 1,
+   "stop": "diverged"
+  },
+  "preamble": {
+   "prefix": [
+    91,
+    92,
+    93
+   ],
+   "option_logprobs": {
+    "C": "-0x1.e5a9a7c3ac418p+0",
+    "D": "-0x1.c8ff7c79a9a20p-3"
+   },
+   "option_mass": "0x1.e666666666667p-1",
+   "depth": 3,
+   "stop": "diverged"
+  },
+  "adversarial_5": {
+   "prefix": [
+    90,
+    90,
+    90,
+    90,
+    90
+   ],
+   "option_logprobs": {
+    "C": "-inf",
+    "D": "-inf"
+   },
+   "option_mass": "0x0.0p+0",
+   "depth": 5,
+   "stop": "max_depth"
+  },
+  "adversarial_default": {
+   "prefix": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90
+   ],
+   "option_logprobs": {
+    "C": "-inf",
+    "D": "-inf"
+   },
+   "option_mass": "0x0.0p+0",
+   "depth": 8,
+   "stop": "max_depth"
+  },
+  "flat": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "-0x1.26bb1bbb55515p+2",
+    "D": "-0x1.26bb1bbb55515p+2"
+   },
+   "option_mass": "0x1.47ae147ae147ep-6",
+   "depth": 0,
+   "stop": "no_shared_prefix"
+  },
+  "never_swallows": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "-0x1.a431d5bcc193ep-5",
+    "D": "-0x1.7f7427b73e391p+1"
+   },
+   "option_mass": "0x1.0000000000000p+0",
+   "depth": 0,
+   "stop": "diverged"
+  },
+  "threads_prefix": {
+   "prefix": [
+    91,
+    90,
+    90
+   ],
+   "option_logprobs": {
+    "C": "-0x1.af8e8210a415cp-4",
+    "D": "-0x1.7f7427b73e391p+1"
+   },
+   "option_mass": "0x1.e666666666667p-1",
+   "depth": 2,
+   "stop": "diverged"
+  },
+  "zero_depth": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "-inf",
+    "D": "-inf"
+   },
+   "option_mass": "0x0.0p+0",
+   "depth": 0,
+   "stop": "max_depth"
+  },
+  "agrees": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "-0x1.058aefa811452p-1",
+    "D": "-0x1.34378fcbda721p+0"
+   },
+   "option_mass": "0x1.cccccccccccccp-1",
+   "depth": 0,
+   "stop": "diverged"
+  },
+  "logprob_above_zero": {
+   "prefix": [],
+   "option_logprobs": {
+    "C": "0x0.0p+0",
+    "D": "-0x1.e000000000000p+4"
+   },
+   "option_mass": "0x1.0000000000000p+0",
+   "depth": 0,
+   "stop": "diverged"
+  },
+  "near_certain": {
+   "prefix": [],
+   "option_logprobs": {
+    "A": "-0x1.a642bb7fb54cbp-10",
+    "B": "-0x1.9b9e0aacfe428p+2"
+   },
+   "option_mass": "0x1.0000000000000p+0",
+   "depth": 0,
+   "stop": "diverged"
+  },
+  "thresholds": {
+   "prefix": [
+    90
+   ],
+   "option_logprobs": {
+    "C": "-0x1.6d3c324e13f50p-2",
+    "D": "-0x1.62e42fefa39efp+0"
+   },
+   "option_mass": "0x1.e666666666666p-1",
+   "depth": 1,
+   "stop": "diverged"
+  }
+ },
+ "overlap_messages": {
+  "crafted": "option surface sets are not disjoint (invariant b): 'C'/'D' share 1 token(s): 7. A token in two sets is counted in both marginals, so the margin between those two options is measuring the same probability mass against itself. Usual cause: option labels that collide under normalisation -- case ('C'/'c'), formatting ('C'/'(C)'), or Unicode casing ('I'/'ı').",
+  "named": "option surface sets are not disjoint (invariant b): 'C'/'D' share 1 token(s): 5 'ĠC'. A token in two sets is counted in both marginals, so the margin between those two options is measuring the same probability mass against itself. Usual cause: option labels that collide under normalisation -- case ('C'/'c'), formatting ('C'/'(C)'), or Unicode casing ('I'/'ı').",
+  "three_way": "option surface sets are not disjoint (invariant b): 'A'/'B' share 7 token(s): 1, 2, 3, 4, 5 (+2 more); 'B'/'C' share 1 token(s): 9. A token in two sets is counted in both marginals, so the margin between those two options is measuring the same probability mass against itself. Usual cause: option labels that collide under normalisation -- case ('C'/'c'), formatting ('C'/'(C)'), or Unicode casing ('I'/'ı')."
+ }
+}

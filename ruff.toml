@@ -1,0 +1,8 @@
+# Real issues (incl. bugbear) + import order + modernisation.
+line-length = 110
+target-version = "py310"
+include = ["src/**/*.py", "tests/**/*.py", "bench/**/*.py"]
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "W", "B"]
+ignore = ["E501"]  # long explanatory comments are the house style

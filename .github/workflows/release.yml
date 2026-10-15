@@ -1,0 +1,40 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Check the tag matches the package version
+        run: |
+          set -euo pipefail
+          want="${GITHUB_REF_NAME#v}"
+          have="$(uv version --short)"
+          if [ "$want" != "$have" ]; then
+            echo "tag v$want does not match pyproject version $have" >&2
+            exit 1
+          fi
+      - name: Check the built-in bias set is pinned and fetches (bench/release_check.py)
+        run: uv run --frozen python -m bench.release_check
+      - run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
