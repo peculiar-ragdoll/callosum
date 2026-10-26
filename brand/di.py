@@ -115,6 +115,11 @@ def _thousands(n: int) -> str:
 # ---- the spec ----------------------------------------------------------------------------------------------------
 
 PATH_KEYS = ("union", "sample", "prompt_tokens", "prompt_tokens_rows", "di_dir", "area_labels_from")
+# a single-marker series' own files: its prompt-token counts (d1), and for a model that cannot answer some rows the
+# others answer (Laya's window), its own bootstrap, the union build that keeps those rows its own, the bootstrap
+# without the sensitivity's benchmark and its window's counts
+OWN_KEYS = ("own_bootstrap", "own_union", "own_sensitivity", "own_window")
+SERIES_PATH_KEYS = ("own_prompt_tokens", *OWN_KEYS)
 
 
 def load_spec(path: str | Path, *, root: str | Path | None = None) -> dict:
@@ -137,8 +142,8 @@ def load_spec(path: str | Path, *, root: str | Path | None = None) -> dict:
     spec["patches"] = {a: res(p) for a, p in (spec.get("patches") or {}).items()}
     if isinstance(spec.get("sensitivity"), dict):
         spec["sensitivity"] = {**spec["sensitivity"], "path": res(spec["sensitivity"].get("path"))}
-    spec["series"] = [{**s, "own_prompt_tokens": res(s["own_prompt_tokens"])} if isinstance(s, dict)
-                      and s.get("own_prompt_tokens") else s for s in spec.get("series") or []]
+    spec["series"] = [{**s, **{k: res(s[k]) for k in SERIES_PATH_KEYS if s.get(k)}} if isinstance(s, dict) else s
+                      for s in spec.get("series") or []]
     return spec
 
 
@@ -208,11 +213,17 @@ def _check_series(spec: dict) -> list[dict]:
             arms = [s["arm"]]
         if s["kind"] == "callo" and (s.get("family") or s.get("own_prompt_tokens") or s.get("answering")):
             raise Refusal(f"series {name}: family, answering and own_prompt_tokens are for a single-marker series")
-        for k in ("family", "answering"):
+        for k in ("family", "answering", "cut_text"):
             if s.get(k) is not None and (not isinstance(s[k], str) or not s[k]):
                 raise Refusal(f"series {name}: {k} is a non-empty string")
         if s.get("own_prompt_tokens") and not s.get("answering"):
             raise Refusal(f"series {name}: own prompt-token counts come with the words for how it answers (answering)")
+        if any(s.get(k) for k in OWN_KEYS):
+            if s["kind"] == "callo":
+                raise Refusal(f"series {name}: an own bootstrap is for a single-marker series")
+            if not (s.get("own_bootstrap") and s.get("own_union") and s.get("own_window")):
+                raise Refusal(f"series {name}: an own bootstrap comes with its own union and its window's counts "
+                              "(own_bootstrap, own_union, own_window)")
         stray = sorted(set(s.get("point_label_at") or {}) - set(arms))
         if stray:
             raise Refusal(f"series {name}: point_label_at names {stray}, not its arms")
@@ -512,6 +523,103 @@ def _own_tokens(s: dict, prov: dict, spec: dict, unanswered: dict, sample_sha: s
             "sent_question_max": sent.get("max")}
 
 
+PAIRED_FIELDS = ("index", "kit_index", "index_ci", "areas", "areas_ci", "delta_vs_reference",
+                 "delta_vs_second_reference", "area_delta_vs_reference")
+SAME_DRAWS = ("edition", "n", "seed", "kit_commit", "suite_sha256", "groups_per_benchmark", "rows", "reference",
+              "second_reference")
+
+
+def _same_draws(doc: dict, base: dict, path: str, arm: str, what: str) -> None:
+    """An arm's own bootstrap pairs with the plate's: the same edition, draws (n, seed, groups), kit, suite and
+    references, and every other arm in it scored from the plate's results to the plate's numbers exactly (the
+    references' index, CIs and Δs; latency is over another row set, so it is not compared)."""
+    for k in SAME_DRAWS:
+        if doc.get(k) != base.get(k):
+            raise Refusal(f"{path}: {k} {str(doc.get(k))[:40]!r} does not pair with the plate's {what} bootstrap")
+    if arm not in doc["arms"] or arm in base["arms"]:
+        raise Refusal(f"{path}: arm {arm} must be in its own bootstrap and not in the plate's {what} bootstrap")
+    for other, a in doc["arms"].items():
+        if other == arm:
+            continue
+        if other not in base["arms"] or doc["inputs"][other] != base["inputs"][other]:
+            raise Refusal(f"{path}: arm {other} was not scored from the plate's {what} bootstrap's results")
+        if {k: a[k] for k in PAIRED_FIELDS} != {k: base["arms"][other][k] for k in PAIRED_FIELDS}:
+            raise Refusal(f"{path}: arm {other}'s numbers differ from the plate's {what} bootstrap: other draws")
+
+
+def _own_boot(s: dict, spec: dict, boot: dict, union: dict, sample: dict) -> dict:
+    """A single-marker series scored in its own bootstrap (`own_bootstrap`): a model that cannot answer some rows the
+    others answer (Laya: rows whose question and options alone pass its window) counts those rows wrong for itself
+    only (the bench's di_union.py --arm-only), so the plate's answered set and every other arm's numbers stay as
+    they are. Its own union (`own_union`) must be the plate's union with the arm added: the same rows not answered by
+    every arm, every other arm's derived results byte-identical, the arm's own misses listed as arm-only and nothing
+    pending or in error. Its bootstrap pairs with the plate's (the same draws; the references' numbers equal). Its
+    latency is over the rows it answered. Its window's counts (`own_window`, the bench's per-row token file) give the
+    rows cut to fit and must name the same misses."""
+    arm, path = s["arm"], s["own_bootstrap"]
+    doc = _check_bootstrap(_load(path, f"series {s['name']}'s own bootstrap"), spec, "kit", path)
+    _same_draws(doc, boot, path, arm, "kit")
+    upath = s["own_union"]
+    u = _load(upath, f"series {s['name']}'s own union")
+    if (doc.get("union") or {}).get("sha256") != sha256_file(upath):
+        raise Refusal(f"{path}: not made from the union {upath} (sha256)")
+    if (set(u["union"]) != set(union["union"]) or u["sample_rows"] != union["sample_rows"]
+            or u.get("sample_sha256_uncompressed") != union.get("sample_sha256_uncompressed")
+            or set(u["arms"]) != set(union["arms"]) | {arm}):
+        raise Refusal(f"{upath}: not the plate's union with arm {arm} added; the plate's answered set would change")
+    for a in union["arms"]:
+        if u["derived_sha256"].get(a) != union["derived_sha256"][a]:
+            raise Refusal(f"{upath}: arm {a}'s derived results differ from the plate's union's")
+    if u["derived_sha256"].get(arm) != doc["inputs"][arm]["derived_sha256"]:
+        raise Refusal(f"{path}: arm {arm}'s derived results are not the ones {upath} wrote")
+    if set(u.get("arm_only") or {}) - {arm}:
+        raise Refusal(f"{upath}: arm-only rows of another arm")
+    if u["pending"].get(arm) or u["unexplained_errors"].get(arm) or [e for e in u.get("errors") or []
+                                                                       if e["arm"] == arm]:
+        raise Refusal(f"{upath}: arm {arm} has pending or error rows")
+    own = (u.get("arm_only") or {}).get(arm) or {"rows": 0, "per_benchmark": {}}
+    if doc["latency_rows"] != u["sample_rows"] - u["union_rows"] - own["rows"]:
+        raise Refusal(f"{path}: latency over {doc['latency_rows']} rows, not the {u['sample_rows']} sampled less the "
+                      f"{u['union_rows']} not answered by every arm and its own {own['rows']}")
+    wpath = s["own_window"]
+    w = _load(wpath, f"series {s['name']}'s window counts")
+    if w.get("arm") != arm or w.get("sample_sha256_uncompressed") != union.get("sample_sha256_uncompressed"):
+        raise Refusal(f"{wpath}: counts for arm {w.get('arm')!r} or another sample")
+    if len(w.get("own_premarks") or {}) != own["rows"]:
+        raise Refusal(f"{wpath}: {len(w.get('own_premarks') or {})} rows over the window, the union counts "
+                      f"{own['rows']} arm-only rows")
+    per = sample["per_benchmark"]
+    return {"arm": arm, "entry": doc["arms"][arm], "inputs": doc["inputs"], "doc": doc,
+            "record": {"path": _pub(path, spec), "sha256": sha256_file(path), "union": _pub(upath, spec),
+                       "union_sha256": sha256_file(upath), "window": _pub(wpath, spec),
+                       "window_sha256": sha256_file(wpath), "window_tokens": int(w["max_len"]),
+                       "truncation": w.get("truncation"), "cut": int(w["rows_truncated_sent"]),
+                       "misses": own["rows"],
+                       "misses_by": [[per[str(c)]["dataset"], n] for c, n in sorted(
+                           own["per_benchmark"].items(), key=lambda kv: (-kv[1], int(kv[0])))],
+                       "latency_rows": doc["latency_rows"], "answered_by_others": u["sample_rows"] - u["union_rows"]},
+            "_paths": [path, upath, wpath]}
+
+
+def _own_sensitivity(s: dict, own: dict, doc: dict, path: str) -> dict:
+    """The arm's own bootstrap without the sensitivity's benchmark: the same pairing with the plate's sensitivity
+    bootstrap as its own bootstrap has with the plate's."""
+    arm, spath = s["arm"], s.get("own_sensitivity")
+    if not spath:
+        raise Refusal(f"series {s['name']}: the plate has a sensitivity footnote; its own bootstrap needs one too "
+                      "(own_sensitivity)")
+    sd = _load(spath, f"series {s['name']}'s own sensitivity bootstrap")
+    if sd.get("warnings") or sd.get("dropped") != doc.get("dropped"):
+        raise Refusal(f"{spath}: warnings, or another dropped benchmark than {path}")
+    _same_draws(sd, doc, spath, arm, "sensitivity")
+    if sd["inputs"] != own["inputs"] or sd.get("union") != own["doc"].get("union"):
+        raise Refusal(f"{spath}: not scored from the results its own bootstrap scored")
+    a = sd["arms"][arm]
+    if a["index"] != a["kit_index"]:
+        raise Refusal(f"{spath}: arm {arm}: the bootstrap's index {a['index']} is not the kit's {a['kit_index']}")
+    return a
+
+
 def _areas(boot: dict, spec: dict) -> list[dict]:
     ids = list(next(iter(boot["arms"].values()))["areas"])
     labels: dict[str, str] = {}
@@ -645,9 +753,17 @@ def build(spec: dict) -> dict:
         if set(b["arms"]) != set(boot["arms"]) or b["seed"] != boot["seed"] or b["kit_commit"] != boot["kit_commit"]:
             raise Refusal(f"treatment {t}'s bootstrap does not pair with {switch}'s (arms, seed or kit)")
 
+    union = _load(spec.get("union"), "the union file")
+    sample = _load(spec.get("sample"), "sample.json")
+    own_boot = {s["arm"]: _own_boot(s, spec, boot, union, sample) for s in series if s.get("own_bootstrap")}
+    if own_boot and len(boots) > 1:
+        raise Refusal(f"arm(s) {sorted(own_boot)} have their own bootstrap for treatment {switch} only; the spec "
+                      f"computes {sorted(boots)}")
+    arms_all = {**boot["arms"], **{a: o["entry"] for a, o in own_boot.items()}}    # the plate's arms, then their own
+
     present, pending = [], []
     for s in series:
-        have = [a in boot["arms"] for _, a, _ in series_points(s)]
+        have = [a in arms_all for _, a, _ in series_points(s)]
         if all(have):
             present.append(s)
         elif not any(have):
@@ -668,8 +784,6 @@ def build(spec: dict) -> dict:
     if extra and spec.get("every_arm", False):
         raise Refusal(f"the bootstrap has arm(s) {extra} that no series names")
 
-    union = _load(spec.get("union"), "the union file")
-    sample = _load(spec.get("sample"), "sample.json")
     unanswered = _unanswered(union, boot, plotted, spec, sample)
     sample_sha = union.get("sample_sha256_uncompressed")
     if sample.get("sample_sha256_uncompressed") != sample_sha:
@@ -678,13 +792,18 @@ def build(spec: dict) -> dict:
     points = []
     for s in present:
         for b, arm, _ in series_points(s):
-            pt = _point(s, b, arm, boot["arms"][arm], spec)
+            pt = _point(s, b, arm, arms_all[arm], spec)
             prov = _provenance(s, b, arm, spec)
             if prov["sample_sha256"] != sample_sha:
                 raise Refusal(f"arm {arm} ran another sample ({str(prov['sample_sha256'])[:12]})")
             if prov["kit_commit"] != boot["kit_commit"]:
                 raise Refusal(f"arm {arm} ran kit {prov['kit_commit']}, the bootstrap scored with {boot['kit_commit']}")
-            prov["reread"] = _reread(arm, boot, spec, prov)
+            prov["reread"] = _reread(arm, own_boot[arm]["doc"] if arm in own_boot else boot, spec, prov)
+            if arm in own_boot:
+                ob = prov["own_bootstrap"] = own_boot[arm]["record"]
+                if str(ob["window_tokens"]) != str(prov["server"].get("ctx")):
+                    raise Refusal(f"arm {arm}: its window counts are for {ob['window_tokens']} tokens, it ran with "
+                                  f"{prov['server'].get('ctx')}")
             if prov["reread"]:
                 prov["files"].append({"path": prov["reread"]["path"], "sha256": prov["reread"]["sha256"]})
             own = _own_tokens(s, prov, spec, unanswered, sample_sha)
@@ -702,7 +821,8 @@ def build(spec: dict) -> dict:
 
     by_arm = {p["arm"]: p for p in points}
     paired = _paired(spec, boot, by_arm)
-    sens = _sensitivity(spec, boot, by_arm)
+    sens = _sensitivity(spec, boot, by_arm, own_boot,
+                        ser_of={s["arm"]: s for s in series if s.get("own_bootstrap")})
     ref, second = by_arm[spec["reference"]], by_arm[spec["second_reference"]]
     ser_of = {s["name"]: s for s in series}
 
@@ -730,7 +850,7 @@ def build(spec: dict) -> dict:
         "areas": _areas(boot, spec),
         "series": [{**{k: s.get(k) for k in ("name", "label", "short", "kind", "marker", "runtime", "accent",
                                              "not_run", "note", "label_side", "point_labels", "point_label_at")},
-                    **{k: s[k] for k in ("family", "answering") if s.get(k)},
+                    **{k: s[k] for k in ("family", "answering", "cut_text") if s.get(k)},
                     "on_plate": s.get("plate", True) is not False,
                     "budgets": sorted(s["budgets"]) if s["kind"] == "callo" else None,
                     "arms": [a for _, a in series_arms(s)],
@@ -746,7 +866,8 @@ def build(spec: dict) -> dict:
         "treatments": {t: ({"label": TREATMENTS[t], "computed": True, "path": _pub(tpaths[t], spec),
                             "sha256": sha256_file(tpaths[t]),
                             "arms": {arm: _point(ser_of[by_arm[arm]["series"]], by_arm[arm]["budget"], arm,
-                                                 boots[t]["arms"][arm], spec) for arm in plotted}}
+                                                 (arms_all if t == switch else boots[t]["arms"])[arm], spec)
+                                     for arm in plotted}}
                            if t in boots else {"label": TREATMENTS[t], "computed": False,
                                                "moot": t == "all-unsupported" and wide["moot"],
                                                "why": (_cap(wide["moot_text"]) if t == "all-unsupported" and wide["moot"]
@@ -761,10 +882,16 @@ def build(spec: dict) -> dict:
                    [*((f"bootstrap, treatment {TREATMENTS[t].split(' ', 1)[0]}", tpaths[t]) for t in boots),
                     *((f"paired vs {by_arm[c['reference']]['label']}", c["_path"]) for c in paired),
                     *([(f"bootstrap without {sens['drop']}", sens["_path"])] if sens else []),
+                    *((f"{by_arm[a]['label']}: {r}", p_) for a, o in own_boot.items() for r, p_ in
+                      zip(("own bootstrap", "own union", "window counts"), o["_paths"], strict=True)),
+                    *((f"{by_arm[a]['label']}: own bootstrap without {sens['drop']}", p_)
+                      for a, p_ in (sens or {}).get("_own_paths", {}).items()),
                     ("union", spec["union"]), ("sample", spec["sample"]),
                     *((INPUT_ROLES[k], spec[k]) for k in INPUT_ROLES if spec.get(k))]],
         "pending": [s["name"] for s in pending],
     }
+    if sens:
+        sens.pop("_own_paths", None)
     for c in [*paired, *([sens] if sens else [])]:
         c.pop("_path")                          # the absolute path, for the inputs' sha256 only
     snap["story"] = story(snap)
@@ -862,7 +989,8 @@ INPUT_ROLES = {"prompt_tokens": "Clef prompt tokens", "prompt_tokens_rows": "Cle
                "area_labels_from": "area labels"}
 
 
-def _sensitivity(spec: dict, boot: dict, by_arm: dict) -> dict | None:
+def _sensitivity(spec: dict, boot: dict, by_arm: dict, own: dict | None = None,
+                 ser_of: dict | None = None) -> dict | None:
     """The index without one benchmark (spec `sensitivity`: {"path", "drop"}): a di_bootstrap.py output with
     --drop-benchmark, the kit's own retirement (the scored edition retires it; the kit's aggregate re-weights the area),
     on the plotted bootstrap's draws (seed), kit, references and results. Per measured arm the index and the paired Δ
@@ -890,10 +1018,17 @@ def _sensitivity(spec: dict, boot: dict, by_arm: dict) -> dict | None:
         if a["index"] != a["kit_index"]:
             raise Refusal(f"{path}: arm {arm}: the bootstrap's index {a['index']} is not the kit's {a['kit_index']}")
     refs = (boot["reference"], boot["second_reference"])
+    with_, without = dict(boot["arms"]), dict(doc["arms"])
+    own_paths = {}
+    for arm, o in (own or {}).items():            # an arm in its own bootstrap: its own without the benchmark
+        s = (ser_of or {})[arm]
+        with_[arm] = o["entry"]
+        without[arm] = _own_sensitivity(s, o, doc, path)
+        own_paths[arm] = s["own_sensitivity"]
     arms: dict[str, dict] = {}
     flips: list[dict] = []
     for arm in by_arm:
-        w, wo = boot["arms"][arm], doc["arms"][arm]
+        w, wo = with_[arm], without[arm]
         rec = {"with": w["index"], "without": wo["index"], "without_ci": wo["index_ci"]}
         for key, d, ref in (("dref", "delta_vs_reference", refs[0]), ("dsecond", "delta_vs_second_reference", refs[1])):
             if arm == ref:
@@ -912,7 +1047,8 @@ def _sensitivity(spec: dict, boot: dict, by_arm: dict) -> dict | None:
             "weights_before": b0.get("area_weights_before"), "weights_after": b0.get("area_weights_after"),
             "area_weights": dropped.get("area_weights"), "scored_edition": dropped.get("scored_edition"),
             "rows": doc.get("rows"), "n": doc["n"], "seed": doc["seed"], "path": _pub(path, spec), "_path": path,
-            "sha256": sha256_file(path),
+            "sha256": sha256_file(path), "_own_paths": own_paths,
+            "own": {a: {"path": _pub(p_, spec), "sha256": sha256_file(p_)} for a, p_ in own_paths.items()},
             "arms": arms, "shift": [min(shifts), max(shifts)], "order_same": order == order_without,
             "order": order, "order_without": order_without, "flips": flips,
             "pairs": sum(1 for a in arms.values() for k in ("dref", "dsecond") if a[k] is not None)}
@@ -997,6 +1133,8 @@ def fine_print(snap: dict) -> list[dict]:
     out.append({"lead": "Index.", "text": "The Decision Index's balanced skill: chance-corrected benchmark scores averaged "
                                           f"in five fixed-weight areas (the panels); {CHANCE_TEXT}."})
     oc = un["over_cap"]
+    own = [_short(snap, p["series"]) for p in snap["points"]
+           if p["provenance"].get("own_bootstrap") and p.get("on_plate", True)]
     unans = (f"Rows over {_thousands(oc.get('cap', 16384))} Clef prompt tokens (n = {oc['n']}) and any row not "
              f"answered by every arm count as wrong for every arm (the index's no-truncation rule; all {oc['n']} are "
              f"{', '.join(oc['benchmarks'])}, {oc['groups']} of its {oc['of_groups']} groups"
@@ -1007,10 +1145,15 @@ def fine_print(snap: dict) -> list[dict]:
         arm = next((p for p in snap["points"] if p["arm"] == e["arm"]), None)
         who = arm["label"] if arm else e["arm"]
         unans += f" {e['row']} counts as unanswered for every arm: {e['cause']} ({who})."
+    if own:
+        unans += f" The exception: rows that only {_and(own)} cannot answer count as wrong for {_and(own)} alone (below)."
     out.append({"lead": "Unanswered.", "text": unans})
     for p in snap["points"]:
         if p["provenance"].get("own_tokens") and p.get("on_plate", True):
             out.append({"lead": f"{_short(snap, p['series'])}.", "text": own_tokens_text(snap, p)})
+    for p in snap["points"]:
+        if p["provenance"].get("own_bootstrap") and p.get("on_plate", True):
+            out.append({"lead": f"{_short(snap, p['series'])}.", "text": own_window_text(snap, p)})
     sens = sensitivity_text(snap)
     if sens:
         out.append({"lead": f"Without {snap['sensitivity']['drop']}.", "text": sens})
@@ -1031,9 +1174,12 @@ def fine_print(snap: dict) -> list[dict]:
     ee = _early_exit_text(snap)
     if ee:
         out.append({"lead": "Early exit.", "text": ee})
+    own_lat = [f"{_short(snap, p['series'])}'s over the {_thousands(p['lat']['n'])} rows it answered"
+               for p in snap["points"] if p["provenance"].get("own_bootstrap") and p.get("on_plate", True)]
     out.append({"lead": "Latency.", "text": (
         "Request completion time, measured by one HTTP client that is the same for every arm, over the "
-        f"{_thousands(un['latency_rows'])} rows answered by every arm: points at the mean, tails to the p95.")})
+        f"{_thousands(un['latency_rows'])} rows answered by every arm" + "".join(f" ({x})" for x in own_lat)
+        + ": points at the mean, tails to the p95.")})
     if snap.get("preliminary") and notes.get("latency"):
         out.append({"lead": "Timing.", "text": _cap(notes["latency"]) + "."})
     elif notes.get("timing"):
@@ -1066,6 +1212,19 @@ def own_tokens_text(snap: dict, p: dict) -> str:
     return (f"{_cap(_series(snap, p['series'])['answering'])}, so its prompts on the {oc['n']} "
             f"{_and(oc['benchmarks'])} rows ({_thousands(own['over_cap_question_max'][1])} tokens at most) would fit "
             f"its {_thousands(own['n_ctx'])}-token context; they still count as wrong for every arm.")
+
+
+def own_window_text(snap: dict, p: dict) -> str:
+    """A model with a short window (Laya): the rows cut to fit it, and the rows that do not fit at all, which count as
+    wrong for it only (its own bootstrap on the plate's draws), so no other arm's number moves."""
+    ob, short = p["provenance"]["own_bootstrap"], _short(snap, p["series"])
+    cut = _series(snap, p["series"]).get("cut_text")
+    return (f"{_thousands(ob['cut'])} of the {_thousands(ob['answered_by_others'])} rows the other arms answer were "
+            f"cut to its {_thousands(ob['window_tokens'])}-token window" + (f" ({cut})" if cut else "")
+            + f"; {ob['misses']} rows that do not fit at all ("
+            + _and([f"{n} {k}" for k, n in ob["misses_by"]])
+            + f": the question and its options alone pass {_thousands(ob['window_tokens'])} tokens) count as wrong "
+            f"for {short} only, scored on the same draws, so no other arm's number moves.")
 
 
 def _one_line(lead: str, text: str) -> bool:
@@ -1428,6 +1587,16 @@ def made(snap: dict) -> list[dict]:
                 args = [Path(a).name if "/" in a else a for a in pv["server_args"]]
                 bits.append("llama-server args " + " ".join(args))
         bits.append(f"llama.cpp {pv['build']}; server " + ", ".join(f"{k} {v}" for k, v in pv["server"].items() if v))
+        ob = pv.get("own_bootstrap")
+        if ob:
+            bits.append(f"its own bootstrap {named(ob['path'], ob['sha256'])} on the plotted bootstrap's draws (the "
+                        f"references' numbers equal), from its own union {named(ob['union'], ob['union_sha256'])}: the "
+                        f"plate's {snap['unanswered']['union_rows']} rows not answered by every arm, every other arm's "
+                        f"results byte-identical, and its own {ob['misses']} arm-only rows ("
+                        + _and([f"{n} {k}" for k, n in ob["misses_by"]]) + f"); its window counts "
+                        f"{named(ob['window'], ob['window_sha256'])}: {_thousands(ob['window_tokens'])} tokens, "
+                        f"{_thousands(ob['cut'])} rows cut" + (f" ({ob['truncation']})" if ob.get("truncation") else "")
+                        + f", latency over its {_thousands(ob['latency_rows'])} answered rows")
         own = pv.get("own_tokens")
         if own:
             lo, hi = own["over_cap_question_max"]
