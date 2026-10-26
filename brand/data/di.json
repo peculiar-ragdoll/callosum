@@ -272,6 +272,33 @@
    ],
    "status": "present",
    "pending_note": null
+  },
+  {
+   "name": "laya",
+   "label": "Laya 421M · F16",
+   "short": "Laya",
+   "kind": "clef",
+   "marker": "triangle-hollow",
+   "runtime": "ModernBERT-large · llama.cpp native",
+   "accent": null,
+   "not_run": null,
+   "note": "Laya (convaiinnovations/laya @7b928d8, Apache-2.0): the English root checkpoint, a ModernBERT-large encoder (395M) with a decision head, 421M in all, converted to an F16 GGUF at llama.cpp 23deec02 (its own converter) and served on that build's native decision endpoint (decision type laya) with -c 512 -b 512 -ub 512 -np 1, the checkpoint's documented 512-token context; it scores each question in its own pass (the state, cut to fit, then that question and its options) and takes the highest-scoring option, at the checkpoint's own temperatures. Its 67 rows over the window are pre-marked for it alone and count as wrong for it only (its own union and bootstrap on the plate's draws), so the plate's 12 arms keep their numbers.",
+   "label_side": null,
+   "point_labels": null,
+   "point_label_at": null,
+   "family": "Laya",
+   "cut_text": "its state's end, the question and options kept whole, as the authors' API does by default",
+   "on_plate": true,
+   "budgets": null,
+   "arms": [
+    "laya"
+   ],
+   "variants": [],
+   "rows": [
+    "laya"
+   ],
+   "status": "present",
+   "pending_note": null
   }
  ],
  "y_range": [
@@ -1955,6 +1982,152 @@
     }
    },
    "on_plate": true
+  },
+  {
+   "arm": "laya",
+   "series": "laya",
+   "kind": "clef",
+   "budget": null,
+   "variant_of": null,
+   "early_exit": null,
+   "label": "Laya 421M · F16",
+   "index": 4.49,
+   "index_ci": [
+    3.7295,
+    7.7317
+   ],
+   "dref": [
+    -50.36,
+    -52.69,
+    -45.9385
+   ],
+   "dsecond": [
+    -53.51,
+    -55.87,
+    -48.8388
+   ],
+   "areas": {
+    "knowledge": 0.0271,
+    "language": 0.0666,
+    "retrieval": 0.0505,
+    "tools": 0.0501,
+    "arts": 0.014
+   },
+   "areas_ci": {
+    "knowledge": [
+     0.0126,
+     0.0948
+    ],
+    "language": [
+     0.0385,
+     0.1186
+    ],
+    "retrieval": [
+     0.0046,
+     0.1056
+    ],
+    "tools": [
+     0.0184,
+     0.0926
+    ],
+    "arts": [
+     0.0,
+     0.0909
+    ]
+   },
+   "area_dref": {
+    "knowledge": [
+     -0.5337,
+     -0.5751,
+     -0.4478
+    ],
+    "language": [
+     -0.3953,
+     -0.4535,
+     -0.3163
+    ],
+    "retrieval": [
+     -0.4129,
+     -0.5009,
+     -0.3159
+    ],
+    "tools": [
+     -0.7651,
+     -0.8288,
+     -0.6996
+    ],
+    "arts": [
+     -0.41,
+     -0.4815,
+     -0.2991
+    ]
+   },
+   "lat": {
+    "mean": 219.6,
+    "p95": 1162.9,
+    "mean_ci": [
+     199.0,
+     238.2
+    ],
+    "n": 1400
+   },
+   "provenance": {
+    "dir": "harness/results/callo_v0.3/di/laya",
+    "utc_start": "2026-10-26T10:55:51+00:00",
+    "utc_end": "2026-10-26T11:01:00+00:00",
+    "date": "2026-10-26",
+    "model": "laya-7b928d8-F16.gguf",
+    "model_sha256": "ab63fff8fac75b835a2e1a46543105369c076247202092d4e995e73e9a6197e1",
+    "sample_sha256": "0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b",
+    "kit_commit": "9eb2dbe2a358004c8782c66e40a83ac07b953fec",
+    "final_counts": {
+     "unsupported": 80,
+     "ok": 1400
+    },
+    "accept_cap_loss": [
+     "36"
+    ],
+    "sessions": 1,
+    "files": [
+     {
+      "path": "harness/results/callo_v0.3/di/laya/di_meta.json",
+      "sha256": "00bcd8eca27c46bb27376bb7cc1878c778eacf3f45053927768374dae6c7bd4b"
+     }
+    ],
+    "build": "23deec02",
+    "server": {
+     "ctx": "512",
+     "batch": "512",
+     "ubatch": "512",
+     "parallel": "1"
+    },
+    "reread": null,
+    "own_bootstrap": {
+     "path": "harness/results/callo_v0.3/di/bootstrap-laya.json",
+     "sha256": "44da28ce83293ae77700d1b23f72b941a17ed13890811613eb51d55350cfa6a8",
+     "union": "harness/results/callo_v0.3/di/union-laya.json",
+     "union_sha256": "235ec6b5397c878a3b15f7d986dafee420bdbce086fa5349587a961f1b34f033",
+     "window": "harness/results/callo_v0.3/di/prompt_tokens_rows.laya.json",
+     "window_sha256": "bdf5760f52340d45023d6e7703edcb76579e8500045a51cd512f2b667f2f7293",
+     "window_tokens": 512,
+     "truncation": "state, its end cut (first tokens kept, the authors' API default); question and options whole",
+     "cut": 256,
+     "misses": 67,
+     "misses_by": [
+      [
+       "CLINC150+OOS",
+       34
+      ],
+      [
+       "POP909-CL",
+       33
+      ]
+     ],
+     "latency_rows": 1400,
+     "answered_by_others": 1467
+    }
+   },
+   "on_plate": true
   }
  ],
  "paired": [
@@ -3136,6 +3309,95 @@
       ],
       "n": 1467
      }
+    },
+    "laya": {
+     "arm": "laya",
+     "series": "laya",
+     "kind": "clef",
+     "budget": null,
+     "variant_of": null,
+     "early_exit": null,
+     "label": "Laya 421M · F16",
+     "index": 4.49,
+     "index_ci": [
+      3.7295,
+      7.7317
+     ],
+     "dref": [
+      -50.36,
+      -52.69,
+      -45.9385
+     ],
+     "dsecond": [
+      -53.51,
+      -55.87,
+      -48.8388
+     ],
+     "areas": {
+      "knowledge": 0.0271,
+      "language": 0.0666,
+      "retrieval": 0.0505,
+      "tools": 0.0501,
+      "arts": 0.014
+     },
+     "areas_ci": {
+      "knowledge": [
+       0.0126,
+       0.0948
+      ],
+      "language": [
+       0.0385,
+       0.1186
+      ],
+      "retrieval": [
+       0.0046,
+       0.1056
+      ],
+      "tools": [
+       0.0184,
+       0.0926
+      ],
+      "arts": [
+       0.0,
+       0.0909
+      ]
+     },
+     "area_dref": {
+      "knowledge": [
+       -0.5337,
+       -0.5751,
+       -0.4478
+      ],
+      "language": [
+       -0.3953,
+       -0.4535,
+       -0.3163
+      ],
+      "retrieval": [
+       -0.4129,
+       -0.5009,
+       -0.3159
+      ],
+      "tools": [
+       -0.7651,
+       -0.8288,
+       -0.6996
+      ],
+      "arts": [
+       -0.41,
+       -0.4815,
+       -0.2991
+      ]
+     },
+     "lat": {
+      "mean": 219.6,
+      "p95": 1162.9,
+      "mean_ci": [
+       199.0,
+       238.2
+      ],
+      "n": 1400
+     }
     }
    }
   },
@@ -3164,9 +3426,9 @@
   "think": 256
  },
  "generator": {
-  "callo_commit": "b576d0d85dba",
+  "callo_commit": "4abdf66b4def",
   "spec": "brand/data/di.release.spec.json",
-  "built": "2026-10-14T22:01:58Z"
+  "built": "2026-10-26T21:14:28Z"
  },
  "sensitivity": {
   "drop": "BRIGHT",
@@ -3200,6 +3462,12 @@
   "seed": 20260919,
   "path": "harness/results/callo_v0.3/di/bootstrap-release3-nobright.json",
   "sha256": "f7331060df33714c5e67fd3f0eab6084e4a1fb22ec144b2ad709b134124b438e",
+  "own": {
+   "laya": {
+    "path": "harness/results/callo_v0.3/di/bootstrap-laya-nobright.json",
+    "sha256": "bce49aa18ad2672e000af5e6a04084cbd066afd01631e8de74419b02146b71e7"
+   }
+  },
   "arms": {
    "tiel-b0": {
     "with": 38.48,
@@ -3520,10 +3788,38 @@
      -15.88,
      -8.2973
     ]
+   },
+   "laya": {
+    "with": 4.49,
+    "without": 4.71,
+    "without_ci": [
+     3.7797,
+     8.05
+    ],
+    "dref": [
+     -50.36,
+     -52.69,
+     -45.9385
+    ],
+    "dref_without": [
+     -52.0,
+     -54.4325,
+     -47.31
+    ],
+    "dsecond": [
+     -53.51,
+     -55.87,
+     -48.8388
+    ],
+    "dsecond_without": [
+     -55.41,
+     -57.95,
+     -50.5395
+    ]
    }
   },
   "shift": [
-   0.8300000000000018,
+   0.21999999999999975,
    2.1199999999999974
   ],
   "order_same": true,
@@ -3539,7 +3835,8 @@
    "d1-3b-q4km",
    "sharp-minicpm-b1024",
    "tiel-b0",
-   "sharp-minicpm-b0"
+   "sharp-minicpm-b0",
+   "laya"
   ],
   "order_without": [
    "clef27b-udq4",
@@ -3553,10 +3850,11 @@
    "d1-3b-q4km",
    "sharp-minicpm-b1024",
    "tiel-b0",
-   "sharp-minicpm-b0"
+   "sharp-minicpm-b0",
+   "laya"
   ],
   "flips": [],
-  "pairs": 22
+  "pairs": 24
  },
  "inputs": [
   {
@@ -3578,6 +3876,26 @@
    "role": "bootstrap without BRIGHT",
    "path": "harness/results/callo_v0.3/di/bootstrap-release3-nobright.json",
    "sha256": "f7331060df33714c5e67fd3f0eab6084e4a1fb22ec144b2ad709b134124b438e"
+  },
+  {
+   "role": "Laya 421M · F16: own bootstrap",
+   "path": "harness/results/callo_v0.3/di/bootstrap-laya.json",
+   "sha256": "44da28ce83293ae77700d1b23f72b941a17ed13890811613eb51d55350cfa6a8"
+  },
+  {
+   "role": "Laya 421M · F16: own union",
+   "path": "harness/results/callo_v0.3/di/union-laya.json",
+   "sha256": "235ec6b5397c878a3b15f7d986dafee420bdbce086fa5349587a961f1b34f033"
+  },
+  {
+   "role": "Laya 421M · F16: window counts",
+   "path": "harness/results/callo_v0.3/di/prompt_tokens_rows.laya.json",
+   "sha256": "bdf5760f52340d45023d6e7703edcb76579e8500045a51cd512f2b667f2f7293"
+  },
+  {
+   "role": "Laya 421M · F16: own bootstrap without BRIGHT",
+   "path": "harness/results/callo_v0.3/di/bootstrap-laya-nobright.json",
+   "sha256": "bce49aa18ad2672e000af5e6a04084cbd066afd01631e8de74419b02146b71e7"
   },
   {
    "role": "union",
@@ -3635,15 +3953,19 @@
   },
   {
    "lead": "Unanswered.",
-   "text": "Rows over 16,384 Clef prompt tokens (n = 13) and any row not answered by every arm count as wrong for every arm (the index's no-truncation rule; all 13 are BRIGHT, 13 of its 33 groups, 17,112–32,805 tokens, length in the 32-document schema); Clef's own release code would refuse 12 of the 13 (“schema requires … tokens before state”) and truncate 1."
+   "text": "Rows over 16,384 Clef prompt tokens (n = 13) and any row not answered by every arm count as wrong for every arm (the index's no-truncation rule; all 13 are BRIGHT, 13 of its 33 groups, 17,112–32,805 tokens, length in the 32-document schema); Clef's own release code would refuse 12 of the 13 (“schema requires … tokens before state”) and truncate 1. The exception: rows that only Laya cannot answer count as wrong for Laya alone (below)."
   },
   {
    "lead": "d1-3B.",
    "text": "Answers each question in its own prompt (the state, then that question), so its prompts on the 13 BRIGHT rows (7,044 tokens at most) would fit its 16,384-token context; they still count as wrong for every arm."
   },
   {
+   "lead": "Laya.",
+   "text": "256 of the 1,467 rows the other arms answer were cut to its 512-token window (its state's end, the question and options kept whole, as the authors' API does by default); 67 rows that do not fit at all (34 CLINC150+OOS and 33 POP909-CL: the question and its options alone pass 512 tokens) count as wrong for Laya only, scored on the same draws, so no other arm's number moves."
+  },
+  {
    "lead": "Without BRIGHT.",
-   "text": "Every arm +0.8 to +2.1 (the index's own re-weighting, the same draws); the order is unchanged and no paired CI changes whether it includes 0; Clef-Flash BF16 56.7."
+   "text": "Every arm +0.2 to +2.1 (the index's own re-weighting, the same draws); the order is unchanged and no paired CI changes whether it includes 0; Clef-Flash BF16 56.7."
   },
   {
    "lead": "> 26 options.",
@@ -3659,7 +3981,7 @@
   },
   {
    "lead": "Latency.",
-   "text": "Request completion time, measured by one HTTP client that is the same for every arm, over the 1,467 rows answered by every arm: points at the mean, tails to the p95."
+   "text": "Request completion time, measured by one HTTP client that is the same for every arm, over the 1,467 rows answered by every arm (Laya's over the 1,400 rows it answered): points at the mean, tails to the p95."
   },
   {
    "lead": "Timing.",
@@ -3683,7 +4005,7 @@
   },
   {
    "lead": "Builds.",
-   "text": "Callo 0.3.0 development builds: the first build (Tiel-Coder no think and think 256; Sharp-MiniCPM5-2B think 1024), the refit build (Sharp-MiniCPM5-2B no think), the early-exit build (Flash-Next no think) and the gate build (the early-exit points); without early exit their behaviour is byte-identical, but for the readout fix the re-read covers; --cache on (default); llama.cpp b50-4ebdf2c (Callo), b11379 1537a0a8 (Clef) and 23deec02 (d1); Tiel-Coder budgets 512 and 1024 not run on DI (only 0 and 256); Sharp-MiniCPM5-2B budgets 256 and 512 not run on DI (only 0 and 1024); Apple M2 Ultra, 64 GB, one request at a time; run Callo 2026-10-10 to 2026-10-13, Clef 2026-10-10, d1 2026-10-14 (UTC)."
+   "text": "Callo 0.3.0 development builds: the first build (Tiel-Coder no think and think 256; Sharp-MiniCPM5-2B think 1024), the refit build (Sharp-MiniCPM5-2B no think), the early-exit build (Flash-Next no think) and the gate build (the early-exit points); without early exit their behaviour is byte-identical, but for the readout fix the re-read covers; --cache on (default); llama.cpp b50-4ebdf2c (Callo), b11379 1537a0a8 (Clef) and 23deec02 (d1, Laya); Tiel-Coder budgets 512 and 1024 not run on DI (only 0 and 256); Sharp-MiniCPM5-2B budgets 256 and 512 not run on DI (only 0 and 1024); Apple M2 Ultra, 64 GB, one request at a time; run Callo 2026-10-10 to 2026-10-13, Clef 2026-10-10, d1 2026-10-14, Laya 2026-10-26 (UTC)."
   }
  ],
  "made": [
@@ -3705,7 +4027,7 @@
   },
   {
    "lead": "Sensitivity without BRIGHT.",
-   "text": "BRIGHT (catalog 36) dropped by the Decision Index kit's own retirement: the scored edition is 0.3-drop-36, and its aggregate re-weights the retrieval area's benchmarks from 4, 5 and 36: 0.1818; 37, 56 and 61: 0.1515 to 4 and 5: 0.2222; 37, 56 and 61: 0.1852; the area weights are unchanged (retrieval 20.02 %). The plotted bootstrap's 1,000 draws (seed 20260919) and results, 1,447 rows; latency stays the plotted bootstrap's. Every arm +0.8 to +2.1 (+0.83 to +2.12); the order of all 12 arms is unchanged; none of the 22 paired CIs (vs Clef-Flash BF16 and vs Clef 27B) changes whether it includes 0. Per arm in the table below; source `bootstrap-release3-nobright.json` (sha256 f7331060df33714c…)."
+   "text": "BRIGHT (catalog 36) dropped by the Decision Index kit's own retirement: the scored edition is 0.3-drop-36, and its aggregate re-weights the retrieval area's benchmarks from 4, 5 and 36: 0.1818; 37, 56 and 61: 0.1515 to 4 and 5: 0.2222; 37, 56 and 61: 0.1852; the area weights are unchanged (retrieval 20.02 %). The plotted bootstrap's 1,000 draws (seed 20260919) and results, 1,447 rows; latency stays the plotted bootstrap's. Every arm +0.2 to +2.1 (+0.22 to +2.12); the order of all 13 arms is unchanged; none of the 24 paired CIs (vs Clef-Flash BF16 and vs Clef 27B) changes whether it includes 0. Per arm in the table below; source `bootstrap-release3-nobright.json` (sha256 f7331060df33714c…)."
   },
   {
    "lead": "Clef timings.",
@@ -3764,6 +4086,10 @@
    "text": "`d1-3B-Q4_K_M.gguf` (sha256 16aff27ea2eefdc3…); llama.cpp 23deec02; server ctx 16384, batch 16384, ubatch 16384, parallel 1; its own prompt-token counts `prompt_tokens_rows.d1-3b-q4km.json` (sha256 df16992437091e67…) (the server's own code, offline): 13,171 questions on 1,467 rows, one prompt each, the longest 9,393 tokens; on the 13 pre-marked rows the longest prompt per row is 1,198–7,044 tokens; run 2026-10-14T21:04:14+00:00 to 2026-10-14T21:40:45+00:00; mean request time 1.5 s [1.4 s, 1.6 s]."
   },
   {
+   "lead": "Laya 421M · F16.",
+   "text": "`laya-7b928d8-F16.gguf` (sha256 ab63fff8fac75b83…); llama.cpp 23deec02; server ctx 512, batch 512, ubatch 512, parallel 1; its own bootstrap `bootstrap-laya.json` (sha256 44da28ce83293ae7…) on the plotted bootstrap's draws (the references' numbers equal), from its own union `union-laya.json` (sha256 235ec6b5397c878a…): the plate's 13 rows not answered by every arm, every other arm's results byte-identical, and its own 67 arm-only rows (34 CLINC150+OOS and 33 POP909-CL); its window counts `prompt_tokens_rows.laya.json` (sha256 bdf5760f52340d45…): 512 tokens, 256 rows cut (state, its end cut (first tokens kept, the authors' API default); question and options whole), latency over its 1,400 answered rows; run 2026-10-26T10:55:51+00:00 to 2026-10-26T11:01:00+00:00; mean request time 220 ms [199 ms, 238 ms]."
+  },
+  {
    "lead": "Paired vs Tiel-Coder · think 256.",
    "text": "`bootstrap-ee1-vs-tiel256.json` (sha256 e7205828268df85a…), the same draws, kit and results as the plotted bootstrap: Tiel-Coder · think 256, early exit +0.2 [−2.0, +2.3], mean request time ×0.701; Tiel-Coder · think 256, early exit + gate −0.8 [−2.9, +1.5], mean request time ×0.823."
   },
@@ -3798,6 +4124,10 @@
   {
    "lead": null,
    "text": "d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context."
+  },
+  {
+   "lead": null,
+   "text": "Laya (convaiinnovations/laya @7b928d8, Apache-2.0): the English root checkpoint, a ModernBERT-large encoder (395M) with a decision head, 421M in all, converted to an F16 GGUF at llama.cpp 23deec02 (its own converter) and served on that build's native decision endpoint (decision type laya) with -c 512 -b 512 -ub 512 -np 1, the checkpoint's documented 512-token context; it scores each question in its own pass (the state, cut to fit, then that question and its options) and takes the highest-scoring option, at the checkpoint's own temperatures. Its 67 rows over the window are pre-marked for it alone and count as wrong for it only (its own union and bootstrap on the plate's draws), so the plate's 12 arms keep their numbers."
   }
  ],
  "builds": [
