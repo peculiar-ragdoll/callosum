@@ -390,6 +390,8 @@ def test_the_fake_refuses_a_slot_save_path_that_is_not_a_directory(fake, tmp_pat
 def test_a_binary_that_cannot_start_leaves_no_open_log_file(tmp_path):
     """Popen raising (a missing llama-server) must not leak the child's log file handle."""
     p = LlamaServerProcess([str(tmp_path / "missing-llama-server"), "-m", "/x.gguf"], cache_dir=tmp_path / "cache")
+    # Earlier tests' garbage first: newer Python 3.14 warns when an HTTPError (from the urllib fakes) is collected.
+    gc.collect()
     with warnings.catch_warnings(record=True) as seen:
         warnings.simplefilter("always", ResourceWarning)
         with pytest.raises(OSError):

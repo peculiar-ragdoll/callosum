@@ -16,7 +16,7 @@ Contents: [Decision Index](#decision-index) · [accuracy and calibration](#accur
 
 ## Decision Index
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="../../brand/di-dark@2x.png"><img src="../../brand/di-light@2x.png" width="100%" alt="Chart: Decision Index 0.3 public subset against mean request completion time on a log scale. Clef 27B Q4_K_XL leads at 58.0 and Clef-Flash 9B BF16 scores 54.9 at 2.4 s; Liquid AI's d1-3B Q4_K_M scores 46.1 at 1.5 s. Tiel-Coder 35B-A3B rises from 38.5 with no thinking (2.2 s) to 49.0 with a 256-token think and opt-in early exit (9.7 s); Qwen3.8-Flash-Next from 47.6 to 51.7 with early exit and the gate; Sharp-MiniCPM5-2B from 22.5 to 41.0 at a 1024-token think. Below, the five area skills and a table of every arm, including Tiel-Coder's plain think 256 and its early exit with the gate, which are not drawn."></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="../../brand/di-dark@2x.png"><img src="../../brand/di-light@2x.png" width="100%" alt="Chart: Decision Index 0.3 public subset against mean request completion time on a log scale. Clef 27B Q4_K_XL leads at 58.0 and Clef-Flash 9B BF16 scores 54.9 at 2.4 s; Liquid AI's d1-3B Q4_K_M scores 46.1 at 1.5 s, and Laya 421M F16 4.5 at 220 ms. Tiel-Coder 35B-A3B rises from 38.5 with no thinking (2.2 s) to 49.0 with a 256-token think and opt-in early exit (9.7 s); Qwen3.8-Flash-Next from 47.6 to 51.7 with early exit and the gate; Sharp-MiniCPM5-2B from 22.5 to 41.0 at a 1024-token think. Below, the five area skills and a table of every arm, including Tiel-Coder's plain think 256 and its early exit with the gate, which are not drawn."></picture>
 
 **Setup.** The Decision Index 0.3 public subset, scored by the Decision Index kit's own, unmodified scorer: 1,480 rows
 sampled (seed 20260919) from the 37 counted benchmarks, 33–34 linked groups each, in five fixed-weight areas
@@ -28,7 +28,7 @@ Qwen3.8-Flash-Next's llama-server also ran with `-b 1024 -ub 1024 -fa on -ctk q8
 template (v22.5.0; "Sharp" in a model's name marks our chat template build). Callo answers a request's questions one
 at a time on the shared state, thinking per question at a budget above 0. The Clef arms answer all of a row's
 questions in one joint pass. One request at a time on an Apple M2 Ultra (64 GB). Time is the request completion time
-measured by the kit's client, the same for every arm, over the 1,467 rows every arm answered. Intervals come from
+measured by the kit's client, the same for every arm, over the 1,467 rows every arm answered (Laya's over the 1,400 it answered). Intervals come from
 1,000 paired resamples of linked groups within each benchmark, the same draws for every arm, with the kit's scorer in
 the loop; differences are in index points.
 
@@ -45,6 +45,7 @@ the loop; differences are in index points.
 | Clef 27B Q4_K_XL (our quant) | 58.0 [54.8, 61.0] | +3.2 [−0.2, +6.0] | 8.5 s | 36.6 s |
 | Clef-Flash 9B BF16 | 54.9 [52.1, 57.7] | reference | 2.4 s | 10.3 s |
 | d1-3B Q4_K_M (Liquid AI) | 46.1 [43.1, 49.3] | −8.8 [−12.1, −5.2] | 1.5 s | 6.2 s |
+| Laya 421M F16 (ConvAI Innovations) | 4.5 [3.7, 7.7] | −50.4 [−52.7, −45.9] | 220 ms | 1.2 s |
 
 - **Thinking narrows the gap.** With no thinking Tiel-Coder scored 16.4 points under Clef-Flash BF16, at 0.93× its
   mean request time. The chart's Tiel-Coder line ends at a 256-token think per question with opt-in early exit, which
@@ -62,6 +63,12 @@ the loop; differences are in index points.
 - **d1-3B**, Liquid AI's 3B decision model (their Q4_K_M GGUF on llama.cpp's native decision path, commit `23deec02`),
   answers each question in its own prompt. It scored 46.1, 8.8 points under Clef-Flash BF16 (CI 5.2–12.1), at 1.5 s
   mean request time (0.62× Clef-Flash BF16's).
+- **Laya**, ConvAI Innovations' decision model (the English root checkpoint: a ModernBERT-large encoder with a
+  decision head, 421M, Apache-2.0; converted to an F16 GGUF and served on llama.cpp's native decision path, commit
+  `23deec02`), reads at most 512 tokens, its documented context. 256 of the 1,467 rows were cut to fit (the end of the
+  state; the question and options whole), and 67 rows whose question and options alone pass 512 tokens count as wrong
+  for Laya only, so no other arm's number moves. It scored 4.5, 50.4 points under Clef-Flash BF16 (CI 45.9–52.7), at
+  220 ms mean request time over the 1,400 rows it answered.
 - **Early exit on Tiel-Coder (opt-in, experimental).** On the same draws as plain think 256, early exit at z .95 (the
   chart's point) changed the index by +0.2 [−2.0, +2.3] at 30 % less mean request time, and early exit with the gate by
   −0.8 [−2.9, +1.5] at 18 % less; the gate sent 579 of 1,471 requests (39 %) to full thinking. Neither difference is
@@ -69,7 +76,7 @@ the loop; differences are in index points.
   see [Early exit](think-budgets.md#early-exit).
 - **Without BRIGHT.** 13 BRIGHT rows (17,112 to 32,805 tokens) are longer than Clef's 16,384-token prompt limit and
   count as wrong for every arm, the kit's no-truncation rule. Dropping BRIGHT with the kit's own re-weighting (the same
-  draws) raises every arm by 0.8 to 2.1 points (Clef-Flash BF16 to 56.7); the order of the arms is unchanged and no
+  draws) raises every arm by 0.2 to 2.1 points (Laya the least) (Clef-Flash BF16 to 56.7); the order of the arms is unchanged and no
   paired interval changes whether it includes 0.
 - **What this is, and is not.** A 1,480-row sample of the index's public benchmarks, scored by the kit, with every arm
   run on the same machine and client. It is not the board's Full score. The 157 rows with more than 26 options are answered by every arm

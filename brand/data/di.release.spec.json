@@ -1,5 +1,5 @@
 {
- "about": "The Decision Index release plate: the 12-arm bake of 2026-10-14 (the 11 arms of 2026-10-13 plus Liquid AI's d1-3B; CyberDirk is not on this plate). Three callo lines (Tiel-Coder @{0, 256 early exit}, Sharp-MiniCPM5-2B @{0, 1024}, Qwen3.8-Flash-Next (Sharp) @{0, 256 early exit + gate}), Tiel-Coder's plain think 256 and its early exit + gate as rows of the plate's table (not drawn), Clef 27B, Clef-Flash BF16 and d1-3B as single markers; Clef-Flash Q4 is data-only. Paths are relative to the benchmark's root, given to `di.py build` as --root; callo_commits are commits of callo's development history, which the plate names by role (data/builds.json).",
+ "about": "The Decision Index release plate: the 12-arm bake of 2026-10-14 (the 11 arms of 2026-10-13 plus Liquid AI's d1-3B; CyberDirk is not on this plate), plus Laya (2026-10-26) in its own bootstrap on the same draws (its 67 rows over its 512-token window count wrong for it only, so the 12 arms' numbers and the union are unchanged). Three callo lines (Tiel-Coder @{0, 256 early exit}, Sharp-MiniCPM5-2B @{0, 1024}, Qwen3.8-Flash-Next (Sharp) @{0, 256 early exit + gate}), Tiel-Coder's plain think 256 and its early exit + gate as rows of the plate's table (not drawn), Clef 27B, Clef-Flash BF16 and d1-3B as single markers; Clef-Flash Q4 is data-only. Paths are relative to the benchmark's root, given to `di.py build` as --root; callo_commits are commits of callo's development history, which the plate names by role (data/builds.json).",
  "preliminary": false,
  "every_arm": true,
  "title": "Clef leads the Decision Index, *thinking narrows the gap*",
@@ -176,6 +176,24 @@
    "answering": "answers each question in its own prompt (the state, then that question)",
    "own_prompt_tokens": "harness/results/callo_v0.3/di/prompt_tokens_rows.d1-3b-q4km.json",
    "note": "d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context."
+  },
+  {
+   "name": "laya",
+   "label": "Laya 421M · F16",
+   "short": "Laya",
+   "kind": "clef",
+   "family": "Laya",
+   "arm": "laya",
+   "marker": "triangle-hollow",
+   "runtime": "ModernBERT-large · llama.cpp native",
+   "model_file": "laya-7b928d8-F16.gguf",
+   "build": "23deec02",
+   "own_bootstrap": "harness/results/callo_v0.3/di/bootstrap-laya.json",
+   "own_union": "harness/results/callo_v0.3/di/union-laya.json",
+   "own_sensitivity": "harness/results/callo_v0.3/di/bootstrap-laya-nobright.json",
+   "own_window": "harness/results/callo_v0.3/di/prompt_tokens_rows.laya.json",
+   "cut_text": "its state's end, the question and options kept whole, as the authors' API does by default",
+   "note": "Laya (convaiinnovations/laya @7b928d8, Apache-2.0): the English root checkpoint, a ModernBERT-large encoder (395M) with a decision head, 421M in all, converted to an F16 GGUF at llama.cpp 23deec02 (its own converter) and served on that build's native decision endpoint (decision type laya) with -c 512 -b 512 -ub 512 -np 1, the checkpoint's documented 512-token context; it scores each question in its own pass (the state, cut to fit, then that question and its options) and takes the highest-scoring option, at the checkpoint's own temperatures. Its 67 rows over the window are pre-marked for it alone and count as wrong for it only (its own union and bootstrap on the plate's draws), so the plate's 12 arms keep their numbers."
   }
  ]
 }

@@ -737,6 +737,7 @@ def test_a_native_decision_model_beside_clef_is_a_single_marker_of_its_own_famil
     assert "run Callo 2026-10-10, Clef 2026-10-10, d1 2026-10-14 (UTC)" in text
     leads = [f["lead"] for f in snap["fine_print"]]
     assert leads[leads.index("Unanswered.") + 1] == "d1-3B."
+    assert "The exception" not in snap["fine_print"][leads.index("Unanswered.")]["text"]
     assert snap["fine_print"][leads.index("d1-3B.")]["text"] == (
         "Answers each question in its own prompt (the state, then that question), so its prompts on the 2 BRIGHT rows "
         "(7,044 tokens at most) would fit its 16,384-token context; they still count as wrong for every arm.")
@@ -1141,6 +1142,9 @@ RELEASE1 = BENCH / "harness/results/callo_v0.3/di/bootstrap-release1.json" if BE
 ALL_ARMS = {"tiel-b0", "tiel-b256", "tiel-b256-ee", "tiel-b256-eeg", "sharp-minicpm-b0", "sharp-minicpm-b1024",
             "flashnext-sharp-b0", "flashnext-sharp-b256-eeg", "clef27b-udq4", "clefflash-udq4", "clefflash-bf16",
             "d1-3b-q4km"}
+# Laya (2026-10-26) in its own bootstrap on the same draws: its rows over its window count wrong for it only
+PLATE_ARMS = ALL_ARMS | {"laya"}
+LAYA_BOOT = BENCH / "harness/results/callo_v0.3/di/bootstrap-laya.json" if BENCH else None
 
 
 @pytest.fixture(scope="module")
@@ -1153,7 +1157,7 @@ def real() -> dict:
 def test_real_release_carries_every_arms_numbers_from_the_bootstrap(real):
     boot = json.loads(RELEASE.read_text(encoding="utf-8"))
     by = {p["arm"]: p for p in real["points"]}
-    assert set(by) == set(boot["arms"]) == ALL_ARMS
+    assert set(by) - {"laya"} == set(boot["arms"]) == ALL_ARMS and set(by) == PLATE_ARMS
     for arm, a in boot["arms"].items():
         p = by[arm]
         assert p["index"] == a["index"] and p["index_ci"] == a["index_ci"]
@@ -1210,6 +1214,59 @@ def test_real_release_adds_d1_and_changes_no_other_arms_number(real):
             assert lab.get("data-text") == "d1-3B · Q4_K_M · 46.1 / Liquid AI · llama.cpp native"
 
 
+def test_real_laya_in_its_own_bootstrap_changes_no_other_arms_number(real):
+    """Laya answers at most 512 tokens: 67 rows that do not fit count wrong for it only (its own union and bootstrap on
+    the plate's draws). The plate's union, its 12 arms' numbers and their latency rows are unchanged; Laya's latency is
+    over the 1,400 rows it answered."""
+    if LAYA_BOOT is None or not LAYA_BOOT.is_file():
+        pytest.skip("bootstrap-laya.json is not under the benchmark's root")
+    boot = json.loads(RELEASE.read_text(encoding="utf-8"))
+    own = json.loads(LAYA_BOOT.read_text(encoding="utf-8"))
+    for ref in ("clefflash-bf16", "clef27b-udq4"):
+        assert {k: v for k, v in own["arms"][ref].items() if k != "latency_ms"} == {
+            k: v for k, v in boot["arms"][ref].items() if k != "latency_ms"}
+    laya = next(p for p in real["points"] if p["arm"] == "laya")
+    assert laya["index"] == 4.49 and laya["index_ci"] == [3.7295, 7.7317]
+    assert laya["dref"] == [-50.36, -52.69, -45.9385] and laya["dsecond"] == [-53.51, -55.87, -48.8388]
+    assert laya["lat"] == {"mean": 219.6, "p95": 1162.9, "mean_ci": [199.0, 238.2], "n": 1400}
+    assert laya["on_plate"] and laya["kind"] == "clef" and laya["label"] == "Laya 421M · F16"
+    pv = laya["provenance"]
+    assert pv["build"] == "23deec02" and pv["model"] == "laya-7b928d8-F16.gguf"
+    assert pv["final_counts"] == {"unsupported": 80, "ok": 1400} and pv["server"]["ctx"] == "512"
+    ob = pv["own_bootstrap"]
+    assert (ob["cut"], ob["misses"], ob["window_tokens"], ob["latency_rows"], ob["answered_by_others"]) == (
+        256, 67, 512, 1400, 1467)
+    assert ob["misses_by"] == [["CLINC150+OOS", 34], ["POP909-CL", 33]]
+    assert real["unanswered"]["union_rows"] == 13 and real["unanswered"]["latency_rows"] == 1467
+    assert real["sensitivity"]["arms"]["laya"]["without"] == 4.71
+    leads = [f["lead"] for f in real["fine_print"]]
+    assert leads[leads.index("d1-3B.") + 1] == "Laya."
+    assert real["fine_print"][leads.index("Laya.")]["text"].startswith(
+        "256 of the 1,467 rows the other arms answer were cut to its 512-token window")
+    assert "67 rows that do not fit at all (34 CLINC150+OOS and 33 POP909-CL" in _fp(real)
+    assert "(Laya's over the 1,400 rows it answered)" in _fp(real)
+    assert real["fine_print"][leads.index("Unanswered.")]["text"].endswith(
+        " The exception: rows that only Laya cannot answer count as wrong for Laya alone (below).")
+    for theme in ("dark", "light"):
+        for root in (_svg(real, theme), _chart(real, theme)):
+            (lab,) = [g for g in _role(root, "series-label") if g.get("data-series") == "laya"]
+            assert lab.get("data-text") == "Laya 421M · F16 · 4.5 / ModernBERT-large · llama.cpp native"
+    _check_layout(real)
+
+
+def test_real_laya_refused_on_the_plates_own_union(tmp_path):
+    """An own bootstrap whose union is not the plate's union with the arm added is refused."""
+    if LAYA_BOOT is None or not LAYA_BOOT.is_file():
+        pytest.skip("bootstrap-laya.json is not under the benchmark's root")
+    spec = json.loads(SPEC.read_text(encoding="utf-8"))
+    for s_ in spec["series"]:
+        if s_["name"] == "laya":
+            s_["own_union"] = spec["union"]
+    with pytest.raises(di.Refusal, match="not made from the union"):
+        (tmp_path / "spec.json").write_text(json.dumps(spec), encoding="utf-8")
+        di.build(di.load_spec(tmp_path / "spec.json", root=BENCH))
+
+
 def test_real_release_axis_and_marking(real):
     assert real["y_range"] == [0.0, 70.0]
     for theme in ("dark", "light"):
@@ -1232,7 +1289,7 @@ def test_real_flash_next_line_has_its_two_points(real):
     assert drawn["flashnext-sharp-b256-eeg"].get("data-early-exit") == "early exit + gate"
     lab = next(g for g in _role(root, "point-label") if g.get("data-arm") == "flashnext-sharp-b256-eeg")
     assert lab.get("data-text") == "think 256 · 51.7 / early exit + gate"     # one line does not fit beside it
-    assert {g.get("data-arm") for g in _role(root, "point")} == ALL_ARMS - {"clefflash-udq4", "tiel-b256",
+    assert {g.get("data-arm") for g in _role(root, "point")} == PLATE_ARMS - {"clefflash-udq4", "tiel-b256",
                                                                              "tiel-b256-eeg"}
 
 
@@ -1293,15 +1350,15 @@ def test_real_release_story_and_fine_print(real):
                "Callo 0.3.0 development builds: the first build (Tiel-Coder no think and think 256; Sharp-MiniCPM5-2B "
                "think 1024), the refit build (Sharp-MiniCPM5-2B no think), the early-exit build (Flash-Next no think) "
                "and the gate build (the early-exit points); without early exit their behaviour is byte-identical",
-               "llama.cpp b50-4ebdf2c (Callo), b11379 1537a0a8 (Clef) and 23deec02 (d1)",
-               "run Callo 2026-10-10 to 2026-10-13, Clef 2026-10-10, d1 2026-10-14 (UTC)",
+               "llama.cpp b50-4ebdf2c (Callo), b11379 1537a0a8 (Clef) and 23deec02 (d1, Laya)",
+               "run Callo 2026-10-10 to 2026-10-13, Clef 2026-10-10, d1 2026-10-14, Laya 2026-10-26 (UTC)",
                "d1-3B. Answers each question in its own prompt (the state, then that question), so its prompts on "
                "the 13 BRIGHT rows (7,044 tokens at most) would fit its 16,384-token context; they still count as "
                "wrong for every arm.",
                "Tiel-Coder budgets 512 and 1024 not run on DI", "Sharp-MiniCPM5-2B budgets 256 and 512 not run on DI",
                "Clef cross-check. The 0.3 board's public index for “Cloudflare clef” is 61.71 (full suite, authors' "
                "runtime); Clef's card reports 0.2.1 full-suite numbers.",
-               "Without BRIGHT. Every arm +0.8 to +2.1 (the index's own re-weighting, the same draws); the order is "
+               "Without BRIGHT. Every arm +0.2 to +2.1 (the index's own re-weighting, the same draws); the order is "
                "unchanged and no paired CI changes whether it includes 0; Clef-Flash BF16 56.7.",
                "so its request time may read high."):
         assert s_ in text, s_
@@ -1315,8 +1372,8 @@ def test_real_release_story_and_fine_print(real):
 def test_real_release_without_bright_and_figures_md_without_local_paths(real):
     import figures_md
     sens = real["sensitivity"]
-    assert sens["shift"] == [pytest.approx(0.83), pytest.approx(2.12)] and sens["order_same"] is True
-    assert sens["flips"] == [] and sens["pairs"] == 22 and sens["scored_edition"] == "0.3-drop-36"
+    assert sens["shift"] == [pytest.approx(0.22), pytest.approx(2.12)] and sens["order_same"] is True   # Laya +0.22
+    assert sens["flips"] == [] and sens["pairs"] == 24 and sens["scored_edition"] == "0.3-drop-36"
     assert sens["arms"]["d1-3b-q4km"]["without"] == 47.83                              # +1.76, inside the range
     assert sens["arms"]["clefflash-bf16"]["without"] == 56.71
     assert sens["arms"]["clef27b-udq4"]["dref_without"] == [3.41, -0.0312, 6.501]      # still across 0, only just
@@ -1335,7 +1392,7 @@ def test_real_chart_and_plain_words(real):
     on the plate or the chart says "wall" or "the kit's"; FIGURES.md's DI prose neither (but for the bench bootstrap's
     own method line, quoted as written)."""
     import figures_md
-    drawn = ALL_ARMS - {"clefflash-udq4", "tiel-b256", "tiel-b256-eeg"}
+    drawn = PLATE_ARMS - {"clefflash-udq4", "tiel-b256", "tiel-b256-eeg"}
     for theme in ("dark", "light"):
         root = _chart(real, theme)
         assert [e.get("data-text") for e in _role(root, "title")] == ["Decision Index"]

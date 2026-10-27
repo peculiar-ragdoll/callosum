@@ -147,7 +147,7 @@ arm's `di_meta.json`. `di.py build` re-hashes the results each bootstrap scored 
 each arm's model file, think budget and early exit against its label, and refuses an arm with pending rows or an error
 row of unknown cause; `di.py draw` refuses it again from the snapshot.
 
-This bake: built 2026-10-14T22:01:58Z; Decision Index 0.3, kit 9eb2dbe2a358004c8782c66e40a83ac07b953fec; 1000 paired resamples, seed 20260919; plotted: treatment (a) kit-faithful (`wide_options: kit`).
+This bake: built 2026-10-26T21:14:28Z; Decision Index 0.3, kit 9eb2dbe2a358004c8782c66e40a83ac07b953fec; 1000 paired resamples, seed 20260919; plotted: treatment (a) kit-faithful (`wide_options: kit`).
 
 ### Both treatments of the > 26-option rows
 
@@ -169,6 +169,7 @@ This bake: built 2026-10-14T22:01:58Z; Decision Index 0.3, kit 9eb2dbe2a358004c8
 | Clef-Flash 9B · Q4_K_XL (our quant) (not drawn) | 55.59 [52.8, 58.4] | +0.7 [−0.4, +1.6] | −2.4 [−5.3, +0.8] | 54.4 [49.6, 59.9] | 46.3 [40.1, 52.7] | 50.3 [42.2, 57.5] | 82.5 [77.6, 87.7] | 44.3 [36.2, 52.8] | 2.4 s [2.3 s, 2.6 s] | 10.5 s |
 | Clef-Flash 9B · BF16 | 54.85 [52.1, 57.7] | reference | −3.2 [−6.0, +0.2] | 56.1 [51.4, 61.5] | 46.2 [40.0, 52.1] | 46.3 [38.7, 53.8] | 81.5 [76.4, 86.8] | 42.4 [35.3, 50.8] | 2.4 s [2.2 s, 2.5 s] | 10.3 s |
 | d1-3B · Q4_K_M | 46.07 [43.1, 49.3] | −8.8 [−12.1, −5.2] | −11.9 [−15.3, −8.0] | 22.6 [18.2, 29.0] | 53.1 [44.2, 60.6] | 43.7 [37.9, 50.3] | 79.9 [74.0, 85.0] | 31.5 [24.3, 41.7] | 1.5 s [1.4 s, 1.6 s] | 6.2 s |
+| Laya 421M · F16 | 4.49 [3.7, 7.7] | −50.4 [−52.7, −45.9] | −53.5 [−55.9, −48.8] | 2.7 [1.3, 9.5] | 6.7 [3.9, 11.9] | 5.1 [0.5, 10.6] | 5.0 [1.8, 9.3] | 1.4 [0.0, 9.1] | 220 ms [199 ms, 238 ms] | 1.2 s |
 
 **Treatment (b) unanswerable for every arm.** Moot: no row exceeds Callo's 255-option limit, so it equals (a).
 
@@ -190,12 +191,13 @@ The sensitivity footnote's numbers, per arm (index and paired Δ in index points
 | Clef-Flash 9B · Q4_K_XL (our quant) (not drawn) | 55.59 | 57.59 [54.63, 60.40] | +0.74 [−0.40, +1.60] | +0.88 [−0.32, +1.82] | −2.41 [−5.25, +0.84] | −2.53 [−5.62, +0.94] |
 | Clef-Flash 9B · BF16 | 54.85 | 56.71 [53.88, 59.75] | reference | reference | −3.15 [−6.04, +0.16] | −3.41 [−6.50, +0.03] |
 | d1-3B · Q4_K_M | 46.07 | 47.83 [44.71, 51.21] | −8.78 [−12.09, −5.16] | −8.88 [−12.35, −5.18] | −11.93 [−15.30, −8.01] | −12.29 [−15.88, −8.30] |
+| Laya 421M · F16 | 4.49 | 4.71 [3.78, 8.05] | −50.36 [−52.69, −45.94] | −52.00 [−54.43, −47.31] | −53.51 [−55.87, −48.84] | −55.41 [−57.95, −50.54] |
 
 - **Sample.** python -m decision_index suite sample --dir di-suite-0.3-counted --n 1480 --seed 20260919 --out sample-1480.jsonl.gz (sha256 of the uncompressed rows 0ab3526d6a8ebf59435c80d9d83353a69e673ad7f72c633121bdb7f67647a37b); 1480 rows, 1229 linked groups in 37 benchmarks.
 - **Bootstrap.** paired percentile bootstrap: linked groups (catalog_id, group_id) resampled with replacement within each benchmark, the same draws for every arm; copies suffixed #k in run_id and group_id; each resample scored in process by the kit's pipeline.score_run_v02 over an in-memory Suite whose in_edition strips #k; index = the kit's headline (balanced_skill), areas = area skill; latency = the kit's total_wall_ms over rows ok in every given arm, p95 = sorted[int(0.95(n-1))]; 1000 resamples, seed 20260919, generated 2026-10-14T21:47:21+00:00.
 - **Areas.** the index's fixed weights: Knowledge &amp; Reasoning 25.8 %, Language Understanding 25.8 %, Retrieval &amp; Classification 20 %, Tools &amp; Automation 18.3 %, Arts &amp; Human Taste 10 %.
 - **Unanswered rows.** 13 of 1480 sampled rows are not answered by every arm (13 pre-marked); latency over the other 1467. Pre-marked: 36:BRIGHT-retrieval:BRIGHT-retrieval:aops:aops_2022_AIME_I_Problems/Problem_11:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:biology:29:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:earth_science:93:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:11:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:125:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:140:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:21:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:leetcode:78:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:robotics:7:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:31:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:72:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:stackoverflow:87:chunk0, 36:BRIGHT-retrieval:BRIGHT-retrieval:theoremqa_questions:TheoremQA_tonyxia/particle4.json:chunk0.
-- **Sensitivity without BRIGHT.** BRIGHT (catalog 36) dropped by the Decision Index kit's own retirement: the scored edition is 0.3-drop-36, and its aggregate re-weights the retrieval area's benchmarks from 4, 5 and 36: 0.1818; 37, 56 and 61: 0.1515 to 4 and 5: 0.2222; 37, 56 and 61: 0.1852; the area weights are unchanged (retrieval 20.02 %). The plotted bootstrap's 1,000 draws (seed 20260919) and results, 1,447 rows; latency stays the plotted bootstrap's. Every arm +0.8 to +2.1 (+0.83 to +2.12); the order of all 12 arms is unchanged; none of the 22 paired CIs (vs Clef-Flash BF16 and vs Clef 27B) changes whether it includes 0. Per arm in the table below; source `bootstrap-release3-nobright.json` (sha256 f7331060df33714c…).
+- **Sensitivity without BRIGHT.** BRIGHT (catalog 36) dropped by the Decision Index kit's own retirement: the scored edition is 0.3-drop-36, and its aggregate re-weights the retrieval area's benchmarks from 4, 5 and 36: 0.1818; 37, 56 and 61: 0.1515 to 4 and 5: 0.2222; 37, 56 and 61: 0.1852; the area weights are unchanged (retrieval 20.02 %). The plotted bootstrap's 1,000 draws (seed 20260919) and results, 1,447 rows; latency stays the plotted bootstrap's. Every arm +0.2 to +2.1 (+0.22 to +2.12); the order of all 13 arms is unchanged; none of the 24 paired CIs (vs Clef-Flash BF16 and vs Clef 27B) changes whether it includes 0. Per arm in the table below; source `bootstrap-release3-nobright.json` (sha256 f7331060df33714c…).
 - **Clef timings.** Two Clef arms ran beside CPU-heavy test runs (Clef 27B ~12:10–13:40 UTC, its first ~1.5 h of 3.3 h; Clef-Flash Q4 ~16:00–16:26 UTC, the last half hour of its hour; 2026-10-10); neither was re-timed.
 - **Clef-Flash 9B · Q4_K_XL (our quant) (measured, not drawn).** index 55.59 [52.8, 58.4], level with Clef-Flash BF16 (+0.7, CI −0.4 to +1.6); mean request time 2.4 s, p95 10.5 s.
 - **Tiel-Coder · no think.** `Tiel-Coder-35B-A3B-UD-Q4_K_XL.gguf` (sha256 9779b32f998371c6…); `callo` 0.3.0, the first build, --think-budget 0, --cache on (default), think profile tiel.think.json (sha256 31e1529b6abb9e79…); re-read after the readout fix: 66 rows on the readout-fix build; controls 40 of 40 in status, 12 bit for bit; `apply.json` (sha256 bb8ca17ee152154a…); llama.cpp b50-4ebdf2c; server ctx 65536, parallel 4, s1-slots 1; run 2026-10-10T23:42:57+00:00 to 2026-10-11T00:37:33+00:00; mean request time 2.2 s [2.0 s, 2.4 s].
@@ -210,6 +212,7 @@ The sensitivity footnote's numbers, per arm (index and paired Δ in index points
 - **Clef-Flash 9B · Q4_K_XL (our quant).** `Clef-Flash-UD-Q4_K_XL.gguf`; llama.cpp b11379 1537a0a8; server ctx 16384, batch 16384, ubatch 16384, parallel 1; run 2026-10-10T15:29:12+00:00 to 2026-10-10T16:28:54+00:00; mean request time 2.4 s [2.3 s, 2.6 s].
 - **Clef-Flash 9B · BF16.** `Clef-Flash-BF16.gguf`; llama.cpp b11379 1537a0a8; server ctx 16384, batch 16384, ubatch 16384, parallel 1; run 2026-10-10T16:28:54+00:00 to 2026-10-10T17:27:33+00:00; mean request time 2.4 s [2.2 s, 2.5 s].
 - **d1-3B · Q4_K_M.** `d1-3B-Q4_K_M.gguf` (sha256 16aff27ea2eefdc3…); llama.cpp 23deec02; server ctx 16384, batch 16384, ubatch 16384, parallel 1; its own prompt-token counts `prompt_tokens_rows.d1-3b-q4km.json` (sha256 df16992437091e67…) (the server's own code, offline): 13,171 questions on 1,467 rows, one prompt each, the longest 9,393 tokens; on the 13 pre-marked rows the longest prompt per row is 1,198–7,044 tokens; run 2026-10-14T21:04:14+00:00 to 2026-10-14T21:40:45+00:00; mean request time 1.5 s [1.4 s, 1.6 s].
+- **Laya 421M · F16.** `laya-7b928d8-F16.gguf` (sha256 ab63fff8fac75b83…); llama.cpp 23deec02; server ctx 512, batch 512, ubatch 512, parallel 1; its own bootstrap `bootstrap-laya.json` (sha256 44da28ce83293ae7…) on the plotted bootstrap's draws (the references' numbers equal), from its own union `union-laya.json` (sha256 235ec6b5397c878a…): the plate's 13 rows not answered by every arm, every other arm's results byte-identical, and its own 67 arm-only rows (34 CLINC150+OOS and 33 POP909-CL); its window counts `prompt_tokens_rows.laya.json` (sha256 bdf5760f52340d45…): 512 tokens, 256 rows cut (state, its end cut (first tokens kept, the authors' API default); question and options whole), latency over its 1,400 answered rows; run 2026-10-26T10:55:51+00:00 to 2026-10-26T11:01:00+00:00; mean request time 220 ms [199 ms, 238 ms].
 - **Paired vs Tiel-Coder · think 256.** `bootstrap-ee1-vs-tiel256.json` (sha256 e7205828268df85a…), the same draws, kit and results as the plotted bootstrap: Tiel-Coder · think 256, early exit +0.2 [−2.0, +2.3], mean request time ×0.701; Tiel-Coder · think 256, early exit + gate −0.8 [−2.9, +1.5], mean request time ×0.823.
 - **Paired vs Flash-Next · no think.** `bootstrap-release1-vs-fnb0.json` (sha256 f3ca0f546e002bf7…), the same draws, kit and results as the plotted bootstrap: Flash-Next · think 256, early exit + gate +4.2 [+1.7, +6.8], mean request time ×3.249.
 - Tiel-Coder think 256 with early exit, and with early exit + gate, ran on the gate build from their own think profile (release-tiel-ee/tiel.think.json, calibrated 2026-10-12 with early exit's convergence probe); the plain think 256 point ran on the first build from release/tiel.think.json.
@@ -219,6 +222,7 @@ The sensitivity footnote's numbers, per arm (index and paired Δ in index points
 - Clef-Flash 9B Q4_K_XL (our quant): measured on DI and reported here, not drawn on the plate (it sits on the BF16 reference).
 - Clef-Flash 9B BF16: Cloudflare's checkpoint converted to GGUF at llama.cpp 1537a0a8 (native Clef path); the reference for every paired CI.
 - d1-3B Q4_K_M: Liquid AI's own GGUF (LiquidAI/d1-3B-GGUF), text only (no mmproj), on llama.cpp 23deec02's native decision endpoint (decision type lfm2-d1) with the Clef arms' server flags; it reads one question per prompt and takes each answer from the next-token logits, at the server's default calibration (the GGUF carries no calibration keys). Its 13 BRIGHT rows are the shared pre-marks, though its own prompts there would fit its context.
+- Laya (convaiinnovations/laya @7b928d8, Apache-2.0): the English root checkpoint, a ModernBERT-large encoder (395M) with a decision head, 421M in all, converted to an F16 GGUF at llama.cpp 23deec02 (its own converter) and served on that build's native decision endpoint (decision type laya) with -c 512 -b 512 -ub 512 -np 1, the checkpoint's documented 512-token context; it scores each question in its own pass (the state, cut to fit, then that question and its options) and takes the highest-scoring option, at the checkpoint's own temperatures. Its 67 rows over the window are pre-marked for it alone and count as wrong for it only (its own union and bootstrap on the plate's draws), so the plate's 12 arms keep their numbers.
 
 Inputs (sha256):
 
@@ -226,6 +230,10 @@ Inputs (sha256):
 - paired vs Tiel-Coder · think 256: `bootstrap-ee1-vs-tiel256.json` e7205828268df85a…
 - paired vs Flash-Next · no think: `bootstrap-release1-vs-fnb0.json` f3ca0f546e002bf7…
 - bootstrap without BRIGHT: `bootstrap-release3-nobright.json` f7331060df33714c…
+- Laya 421M · F16: own bootstrap: `bootstrap-laya.json` 44da28ce83293ae7…
+- Laya 421M · F16: own union: `union-laya.json` 235ec6b5397c878a…
+- Laya 421M · F16: window counts: `prompt_tokens_rows.laya.json` bdf5760f52340d45…
+- Laya 421M · F16: own bootstrap without BRIGHT: `bootstrap-laya-nobright.json` bce49aa18ad2672e…
 - union: `union-release3.json` 54e1f5e8b094e13e…
 - sample: `sample.json` 23cd39c94fea2cc7…
 - Clef prompt tokens: `prompt_tokens.json` 82fab5e3dc4cb7f9…
@@ -247,6 +255,7 @@ Inputs (sha256):
 - Clef-Flash 9B · BF16: `di_meta.json` 2012b308d81f98eb…
 - d1-3B · Q4_K_M: `di_meta.json` fbec479e67973671…
 - d1-3B · Q4_K_M: `prompt_tokens_rows.d1-3b-q4km.json` df16992437091e67…
+- Laya 421M · F16: `di_meta.json` 00bcd8eca27c46bb…
 
 ## Development builds
 
@@ -262,4 +271,4 @@ which is not published: they do not resolve in this repository and are listed he
 | the gate build | early exit's gate (--think-converge-gate) and calibrate's gated early-exit points | `0d33846` |
 | the gate-reads build | calibrate --resume adds the gate's reads to a calibration measured before the gate | `ea52406` |
 | `frontier.py build` | the commit the snapshot was built at | `1f3e2b5d2261` |
-| `di.py build` | the commit the snapshot was built at | `b576d0d85dba` |
+| `di.py build` | the commit the snapshot was built at | `4abdf66b4def` |
